@@ -1,14 +1,19 @@
 const express = require("express"),
- app = express(),
- homeController= require("./controllers/homeController");
+ app = express();
  layouts = require("express-ejs-layouts"),
  db = require("./models/index"),
  db.sequelize.sync();
 
+ //View
  app.set('view engine', 'ejs');
  app.use(layouts);
+ 
+ //Router
+ const homeRouter = require("./routers/homeRouter.js")
 
- app.get("/", homeController.getHomePage);
+ //home 접근
+ app.get("/", homeRouter);
+
  
  app.set("port", 80);
  app.listen(app.get("port"), "0.0.0.0", () => {
