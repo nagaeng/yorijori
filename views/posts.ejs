@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 예시 CSS 파일 경로 -->
+</head>
+<body>
+    <h1>All Posts</h1>
+    <% if (posts.length > 0) { %>
+        <div class="posts-container">
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <h2><%= post.title %></h2>
+                    <p><%= post.content %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p>No posts available.</p>
+    <% } %>
+</body>
+</html>
