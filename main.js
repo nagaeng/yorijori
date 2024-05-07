@@ -7,7 +7,8 @@ const express = require("express"),
  //View
  app.set('view engine', 'ejs');
  app.use(layouts);
- 
+ app.use(express.static('public')); //정적파일 사용
+
  //Router
  const homeRouter = require("./routers/homeRouter.js")
 
