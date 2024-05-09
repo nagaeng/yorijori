@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= category %> - <%= subcategory %> Posts</title>
+    <link rel="stylesheet" href="/css/recipe/styles.css">
+</head>
+<body>
+    <div class="gallery">
+        <% if(posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+                <div class="recipe-card">
+                    <!-- <img src="<%= post.imageUrl %>" alt="postImage" class="recipe-image"> -->
+                    <!-- <img src="postImage.png" alt="postImage"> -->
+                    <h2><%= post.title %></h2>
+                    <p>주재료: <%= post.ingredients %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No posts available for this category.</p>
+        <% } %>
+    </div>
+
+    <footer>
+        <p>View other categories or subcategories through navigation.</p>
+    </footer>
+</body>
+</html>
