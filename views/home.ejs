@@ -2,10 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="/css/styles.css"> 
+    <link rel="stylesheet" href="/css/recipe/searchResult.css">
+    <script src="/js/recipe/searchResult.js"></script>
     <title>Welcome to Yorijori</title>
 </head>
 <body>
-    <h1>요리조리 메인 페이지입니다</h1>
+    <!-- 검색 결과 컨테이너 박스 -->
+    <div id="container">
+        <h1>총 '몇'개의 레시피가 있습니다</h1>
+        <hr id="hr-top"> <!-- 수평선 -->
+        <!-- 정렬 순서 카테고리 -->
+        <div class="sort">
+            <div class="sort-method">인기순</div>
+            <div id="ver"></div>
+            <div>최신순</div>
+            <div id="ver"></div>
+            <div>과거순</div>
+            <div id="ver"></div>
+            <div>댓글 많은 순</div>
+        </div>
+        <hr id="hr-bottom"> <!-- 수평선 -->
+    </div>
 </body>
 </html>

@@ -1,0 +1,36 @@
+#container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#hr-top{
+    border: solid 2px rgb(65, 101, 88, 0.5);
+    width: 1090px;
+}
+#hr-bottom{
+    border: solid 1px rgb(65, 101, 88, 0.5);
+    width: 1090px;
+}
+#ver{
+    background-color: #6A6A6A;
+    height: 16px;
+    width: 1px;
+}
+.sort{
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    float: left;
+    padding-right: 700px;
+    width: 350px;
+}
+.sort>div{
+    margin: 3px 0 3px 13px;
+    font-weight: 300;
+    color: black;
+}
+.sort-method{
+    font-weight: 300;
+    color: black;
+}
