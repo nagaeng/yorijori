@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yorijori</title>
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/joinFundingClick.css">
+</head>
+<% let item = '양파'; %>
+<% let count = 2;%>
+<% let name = '윤산하';%>
+<% let phoneNum = '101-1234-5678';%>
+<% let price = '1,650원';%>
+<% let Representative = '차은우'%>
+<% let distributionPosition = '성신여자대학교 수정캠퍼스 학생회관 1층'%>
+<% let dateOfDistribution = '4월 25일 (목) 오전 11:30'%>
+<body>
+    <div class="funding-box">
+        <div class="select">
+            <h4>
+                <span class="item">
+                    <%= item %> <%= count %>
+                </span>
+                개를 구매하고 있어요!
+            </h4>
+        </div>
+        <div class="information-box">
+            <div class="information">신청자: 
+                <span class="info"> <%= name %> </span>
+            </div>
+            <div class="information">전화번호: 
+                <span class="info"> <%= phoneNum %> </span>
+            </div>
+            <div class="information">상품 가격: 
+                <span class="info"> <%= price %>(배송비 포함) </span>
+            </div>
+            <div class="information">대표자: 
+                <span class="info"> <%= Representative %> </span>
+            </div>
+            <div class="information">배부 위치: 
+                <span class="info"> <%= distributionPosition %> </span>
+            </div>
+            <div class="information">배부 일자 및 시간: 
+                <span class="info"> <%= dateOfDistribution %> </span>
+            </div>
+        </div>
+        <a href="/joinFundingComplete">
+            <span class="button">확인</span>
+        </a>
+    </div>
+</body>
+</html>

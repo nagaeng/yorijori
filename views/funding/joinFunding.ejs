@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yorijori</title>
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/joinFunding.css">
+</head>
+<% let item = '양파'; %>
+<% let count = 10;%>
+<% let date = '24.04.21';%>
+<% let itemName = '곰곰 양파 10개'; %>
+<% let deliveryDate = '24.04.24';%>
+<% let perPrice = 1200;%>
+<% let itemCount = 2;%>
+<% let Representative = '차은우'%>
+<% let distributionPosition = '성신여자대학교 수정캠퍼스 학생회관 1층'%>
+<% let dateOfDistribution = '4월 25일 (목) 오전 11:30'%>
+<% let num = 2%>
+<body>
+    <div class="funding-box">
+        <div id = "select">
+            <h4>
+                <%= item %> <%= count %>개를 선택했어요!
+            </h4></div>
+        <div class="information-box">
+            <div class = "img">
+                사진
+            </div>
+            <div class="information-list">
+                <div class="information">펀딩 일자: 
+                    <span class="info"> <%= date %> </span>
+                </div>
+                <div class="information">품명: 
+                    <span class="info"> <%= itemName %> </span>
+                </div>
+                <div class="information">상품 배송 예정 일자: 
+                    <span class="info"> <%= deliveryDate %> </span>
+                </div>
+                <div class="information">가격:
+                    <span class="info"> <%= perPrice %> / <%= itemCount %>개 </span>
+                </div>
+                <div class="information">대표자:
+                    <span class="info"> <%= Representative %> </span>
+                </div>
+                <div class="information">배부 위치: 
+                    <span class="info"> <%= distributionPosition %> </span>
+                </div>
+                <div class="information">배부 일자 및 시간:
+                    <span class="info"> <%= dateOfDistribution %> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="join-box">
+        <div class="join">
+        상품을 공동 구매하기 위해서는 <br>
+        앞으로 <%= num %>명이 더 필요해요!
+        </div>
+        <a href="/joinFundingClick">
+            <div class="button" id ="join-btn">이 펀딩 참여하기</div>
+        </a>
+    </div>
+</body>
+</html>

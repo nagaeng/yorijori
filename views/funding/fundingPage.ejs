@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yorijori</title>
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/fundingPage.css">
+</head>
+<body>
+    <div class="search-container">
+      <div class="search">물품 검색:  </div>
+        <form class="search-form">
+          <input type="text" placeholder="펀딩 검색" class="search-input">
+          <button type="submit" class="search-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+      <% let region = "성북구" %>
+      <% let length = 5 %>
+      <% let name = 감자 %>
+      <% let d= "홍유진" %>
+      <% let price = 500 %>
+
+      <div class="fundingRegion">
+        지금 <%= region %> 에서 열린 공동 펀딩은..
+      </div>
+     <div class="funding-container">
+        <!-- <div class = "funding-card">
+            <div class="information">품명: </div>
+            <div class="information">펀딩대표자: </div>
+            <div class="information">단위 당 가격: </div>
+        </div> -->
+        <!-- /////////////// -->
+        <h1>Product List</h1>
+          <% if (products.length > 0) { %>
+            <% products.forEach(product => { %>
+              <div class="product">
+                <h2>품명: <%= product.name %></h2>
+                <p>펀딩대표자: <%= product.a %> </p>
+                <p>단위 당 가격: <%= product.price %> </p>
+              </div>
+            <% }); %>
+          <% } else { %>
+        <p>No products available</p>
+        <% } %>
+     </div>
+     <div class ="OpenFuding-box">
+        <div class="in">
+          내가 필요한 물품에 대한 펀딩이 없다면?
+        </div>
+        <div class="funding-btn">
+          <a href="#">펀딩 열기</a>
+        </div>
+     </div>
+     
+</body>
+</html>
