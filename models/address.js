@@ -1,35 +1,35 @@
 // models/address.js
 //주소
 mudule.exports = (sequelize, Sequelize) =>{
-}
 
-class Address extends Model {}
+class Address extends Sequelize.Model {}
 
 Address.init({
-  addressId: {
-    type: DataTypes.INTEGER,
+  addressId: { //주소번호
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  city: {
-    type: DataTypes.STRING,
+  city: { //시도
+    type: Sequelize.STRING,
     allowNull: false
   },
-  district: {
-    type: DataTypes.STRING,
+  district: { //시군구
+    type: Sequelize.STRING,
     allowNull: false
   },
-  town: {
-    type: DataTypes.STRING,
+  town: { //읍면동
+    type: Sequelize.STRING,
     allowNull: false
   },
-  detail: {
-    type: DataTypes.STRING,
-    allowNull: false
+  detail: { //상세주소
+    type: Sequelize.STRING,
+    allowNull: true
   }
 }, {
   sequelize,
   modelName: 'address'
 });
 
-module.exports = Address;
+return Address;
+}
