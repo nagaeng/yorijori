@@ -3,7 +3,6 @@ const express = require("express"),
  layouts = require("express-ejs-layouts"),
  db = require("./models/index"),
  db.sequelize.sync();
-
 // View
 app.set('view engine', 'ejs');
 app.use(layouts);
@@ -21,10 +20,11 @@ app.use((req, res, next) => {
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
+const searchRouter = require("./routers/recipe/searchRouter.js"); 
 
 // home 접근
 app.get("/", homeRouter);
-// searchResult 접근
+// search 접근
 app.use("/searchResult", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
