@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Category Bar</title>
+<link rel="stylesheet" href="/css/recipe/styles.css">
+</head>
+<body>
+    <div class="category-bar">
+        <% var categories = {
+            '고기': 'meat', 
+            '과일': 'fruit', 
+            '생선': 'fish', 
+            '채소': 'vegetable', 
+            '소스': 'source'
+        };
+        Object.keys(categories).forEach(function(displayName) {
+            var categoryName = categories[displayName];
+            %>
+            <button onclick="redirectToCategory('<%= categoryName %>')"><%= displayName %></button>
+        <% }); %>
+    </div>
+    <script>
+        function redirectToCategory(categoryName) {
+            var newUrl = '/posts/' + encodeURIComponent(categoryName);
+            window.location.href = newUrl;
+        }
+    </script>
+</body>
+</html>
+
