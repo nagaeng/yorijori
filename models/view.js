@@ -1,31 +1,30 @@
 // models/ㅍiew.js
 // 조회
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const User = require('./User');
-const Post = require('./Post');
 
-class View extends Model {}
+mudule.exports = (sequelize, Sequelize) =>{
+class View extends Sequelize.Model {}
 
 View.init({
-  userId: {
-    type: DataTypes.INTEGER,
+  userId: { //사용자번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: User,
       key: 'userId'
     }
   },
-  postId: {
-    type: DataTypes.INTEGER,
+  postId: { //글번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: Post,
       key: 'postId'
     }
   },
-  views: {
-    type: DataTypes.INTEGER,
+  views: { //조회수
+    type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0
   }
@@ -34,4 +33,5 @@ View.init({
   modelName: 'view'
 });
 
-module.exports = View;
+return View;
+}

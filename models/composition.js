@@ -1,36 +1,42 @@
 // models/composition.js
 // 구성
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const FundingGroup = require('./FundingGroup');
-const User = require('./User');
-
-class Composition extends Model {}
+mudule.exports = (sequelize, Sequelize) =>{
+  const FundingGroup = require("./fundingGroup")(sequelize,Sequelize);
+  const User = require("./user")(sequelize,Sequelize); 
+ 
+class Composition extends Sequelize.Model {}
 
 Composition.init({
-  fundingGroupId: {
-    type: DataTypes.INTEGER,
+  fundingGroupId: { //펀딩그룹번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: FundingGroup,
       key: 'fundingGroupId'
     }
   },
-  userId: {
-    type: DataTypes.INTEGER,
+  userId: { //사용자번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: User,
       key: 'userId'
     }
   },
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  quantity: { //주문수량
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      min: 1, // 최소값을 1로 설정
+      isInt: true // 값이 정수인지 확인
+    }
   }
 }, {
   sequelize,
   modelName: 'composition'
 });
 
-module.exports = Composition;
+return Composition;
+}

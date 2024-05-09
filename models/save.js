@@ -1,23 +1,23 @@
 // models/save.js
 //저장
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const User = require('./User');
-const Post = require('./Post');
-
-class Save extends Model {}
+mudule.exports = (sequelize, Sequelize) =>{
+class Save extends Sequelize.Model {}
+const User = require("./user")(sequelize,Sequelize); 
+const Post = require("./post")(sequelize,Sequelize); 
 
 Save.init({
-  userId: {
-    type: DataTypes.INTEGER,
+  userId: { //사용자번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: User,
       key: 'userId'
     }
   },
-  postId: {
-    type: DataTypes.INTEGER,
+  postId: { //글번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: Post,
@@ -29,4 +29,5 @@ Save.init({
   modelName: 'save'
 });
 
-module.exports = Save;
+return Save;
+}

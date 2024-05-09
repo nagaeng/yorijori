@@ -1,23 +1,25 @@
 // models/usage.js
 // 사용
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const Ingredient = require('./Ingredient');
-const Menu = require('./Menu');
 
-class Usage extends Model {}
+mudule.exports = (sequelize, Sequelize) =>{
+  const Ingredient = require("./ingredient")(sequelize,Sequelize); 
+  const Menu = require("./menu")(sequelize,Sequelize); 
+
+class Usage extends Sequelize.Model {}
 
 Usage.init({
-  ingredientId: {
-    type: DataTypes.INTEGER,
+  ingredientId: { //재료번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: Ingredient,
       key: 'ingredientId'
     }
   },
-  menuId: {
-    type: DataTypes.INTEGER,
+  menuId: { //메뉴번호(FK)
+    primaryKey: true,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: Menu,
@@ -29,4 +31,5 @@ Usage.init({
   modelName: 'usage'
 });
 
-module.exports = Usage;
+return Usage;
+}
