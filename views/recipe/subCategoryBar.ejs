@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Subcategory Navigation Bar</title>
+    <link rel="stylesheet" href="/css/recipe/styles.css">
+</head>
+<body>
+    <div class="subcategory-bar">
+        <!-- "전체" 버튼을 항상 표시 -->
+        <button onclick="redirectToSubCategory('all')">전체</button>
+        
+        <!-- 동적으로 생성된 세부 카테고리 버튼 -->
+        <% subcategories.forEach(function(subcategory) { %>
+            <button onclick="redirectToSubCategory('<%= subcategory %>')"><%= subcategory %></button>
+        <% }); %>
+    </div>
+    <script>
+        function redirectToSubCategory(subcategory) {
+            var category = '<%= category %>'; // 현재 선택된 메인 카테고리
+            var newUrl = '/posts/' + encodeURIComponent(category) + '/' + encodeURIComponent(subcategory);
+            window.location.href = newUrl;
+        }
+    </script>
+</body>
+</html>

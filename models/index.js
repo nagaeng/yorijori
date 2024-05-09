@@ -9,7 +9,6 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 
-/*
 db.user = require("./user.js")(sequelize, Sequelize);
 db.menu = require('./menu.js')(sequelize, Sequelize);
 db.ingredient = require('./ingredient.js')(sequelize, Sequelize);
@@ -21,6 +20,15 @@ db.image = require('./image.js')(sequelize, Sequelize);
 db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
+// Menus and Ingredients (N:M)
+db.menu.belongsToMany(db.ingredient, { through: 'Usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
+db.ingredient.belongsToMany(db.menu, { through: 'Usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
+
+// Posts and Images
+db.post.hasOne(db.image, { foreignKey: 'postId' });
+db.image.belongsTo(db.post, { foreignKey: 'postId' });
+
+/*
 // Users and Addresses
 db.user.belongsTo(db.address, { foreignKey: 'addressId' });
 db.address.hasMany(db.user, { foreignKey: 'addressId' });
@@ -33,10 +41,6 @@ db.post.belongsTo(db.user, { foreignKey: 'userId' });
 db.post.hasMany(db.comment, { foreignKey: 'postId' });
 db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 
-// Posts and Images
-db.post.hasOne(db.image, { foreignKey: 'postId' });
-db.image.belongsTo(db.post, { foreignKey: 'postId' });
-
 // Funding Groups and Funding Products
 db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'productId' });
 db.fundingProduct.hasMany(db.fundingGroup, { foreignKey: 'productId' });
@@ -44,10 +48,7 @@ db.fundingProduct.hasMany(db.fundingGroup, { foreignKey: 'productId' });
 // Funding Groups and Users (Leaders)
 db.fundingGroup.belongsTo(db.user, { foreignKey: 'leaderUserId' });
 db.user.hasMany(db.fundingGroup, { foreignKey: 'leaderUserId' });
-
-// Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'Usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'Usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
 */
+
 
 module.exports= db;
