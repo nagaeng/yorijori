@@ -1,7 +1,10 @@
-// models/ㅍiew.js
+// models/view.js
 // 조회
 
-mudule.exports = (sequelize, Sequelize) =>{
+module.exports = (sequelize, Sequelize) =>{
+  
+  const User = require("./user")(sequelize,Sequelize); 
+  const Post = require("./post")(sequelize,Sequelize); 
 class View extends Sequelize.Model {}
 
 View.init({
@@ -30,7 +33,8 @@ View.init({
   }
 }, {
   sequelize,
-  modelName: 'view'
+  modelName: 'view',
+  timestamps: false
 });
 
 return View;

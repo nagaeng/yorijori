@@ -1,6 +1,6 @@
 // models/save.js
 //저장
-mudule.exports = (sequelize, Sequelize) =>{
+module.exports = (sequelize, Sequelize) =>{
 class Save extends Sequelize.Model {}
 const User = require("./user")(sequelize,Sequelize); 
 const Post = require("./post")(sequelize,Sequelize); 
@@ -26,7 +26,8 @@ Save.init({
   }
 }, {
   sequelize,
-  modelName: 'save'
+  modelName: 'save',
+  timestamps: false
 });
 
 return Save;

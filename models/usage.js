@@ -1,7 +1,7 @@
 // models/usage.js
 // 사용
 
-mudule.exports = (sequelize, Sequelize) =>{
+module.exports = (sequelize, Sequelize) =>{
   const Ingredient = require("./ingredient")(sequelize,Sequelize); 
   const Menu = require("./menu")(sequelize,Sequelize); 
 
@@ -28,7 +28,8 @@ Usage.init({
   }
 }, {
   sequelize,
-  modelName: 'usage'
+  modelName: 'usage',
+  timestamps: false
 });
 
 return Usage;

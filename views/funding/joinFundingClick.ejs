@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>yorijori</title>
     <link rel="stylesheet" href="/css/styles.css">    
-    <link rel="stylesheet" href="/css/joinFundingClick.css">
+    <link rel="stylesheet" href="/css/funding/joinFundingClick.css">
 </head>
 <% let item = '양파'; %>
 <% let count = 2;%>
@@ -20,9 +20,9 @@
         <div class="select">
             <h4>
                 <span class="item">
-                    <%= item %> <%= count %>
+                    <%= item %> <%= count %>개
                 </span>
-                개를 구매하고 있어요!
+                를 구매하고 있어요!
             </h4>
         </div>
         <div class="information-box">
@@ -35,6 +35,8 @@
             <div class="information">상품 가격: 
                 <span class="info"> <%= price %>(배송비 포함) </span>
             </div>
+        </div>
+        <div class="information-box2">
             <div class="information">대표자: 
                 <span class="info"> <%= Representative %> </span>
             </div>
@@ -45,7 +47,7 @@
                 <span class="info"> <%= dateOfDistribution %> </span>
             </div>
         </div>
-        <a href="/joinFundingComplete">
+        <a href="/joinfundingPage/joinFundingComplete">
             <span class="button">확인</span>
         </a>
     </div>

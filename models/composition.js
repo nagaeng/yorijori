@@ -1,6 +1,6 @@
 // models/composition.js
 // 구성
-mudule.exports = (sequelize, Sequelize) =>{
+module.exports = (sequelize, Sequelize) =>{
   const FundingGroup = require("./fundingGroup")(sequelize,Sequelize);
   const User = require("./user")(sequelize,Sequelize); 
  
@@ -28,14 +28,12 @@ Composition.init({
   quantity: { //주문수량
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      min: 1, // 최소값을 1로 설정
-      isInt: true // 값이 정수인지 확인
-    }
+    min: 1, // 최소값을 1로 설정
   }
 }, {
   sequelize,
-  modelName: 'composition'
+  modelName: 'composition',
+  timestamps: false
 });
 
 return Composition;

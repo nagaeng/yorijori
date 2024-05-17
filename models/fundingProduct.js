@@ -1,6 +1,6 @@
 // models/fundingProduct.js
 //펀딩상품
-mudule.exports = (sequelize, Sequelize) =>{
+module.exports = (sequelize, Sequelize) =>{
 
 class FundingProduct extends Sequelize.Model {}
 
@@ -38,7 +38,8 @@ FundingProduct.init({
   }
 }, {
   sequelize,
-  modelName: 'fundingProduct'
+  modelName: 'fundingProduct',
+  timestamps: false
 });
-return fundingProductId;
+return FundingProduct;
 }

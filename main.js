@@ -1,16 +1,14 @@
 const express = require("express"),
- app = express();
- layouts = require("express-ejs-layouts"),
- db = require("./models/index"),
- db.sequelize.sync();
+    app = express();
+layouts = require("express-ejs-layouts"),
+    db = require("./models/index"),
+    db.sequelize.sync({ alter: true });
 
 // View
 app.set('view engine', 'ejs');
 app.use(layouts);
 app.use(express.static('public')); //정적파일 사용
 
- //Router
- const joinFundingRouter = require("./routers/joinFundingRouter.js");
 // 모든 요청 전에 실행되는 미들웨어
 app.use((req, res, next) => {
     res.locals.showCategoryBar = false; // 기본적으로 카테고리 바를 표시하지 않음
@@ -18,25 +16,11 @@ app.use((req, res, next) => {
     next();
 });
 
- //joinFunid 접근 (보류)
- //app.get('/fundingPage', joinFundingRouter);
- //app.get('/fundingPage/joinFunding', joinFundingRouter);
- //app.get('/joinFundingClick', joinFundingRouter);
- //app.get('/joinFundingComplete', joinFundingRouter);
 
- app.get('/fundingPage', (req, res) => {
-	res.render('funding/fundingPage');
-});
-app.get('/joinFunding', (req, res) => {
-	res.render('funding/joinFunding');
-});
-app.get('/joinFundingClick', (req, res) => {
-	res.render('funding/joinFundingClick');
-});
-app.get('/joinFundingComplete', (req, res) => {
-	res.render('funding/joinFundingComplete');
-});
-
+// 내가 추가한거
+const joinFundingRouter = require("./routers/joinFundingRouter.js")
+// joinFundingRouter 접근
+app.use("/joinfundingPage", joinFundingRouter);
 
 // Router
 const homeRouter = require("./routers/homeRouter.js")
@@ -51,5 +35,5 @@ app.use("/posts", postRouter);
 
 app.set("port", 80);
 app.listen(app.get("port"), "0.0.0.0", () => {
-console.log(`Server running at http://localhost:${app.get("port")}`);
+    console.log(`Server running at http://localhost:${app.get("port")}`);
 });

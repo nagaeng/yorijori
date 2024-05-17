@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>yorijori</title>
-    <link rel="stylesheet" href="/css/joinFundingComplete.css">
+    <link rel="stylesheet" href="/css/funding/joinFundingComplete.css">
 </head>
 <% let distributionPosition = '성신여자대학교 수정캠퍼스 학생회관 1층'%>
 <% let dateOfDistribution = '4월 25일 (목) 오전 11:30'%>
@@ -13,14 +13,12 @@
 
 <body>
     <div class="information-box">
-        <div class="img">
-            사진
+        <div class="img-box">
+            <img src="/assets/image.png" class="img">
         </div>
         <div class="complete">
-            <h3>
                 <%= complete %>
-                <!-- 에러발생경우 추가해야할듯.. -->
-            </h3>
+                <!-- 에러발생경우 추가해야할듯..컨트롤러에서 처리 -->
         </div>
         <div class="message">
             <%- message %>
@@ -33,7 +31,7 @@
                 <span> <%= dateOfDistribution %> </span>
             </div>
         </div>
-        <a href="/fundingPage">
+        <a href="/joinfundingPage/fundingPage">
             <span class="button">확인</span>
         </a>
     </div>

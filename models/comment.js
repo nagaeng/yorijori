@@ -1,8 +1,8 @@
 // models/comment.js
 //댓글
-mudule.exports = (sequelize, Sequelize) =>{
-const Post = require('./post');
-const User = require('./user');
+module.exports = (sequelize, Sequelize) =>{
+const Post = require('./post')(sequelize,Sequelize);
+const User = require('./user')(sequelize,Sequelize);
 
 class Comment extends Sequelize.Model {}
 
@@ -19,7 +19,7 @@ Comment.init({
   createdAt: { //작성일자
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW
+    defaultValue: Sequelize.NOW
   },
   postId: { //글번호(FK)
     type: Sequelize.INTEGER,
@@ -40,7 +40,8 @@ Comment.init({
   }
 }, {
   sequelize,
-  modelName: 'comment'
+  modelName: 'comment',
+  timestamps: false
 });
 
 return Comment;

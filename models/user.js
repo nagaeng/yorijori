@@ -1,16 +1,57 @@
-module.exports = (sequelize, Sequelize) => {
-  const user = sequelize.define('user', {
-    userId: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-    email: { type: Sequelize.STRING, allowNull: false },
-    password: { type: Sequelize.STRING, allowNull: false },
-    name: { type: Sequelize.STRING, allowNull: false },
-    nickname: { type: Sequelize.STRING, allowNull: false },
-    phoneNumber: { type: Sequelize.STRING, allowNull: false },
-    addressId: { type: Sequelize.INTEGER, allowNull: false }
-  }, 
-  {
-    timestamps: false
-  });
+//models/view.js
+//사용자
 
-  return user;
+module.exports = (sequelize, Sequelize) => {
+
+  class User extends Sequelize.Model {}
+  User.init({
+    userId: { //사용자번호
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    email: { //이메일
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    password: { //비밀번호
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    name: { //이름
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    nickname: { //별명
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    phoneNumber: { //전화번호
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    city: { //시도
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    district: { //시군구
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    town: { //읍면동
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    detail: { //상세주소
+      type: Sequelize.STRING,
+      allowNull: true
+    }
+  },
+    {
+      sequelize,
+      modelName: 'user',
+      timestamps: false
+    });
+
+  return User;
 };
