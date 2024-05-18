@@ -1,14 +1,13 @@
 const express = require("express"),
- app = express();
- layouts = require("express-ejs-layouts"),
- db = require("./models/index"),
- db.sequelize.sync();
+    app = express();
+layouts = require("express-ejs-layouts"),
+    db = require("./models/index"),
+    db.sequelize.sync({});
 
 // View
 app.set('view engine', 'ejs');
 app.use(layouts);
 app.use(express.static('public')); //정적파일 사용
-
 
 // 모든 요청 전에 실행되는 미들웨어
 app.use((req, res, next) => {
@@ -17,6 +16,11 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
+const joinFundingRouter = require("./routers/joinFundingRouter.js")
+// joinFundingRouter 접근
+app.use("/joinfundingPage", joinFundingRouter);
 
 // Router
 const homeRouter = require("./routers/homeRouter.js")
@@ -31,5 +35,5 @@ app.use("/posts", postRouter);
 
 app.set("port", 80);
 app.listen(app.get("port"), "0.0.0.0", () => {
-console.log(`Server running at http://localhost:${app.get("port")}`);
+    console.log(`Server running at http://localhost:${app.get("port")}`);
 });
