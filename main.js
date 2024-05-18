@@ -28,6 +28,14 @@ app.get("/", homeRouter);
 // post 접근
 app.use("/posts", postRouter);
 
+//로그인 관련 링크 만들기 
+app.get("/login",(req,res)=>{res.render("auth/login");} );
+app.get("/editpwd",(req,res)=>{res.render("auth/editpwd");} );
+app.get("/newuser",(req,res)=>{res.render("auth/newuser");} );
+//마이페이지 관련 링크 만들기 
+app.get("/mypageMain", (req, res) => {res.render("auth/mypage_main");});
+app.get("/mypageComment", (req, res) => {res.render("auth/mypage_comment");});
+app.get("/mypageScrap", (req, res) => {res.render("auth/mypage_scrap");});
 
 app.set("port", 80);
 app.listen(app.get("port"), "0.0.0.0", () => {
