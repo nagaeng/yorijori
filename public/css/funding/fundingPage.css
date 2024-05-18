@@ -58,8 +58,14 @@
     /*width: 60%;
     height: 70%;*/
     background-color: #416558;
+    
+    display: flex;
 }
-
+.funding-card{
+    height: 200px;
+    width: 200px;
+    background-color: #f0f0f0;
+}
 .funding-list {
     background-color: beige;
     height: 100px;
