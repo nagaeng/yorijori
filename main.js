@@ -2,7 +2,7 @@ const express = require("express"),
     app = express();
 layouts = require("express-ejs-layouts"),
     db = require("./models/index"),
-    db.sequelize.sync({ alter: true });
+    db.sequelize.sync({});
 
 // View
 app.set('view engine', 'ejs');
@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 
-// 내가 추가한거
+
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // joinFundingRouter 접근
 app.use("/joinfundingPage", joinFundingRouter);
