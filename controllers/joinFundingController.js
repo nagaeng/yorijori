@@ -10,12 +10,13 @@ const db = require("../models/index"),
 
 module.exports = {
     getFundingPage: async (req, res) => { //펀딩그룹모집중인 목록 보여주는 처음페이지
-        try {
-            const query = `SELECT  //findAll()로 했더니 원하는 결과가 안나와서 raw 쿼리 사용함. 펀딩그룹을 기준으로 펀딩상품과 유저 테이블을 조인해서 정보가져옴.
+        try { //findAll()로 했더니 원하는 결과가 안나와서 raw 쿼리 사용함. 펀딩그룹을 기준으로 펀딩상품과 유저 테이블을 조인해서 정보가져옴.
+            const query = `SELECT 
                                 fundingProducts.productName,
                                 fundingProducts.unitPrice,
                                 fundingProducts.quantity,
-                                users.name
+                                users.name,
+                                users.district
                             FROM
                                 fundingGroups
                             LEFT JOIN
