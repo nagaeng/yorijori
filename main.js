@@ -21,15 +21,17 @@ app.use((req, res, next) => {
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
+const writeRouter = require("./routers/writeRouter.js")
 
 // home 접근
 app.get("/", homeRouter);
 
 // post 접근
 app.use("/posts", postRouter);
+app.use("/write", writeRouter);
 
 
-app.set("port", 80);
+app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {
 console.log(`Server running at http://localhost:${app.get("port")}`);
 });
