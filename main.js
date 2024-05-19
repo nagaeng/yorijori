@@ -25,7 +25,7 @@ const searchRouter = require("./routers/recipe/searchRouter.js");
 // home 접근
 app.get("/", homeRouter);
 // search 접근
-app.use("/searchResult", searchRouter);
+app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
 

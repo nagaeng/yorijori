@@ -2,36 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="/css/styles.css"> 
+    <link rel="stylesheet" href="/css/recipe/searchResult.css">
+    <script src="/js/recipe/searchResult.js"></script>
     <title>search result</title>
 </head>
 <body><!-- 검색 결과 컨테이너 박스 -->
     <div id="container">
-        <h1>총 '몇'개의 레시피가 있습니다</h1>
-        <hr id="hr-top">
-        <!-- 정렬 순서 카테고리 -->
-        <div class="sort">
-            <div>인기순</div><div id="ver"></div><div>최신순</div><div id="ver"></div><div>과거순</div><div id="ver"></div><div>댓글 많은 순</div>
-        </div>
-        <hr id="hr-bottom">
+        <% if (result_posts.length > 0) { %>
+            <h1>총 '<%= result_posts.length %>'개의 레시피가 있습니다</h1>
+            <hr id="hr-top"> <!-- 수평선 -->
+            <!-- 정렬 순서 카테고리 -->
+            <div class="sort">
+                <div class="sort-method">인기순</div>
+                <div id="ver"></div>
+                <div>최신순</div>
+                <div id="ver"></div>
+                <div>과거순</div>
+                <div id="ver"></div>
+                <div>댓글 많은 순</div>
+            </div>
+            <hr id="hr-bottom"> <!-- 수평선 -->
 
-        <ul class="list-group">
+        <div class="list-group">
             <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
             <% for (var i = 0; i< result_posts.length; i++){ %>
-                <li class="list-group-item">                
-                    <div class="post-box-style">
-                        <!-- 누르면 해당 post로 이동 -->
-                        <a href="/post/<%=result_posts[i]._id %>">
-                            <img >
-                            <h4><%= result_posts[i].title %></h4>
-                            <p>주재료: </p>
-                        </a>
-                        <!-- 북마크 기능 -->
-                    </div>
-                
-                </li>
+                <div class="recipe-card">
+                    <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
+                    <h2><%= result_posts[i].title %></h2>
+                    <p>주재료: <%= result_posts[i].ingredients %></p>
+                </div>
             <% } %>
-        </ul>
+        </div>
+        <% } else { %>
+            <h1> 검색 결과가 없습니다</h1>
+        <% } %>
     </div>
 </body>
 </html>
