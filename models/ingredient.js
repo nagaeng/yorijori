@@ -1,12 +1,28 @@
+// models/ingredient.js
+// 재료
 module.exports = (sequelize, Sequelize) => {
-  const ingredient = sequelize.define('ingredient', {
-    ingredientId: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-    ingredientName: Sequelize.STRING,
-    category: Sequelize.STRING
-  }, 
-  {
-    timestamps: false
-  });
+  class Ingredient extends Sequelize.Model { }
 
-  return ingredient;
+  Ingredient.init({
+    ingredientId: { //재료번호
+      type: Sequelize.INTEGER, 
+      primaryKey: true, 
+      autoIncrement: true 
+    },
+    ingredientName: { //재료명
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    category: { //카테고리(재료용)
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  },
+    {
+      sequelize,
+      modelName: 'ingredient',
+      timestamps: false
+    });
+
+  return Ingredient;
 };

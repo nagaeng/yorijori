@@ -1,0 +1,88 @@
+header {
+    z-index: 1000;
+}
+
+body {
+    color: #12373A;
+}
+
+.funding-box {
+    /* position: relative; */
+    height: 500px;
+    width: 1000px;
+    /* background-color: beige; */
+    margin: auto;
+    /* padding-top: 10px; */
+    margin-top: 90px;
+    display: flex;
+}
+
+.select {
+    font-size: 25px;
+    margin-top: 20px;
+    margin-left: 200px;
+    /* background-color: aquamarine; */
+    position: absolute;
+    font-weight: bold;
+
+}
+
+.information-box {
+    position: absolute;
+    /* background-color: bisque; */
+    margin-left: 200px;
+    margin-top: 150px;
+    justify-content: center;
+    /* 수평 가운데 정렬 */
+    align-items: center;
+    font-size: 20px;
+}
+
+.information-box2 {
+    position: absolute;
+    /* background-color: bisque; */
+    margin-left: 200px;
+    margin-top: 320px;
+    justify-content: center;
+    /* 수평 가운데 정렬 */
+    align-items: center;
+    font-size: 20px;
+
+}
+
+
+.information {
+    height: 30px;
+    width: 500px;
+    /* background-color: blueviolet; */
+    margin-bottom: 10px;
+    /* font-size: 20px; */
+    font-weight: bold;
+
+}
+
+.info {
+    background-color: #CED7C5;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: lighter;
+}
+
+
+.button {
+    height: 30px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    background-color: #CED7C5;
+    margin-left: 750px;
+    margin-top: 500px;
+    border-radius: 50px;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.item {
+    background-color: #CED7C5;
+}
