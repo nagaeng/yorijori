@@ -2,6 +2,7 @@ body {
     height: 100%;
     margin:0;
     padding-top:150px;
+    overflow-x: hidden; /* 가로 스크롤 막기 */
 }
 .wrapper{
       margin:0;
