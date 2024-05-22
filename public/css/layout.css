@@ -7,7 +7,11 @@ body {
 .wrapper{
       margin:0;
 }
+a{
+    text-decoration: none;
+}
 header {
+    z-index: 1; /* 화면 제일 위에 올라오도록 */
     display: flex; /* 요소 수평 정렬 */
     justify-content: center; /* 요소 가운데 정렬 */
     align-items: center;
@@ -27,6 +31,9 @@ header > div {
     font-weight: bold;
     font-family: 'Binggrae';
 }
+#logo > a{
+    color: black;
+}
 .searchBar{
     height: 40px;
     width: 600px;
@@ -40,12 +47,13 @@ header > div {
     outline: none;
     float: left;
     padding: 0;
-    color: #AFAFAF;
+    color: black;
     font-size: 16px;
     line-height: 40px;
     padding-left: 40px;
     font-weight: 600;
     width: 500px;
+    border-radius: 30px;
 }
 .search-btn{
     color: #AFAFAF;
@@ -61,7 +69,9 @@ header > div {
     align-items: center;
     padding-right: 50px;
 }
-#login{
+/*로그인 전*/
+#before-login{
+    width: 161px;
     font-size: 20px;
     font-weight: bold;
     display: flex; /* 요소 수평 정렬 */
@@ -69,10 +79,36 @@ header > div {
     align-items: center;
     color: #4A4A4A;
 }
-a{
-    text-decoration: none;
+#before-login a{
     color: #4A4A4A;
 }
+
+/*로그인 후*/
+#after-login{
+    display: flex; /* 요소 수평 정렬 */
+    justify-content: space-between; /* 요소 가운데 정렬 */
+    align-items: center;
+    width: 150px;
+}
+#after-login a{
+    color: #416558;
+}
+#mypage{
+    font-size: 45px;
+}
+#write-post{
+    background-color: #416558;
+    border-radius: 10px;
+    width: 80px;
+    height: 40px;
+}
+#write-post p{
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    margin: 0;
+}
+
 section{
     min-height: calc(100vh - 150px);
 }
@@ -90,3 +126,4 @@ footer{
 footer>p{
     color: white;
 }
+
