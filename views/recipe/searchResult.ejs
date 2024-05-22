@@ -10,34 +10,47 @@
 </head>
 <body><!-- 검색 결과 컨테이너 박스 -->
     <div id="container">
-        <% if (result_posts.length > 0) { %>
-            <h1>총 '<%= result_posts.length %>'개의 레시피가 있습니다</h1>
+        <div id="side-bar"></div>
+        <div id="searchResult">
+            <% if (result_posts.length > 0) { %>
+            <h1 class="title">'<span id="title"><%= searchQuery %></span>' 검색 결과 '<span id="title"><%= result_posts.length %></span>'개의 레시피가 있습니다</h1>
             <hr id="hr-top"> <!-- 수평선 -->
             <!-- 정렬 순서 카테고리 -->
             <div class="sort">
-                <div class="sort-method">인기순</div>
+                <div class="sort-method" id="first">인기순</div>
                 <div id="ver"></div>
-                <div>최신순</div>
+                <div class="sort-method" id="second">최신순</div>
                 <div id="ver"></div>
-                <div>과거순</div>
+                <div class="sort-method" id="third">과거순</div>
                 <div id="ver"></div>
-                <div>댓글 많은 순</div>
+                <div class="sort-method" id="fourth">댓글 많은 순</div>
             </div>
             <hr id="hr-bottom"> <!-- 수평선 -->
 
-        <div class="list-group">
-            <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
-            <% for (var i = 0; i< result_posts.length; i++){ %>
-                <div class="recipe-card">
-                    <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
-                    <h2><%= result_posts[i].title %></h2>
-                    <p>주재료: <%= result_posts[i].ingredients %></p>
-                </div>
+            <div class="list-group">
+                <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
+                <% for (var i = 0; i< result_posts.length; i++){ %>
+                    <div class="recipe-card">
+                        <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
+                        <h2><%= result_posts[i].title %></h2>
+                        <p>주재료: <%= result_posts[i].ingredients %></p>
+                    </div>
+                <% } %>
+            </div>
+            <!--페이징 넘버-->
+            <% } else { %>
+                <div id="no-result"><h1> 검색 결과가 없습니다</h1></div>
             <% } %>
         </div>
-        <% } else { %>
-            <h1> 검색 결과가 없습니다</h1>
-        <% } %>
+        <div id="side-bar">    
+            <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+            <div class="goto-funding">
+                <a href="/joinFundingPage/fundingPage">
+                <img src="/assets/image.png" class="funding-icon">
+                <p class="funding-txt">펀딩하러 가기</p>
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
