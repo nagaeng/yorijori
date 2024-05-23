@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>yorijori</title>
   <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/funding/fundingPage.css">
+  <link rel="stylesheet" href="/css/funding/fundingSearch.css">
 </head>
 
 <body>
@@ -25,30 +25,30 @@
         지금 <%= region %>에서 열린 공동 펀딩은..
       </div>
       <!-- DB에 목록이 있을 때 -->
-      <% if (Object.keys(products).length > 0) { %> 
+      <% if (Object.keys(results).length > 0) { %> 
       <div class="funding-container">
-        <% products.forEach(product=> { %>
+        <% results.forEach(result=> { %>
           <div class="funding-card">
             <!-- 목록마다 링크 다르게해야함. 그룹아이디로 구별하기. -->
-            <a href="<%=`/joinfundingPage/joinFunding/${product.fundingGroupId}` %>" class="funding-list">
+            <a href="<%=`/joinfundingPage/joinFunding/${result.fundingGroupId}` %>" class="funding-list">
               <div class="img-box">
                 <img src="/assets/image.png" class="img">
               </div>
               <div class="information-box">
-                <p class="information">품명: <%= product.productName %> <%=product.quantity%>개
+                <p class="information">품명: <%= result.productName %> <%=result.quantity%>개
                 </p>
-                <p class="information">펀딩 대표자: <%= product.name %>
+                <p class="information">펀딩 대표자: <%= result.name %>
                 </p>
-                <p class="information">단위 당 가격: <%= product.unit %>개 / <%= product.unitPrice %>원
+                <p class="information">단위 당 가격: <%= result.unit%>개 / <%= result.unitPrice %>원
                 </p>
             </a>
           </div>
       </div>
       <% }) %>
-      <!-- DB에 목록이 없을 때 -->
+      <!-- 키워드와 관련된 목록이 없을 때 -->
       <%} else{%>
         <div class="noItems">
-          펀딩이 없습니다.
+          "<%= query %>"와 관련된 펀딩이 없습니다.
         </div>
         <%}%>
   </div>

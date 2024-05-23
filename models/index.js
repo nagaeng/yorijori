@@ -53,8 +53,12 @@ db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'fundingProductId' })
 db.fundingProduct.hasMany(db.fundingGroup, { foreignKey: 'fundingProductId' });
 
 // Funding Groups and Users (Leaders)
-db.fundingGroup.belongsToMany(db.user, { through: 'composition'});
-db.user.belongsToMany(db.fundingGroup, { through: 'composition'});
+db.fundingGroup.belongsToMany(db.user, { 
+    through: 'composition',foreignKey: 'fundingGroupId',
+    otherKey: 'userId'});
+db.user.belongsToMany(db.fundingGroup, {
+     through: 'composition',foreignKey: 'userId',
+otherKey: 'fundingGroupId'});
 
 
 

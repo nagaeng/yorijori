@@ -25,10 +25,13 @@
         </div>
         <div class="distribution">
             <div>배부 위치: 
-                <span> <%= distributionPosition %> </span>
+                <span> <%= group.city%>
+                    <%= group.district%>
+                    <%= group.town%>
+                    <%= group.detail%>  </span>
             </div>
             <div>배부 일자 및 시간: 
-                <span> <%= dateOfDistribution %> </span>
+                <span> <%= group.distributionDate %> </span>
             </div>
         </div>
         <a href="/joinfundingPage/fundingPage">
