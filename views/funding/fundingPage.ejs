@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>yorijori</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/funding/fundingPage.css">
+</head>
+
+<body>
+  <div class="search-container">
+    <div class="search">물품 검색: </div>
+    <form class="search-form">
+      <input type="text" placeholder="펀딩 검색" class="search-input">
+      <button type="submit" class="search-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
+  <% let region = '성북구' %>
+  <div class="fundingRegion">
+    지금 <%= region %> 에서 열린 공동 펀딩은..
+  </div>
+  <div class="funding-container">
+    <% products.forEach(product=> { %>
+        <div class="funding-card">
+          <a href="/#" class="funding-list">
+            <div>이미지</div>
+            <div>정보</div>
+          </a>
+          <p class="information">품명: <%= product.productName %>
+          </p>
+          <p class="information">단위 당 가격: <%= product.quantity %>개 / <%= products.unitPrice %>
+          </p>
+          <p class="information">사용자 이름: <%= product.name %>
+          </p>
+        </div>
+          <% }) %>
+  </div>
+  <div class="OpenFuding-box">
+    <div class="in">
+      내가 필요한 물품에 대한 펀딩이 없다면?
+    </div>
+    <div class="funding-btn">
+      <a href="#">펀딩 열기</a>
+    </div>
+  </div>
+
+</body>
+
+</html>
