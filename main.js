@@ -1,8 +1,10 @@
 const express = require("express"),
     app = express();
 layouts = require("express-ejs-layouts"),
+session = require('express-session'),
     db = require("./models/index"),
     db.sequelize.sync({});
+    
 
 // View
 app.set('view engine', 'ejs');
@@ -16,7 +18,13 @@ app.use((req, res, next) => {
     next();
 });
 
-
+//세션설정
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true
+  }));
+  
 
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // joinFundingRouter 접근
