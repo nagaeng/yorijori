@@ -2,7 +2,7 @@ const { Sequelize, Model } = require("sequelize");
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, Sequelize) => {
-  class User extends Model {
+  class User extends Sequelize.Model {
     // id로 찾아서 업데이트하는 메서드
     static async findByPkAndUpdate(id, params) {
       let user = await User.findByPk(id);
@@ -25,10 +25,10 @@ module.exports = (sequelize, Sequelize) => {
     //   }
     //   return user;
     // }
-    // passwordComparison = (inputPassword) => {
-    //   let user = this;
-    //   return bcrypt.compare(inputPassword, user.password);
-    // }
+    passwordComparison = (inputPassword) => {
+      let user = this;
+      return bcrypt.compare(inputPassword, user.password);
+    }
   }
 
   User.init({
@@ -84,8 +84,8 @@ module.exports = (sequelize, Sequelize) => {
         let hash = await bcrypt.hash(user.password, 10);
         user.password = hash;
       }
-    }
+    }    
   });
   
-  return user;
+  return User;
 };
