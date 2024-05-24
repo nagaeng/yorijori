@@ -29,6 +29,16 @@
             class="t"
             required
           />
+          <!-- 카테고리 -->
+          <div class="title">카테고리</div>
+          <select name="category">
+            <option value="선택">선택</option>
+            <option value="meat">고기</option>
+            <option value="fruit">과일</option>
+            <option value="fish">생선</option>
+            <option value="vegetable">채소</option>
+            <option value="sauce">소스</option>
+          </select>
           <!-- 메뉴 -->
           <div class="title">메뉴</div>
           <input
@@ -40,6 +50,7 @@
             required
             id="search-menu"
           />
+          <div class="result-menu"></div>
           <button type="button" class="search-Menu-button">검색</button>
           
           <!-- 재료검색 -->
@@ -48,7 +59,7 @@
             <input
               class="title-bax"
               type="text"
-              name="searchQuery"
+              name="searchIngredient"
               required
               id="search-input"
             />
@@ -62,18 +73,21 @@
           <input
              type = "file"
            accept = "image/*"
-            />
+          />
           
           <!-- 게시글 -->
           <div class="title">게시글</div>
           <textarea
             id="data"
             placeholder="내용을 입력하세요"
-            name="detail"
+            name="data"
             class="data"
             required
           >
           </textarea>
+          <!-- <div contentEditable="true">
+            대표 이미지를 텍스트와 함께 입력이 가능
+          </div> -->
           <!-- 제출 -->
           <button type="submit" class="submit" value="등록">등록</button>
         </form>

@@ -1,8 +1,10 @@
-const db = require("../models");
-const Ingredient = db.ingredient;
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-session = require('express-session'),
+const db = require("../models"),
+    Ingredient = db.ingredient,
+    Menu = db.menu,
+    Usage = db.usage,
+    Sequelize = require('sequelize'),
+    Op = Sequelize.Op;
+
 
 exports.getWritePage = async (req, res) => {
     try {
@@ -17,17 +19,17 @@ exports.getWritePage = async (req, res) => {
 
 exports.getIngredients = async (req, res) => {
     try {
-        const searchQuery = req.query.searchQuery || ''; //url로 받아오기
-        console.log("Search Query:", searchQuery); //검색어 확인
+        const searchIngredient = req.query.searchIngredient || ''; //url로 받아오기
+        console.log("Search Query:", searchIngredient); //검색어 확인
 
         //db에서 받아올 재료 배열
         let ingredients = []; 
         
-        if (searchQuery) { 
+        if (searchIngredient) { 
             ingredients = await Ingredient.findAll({
                 where: {
                     ingredientName: {
-                        [Op.like]: `%${searchQuery}%`
+                        [Op.like]: `%${searchIngredient}%`
                     }
                 }
             });    
@@ -46,24 +48,24 @@ exports.getIngredients = async (req, res) => {
 
 exports.getMenu = async (req, res) => {
     try {
-        const searchQuery = req.query.menu || ''; //url로 받아오기
-        console.log("Search Query:", searchQuery); //검색어 확인
+        const searchMenu = req.query.searchMenu || ''; //url로 받아오기
+        console.log("Search Query:", searchMenu); //검색어 확인
 
         //db에서 받아올 재료 배열
-        let ingredients = []; 
+        let selectMenu = []; 
         
-        if (searchQuery) { 
-            ingredients = await Ingredient.findAll({
+        if (searchMenu) { 
+            selectMenu = await Menu.findAll({
                 where: {
-                    ingredientName: {
-                        [Op.like]: `%${searchQuery}%`
+                    menuName: {
+                        [Op.like]: `%${searchMenu}%`
                     }
                 }
             });    
         }
        
-        res.render('write',{ingredients});
-        console.log("Ingredients Found:", ingredients); // 검색 결과 확인
+        res.send({selectMenu});
+        console.log("Ingredients Found:", selectMenu); // 검색 결과 확인
 
     } catch (err) {
         console.error("Error loading the write page:", err);
@@ -82,9 +84,9 @@ exports.getMainCategory = async (req, res) => {
         let ingredients = []; 
         
         if (searchQuery) { 
-            ingredients = await Ingredient.findAll({
+            ingredients = await Menu.findAll({
                 where: {
-                    ingredientName: {
+                    category: {
                         [Op.like]: `%${searchQuery}%`
                     }
                 }
@@ -101,3 +103,40 @@ exports.getMainCategory = async (req, res) => {
         });
     }
 };
+
+
+exports.postWrite = async (req, res) => {
+    try {
+        let writeInfo = {
+            title: req.body.title,
+            content : req.body.data,
+            
+        }
+        const title = req.body.title;
+        const category = req.body.category;
+        const menu = req.body.menu; 
+       
+        console.log("Search Query:", title); //받아온 body 중 title 확인
+
+        
+        if (searchQuery) { 
+            ingredients = await Menu.findAll({
+                where: {
+                    category: {
+                        [Op.like]: `%${searchQuery}%`
+                    }
+                }
+            });    
+        }
+       
+        res.render('write',{ingredients});
+        console.log("Ingredients Found:", ingredients); // 검색 결과 확인
+
+    } catch (err) {
+        console.error("Error loading the write page:", err);
+        res.status(500).send({
+            message: "Error loading the write page"
+        });
+    }
+};
+

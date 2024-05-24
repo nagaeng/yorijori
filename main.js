@@ -40,8 +40,10 @@ app.get("/", homeRouter);
 
 // post 접근
 app.use("/posts", postRouter);
-app.use("/write", writeRouter);
 
+//write 접근
+app.use("/write", writeRouter);
+app.post("/write",writeRouter);
 
 app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {
