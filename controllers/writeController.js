@@ -20,7 +20,7 @@ exports.getWritePage = async (req, res) => {
 exports.getIngredients = async (req, res) => {
     try {
         const searchIngredient = req.query.searchIngredient || ''; //url로 받아오기
-        console.log("Search Query:", searchIngredient); //검색어 확인
+        console.log("Search Query:", searchIngredient); //재료 검색어 확인
 
         //db에서 받아올 재료 배열
         let ingredients = []; 
@@ -49,9 +49,9 @@ exports.getIngredients = async (req, res) => {
 exports.getMenu = async (req, res) => {
     try {
         const searchMenu = req.query.searchMenu || ''; //url로 받아오기
-        console.log("Search Query:", searchMenu); //검색어 확인
+        console.log("Search Query:", searchMenu); //매뉴 검색어 확인
 
-        //db에서 받아올 재료 배열
+        //db에서 받아올 매뉴 배열
         let selectMenu = []; 
         
         if (searchMenu) { 
@@ -75,63 +75,22 @@ exports.getMenu = async (req, res) => {
     }
 };
 
-exports.getMainCategory = async (req, res) => {
-    try {
-        const searchQuery = req.query.searchQuery || ''; //url로 받아오기
-        console.log("Search Query:", searchQuery); //검색어 확인
 
-        //db에서 받아올 재료 배열
-        let ingredients = []; 
-        
-        if (searchQuery) { 
-            ingredients = await Menu.findAll({
-                where: {
-                    category: {
-                        [Op.like]: `%${searchQuery}%`
-                    }
-                }
-            });    
-        }
-       
-        res.render('write',{ingredients});
-        console.log("Ingredients Found:", ingredients); // 검색 결과 확인
-
-    } catch (err) {
-        console.error("Error loading the write page:", err);
-        res.status(500).send({
-            message: "Error loading the write page"
-        });
-    }
-};
-
-
+// 게시글 post 
 exports.postWrite = async (req, res) => {
     try {
+        console.log(`요청 :`,req.body.title);
+        console.log(`요청 :`,req.body.menu);
+        console.log(`요청 :`,req.body.category);
+        console.log(`요청 :`,req.body.editordata);
         let writeInfo = {
             title: req.body.title,
-            content : req.body.data,
-            
-        }
-        const title = req.body.title;
-        const category = req.body.category;
-        const menu = req.body.menu; 
-       
-        console.log("Search Query:", title); //받아온 body 중 title 확인
+            menu : req.body.menu,
+            category : req.body.category,
+            ingredients :[req.body.ingredient],
 
-        
-        if (searchQuery) { 
-            ingredients = await Menu.findAll({
-                where: {
-                    category: {
-                        [Op.like]: `%${searchQuery}%`
-                    }
-                }
-            });    
         }
        
-        res.render('write',{ingredients});
-        console.log("Ingredients Found:", ingredients); // 검색 결과 확인
-
     } catch (err) {
         console.error("Error loading the write page:", err);
         res.status(500).send({

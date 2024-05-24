@@ -1,10 +1,14 @@
 const express = require("express"),
     app = express();
 layouts = require("express-ejs-layouts"),
+bodyParser = require('body-parser'),
 session = require('express-session'),
     db = require("./models/index"),
     db.sequelize.sync({});
     
+//바디파서 추가
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // View
 app.set('view engine', 'ejs');
@@ -43,7 +47,6 @@ app.use("/posts", postRouter);
 
 //write 접근
 app.use("/write", writeRouter);
-app.post("/write",writeRouter);
 
 app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {

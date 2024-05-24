@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글작성</title>
     <link rel="stylesheet" href="/css/write.css" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/write.js"></script>
+     <!-- CDN 추가 시작 -->
+     <script
+     src="https://code.jquery.com/jquery-3.5.1.min.js"
+     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+     crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+     <!-- CDN 추가 부분 끝 -->
+     <!-- language pack -->
+     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-ko-KR.min.js"
+      1integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  
 </head>
 <body>
     <div>
     <div class="form">
-        <form class="form-a" action="/write" > 
+        <form class="form-a" action="write/postWrite" method="POST" name="write-form"> 
           <!-- 메인 form  -->
           <div class="write">
             <span class="start-write">"당신만의"</span>
@@ -67,31 +83,15 @@
             <div class="menubox" id="results"></div>
             <input type="hidden">
           </div>
-          
-          <!-- 사진첨부 -->
-          <div class="title">사진첨부</div>
-          <input
-             type = "file"
-           accept = "image/*"
-          />
-          
-          <!-- 게시글 -->
+
+          <!--  게시글 -->
           <div class="title">게시글</div>
-          <textarea
-            id="data"
-            placeholder="내용을 입력하세요"
-            name="data"
-            class="data"
-            required
-          >
-          </textarea>
-          <!-- <div contentEditable="true">
-            대표 이미지를 텍스트와 함께 입력이 가능
-          </div> -->
-          <!-- 제출 -->
+          <textarea id="summernote" name="editordata" class="data"></textarea>
           <button type="submit" class="submit" value="등록">등록</button>
         </form>
       </div>
     </div>
 </body>
 </html>
+
+<!-- 제출 -->

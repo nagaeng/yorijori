@@ -80,3 +80,8 @@
   box-shadow :  3px 3px 2px lightgrey;
 }
 
+header,footer {
+  display: flex !important;
+  z-index: 1;
+}
+
