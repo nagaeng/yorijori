@@ -2,16 +2,10 @@ const express = require("express"),
     app = express();
 layouts = require("express-ejs-layouts"),
     db = require("./models/index"),
-<<<<<<< HEAD
-    db.sequelize.sync({});
-=======
-    db.sequelize.sync({alter:true});
-
-    //alter:true
+    db.sequelize.sync({alter:true}); //alter:true
 
 // const router = express.Router();
 
-    
 const session = require("express-session"),
 flash = require("connect-flash");
 
@@ -28,7 +22,6 @@ res.locals.flashMessages = req.flash();
 next();
 })
 
->>>>>>> origin/master
 // View
 app.set('view engine', 'ejs');
 app.use(layouts);
