@@ -11,6 +11,8 @@
 </head>
 
 <body>
+    <div id="container">
+        <div>
     <div class="funding-box">
         <div id="select">
             <h4>
@@ -72,7 +74,7 @@
             상품을 공동 구매하기 위해서는 <br>
             <!-- 참여시 참여인원 -1하는 기능 필요..참여확정시해야함 -->
             앞으로 <span class="num">
-                <%= group.people-1%>명</span>이 더 필요해요!
+                <%= people %>명</span>이 더 필요해요!
         </div>
         <a href="<%=`/joinfundingPage/joinFunding/${group.fundingGroupId}/join`%>">
             <div class="button" id="join-btn">이 펀딩 참여하기</div>
@@ -141,6 +143,8 @@
             document.getElementById('popup-bg').style.display = 'none';
         }
     </script>
+    </div>
+</div>
 </body>
 
 </html>

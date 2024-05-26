@@ -1,6 +1,15 @@
+header {
+    z-index: 1000;
+}
+
 body{
     color: #12373A;
     font-family: 'ABeeZee';
+}
+#container{
+    /* display: flex; */
+    justify-content: center;
+    position: relative;
 }
 .search-container {
     height: 120px;
@@ -69,6 +78,7 @@ body{
 .funding-container {
     margin: auto;
     width: 810px;
+    min-height: 600px;
     height: 100%;
     /* background-color: #416558; */
     display: flex;

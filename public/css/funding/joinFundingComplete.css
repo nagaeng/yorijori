@@ -5,6 +5,11 @@ header {
 body {
     color: #12373A;
 }
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
 
 .information-box {
     height: 550px;

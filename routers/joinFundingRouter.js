@@ -3,12 +3,17 @@ const router = express.Router();
 db = require("../models/index");
 const joinFundingController = require("../controllers/joinFundingController");
 
+  
 // const session = require("express-session"),
-//     flash = require("connect-flash");
+// flash = require("connect-flash");
 
-// router.use(flash());
-// router.use
-router.get("/fundingPage", joinFundingController.getFundingPage);//펀딩페이지
+// router.use(flash()); //플래시메세지
+// router.use((req,res,next)=>{
+// res.locals.flashMessages = req.flash();
+// next();
+// })
+
+router.get("/fundingPage", joinFundingController.fundingList ,joinFundingController.getFundingPage);//펀딩페이지
 router.get("/fundingSearch", joinFundingController.fundingSearch, joinFundingController.getFundingSearch ); //펀딩검색페이지
 router.get("/joinFunding/:groupId", joinFundingController.joinFunding, joinFundingController.getJoinFunding); //펀딩참여페이지
 router.get("/joinFunding/:groupId/join", joinFundingController.joinFunding, joinFundingController.getJoinFundingClick); //펀딩참여확인페이지

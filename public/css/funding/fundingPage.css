@@ -1,7 +1,18 @@
+header {
+    z-index: 1000;
+}
+
 body{
     color: #12373A;
     font-family: 'ABeeZee';
 }
+
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
 .search-container {
     height: 120px;
     display: flex;
@@ -17,7 +28,6 @@ body{
     border-radius: 30px;
     border: 2px solid #416558;
 }
-
 .search-input {
     border: none;
     background: none;
@@ -152,4 +162,14 @@ body{
     text-align: center;
     font-weight: bold;
     padding-top: 3px;
+}
+
+.flash_info{
+    background-color: #ff9172;
+    width: 100%;
+    text-align: center;
+    padding: 10px 30px;
+    position: absolute;
+    top: 0px;
+    z-index: 2;
 }

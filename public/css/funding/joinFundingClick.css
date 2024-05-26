@@ -6,6 +6,12 @@ body {
     color: #12373A;
 }
 
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
 .funding-box {
     /* position: relative; */
     height: 500px;

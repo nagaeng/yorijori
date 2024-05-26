@@ -1,6 +1,11 @@
 header {
     z-index: 1000;
 }
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
 
 body {
     color: #12373A;

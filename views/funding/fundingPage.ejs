@@ -10,19 +10,29 @@
 </head>
 
 <body>
+  <div id="container">
   <div class="main">
+    <!-- 참여한 펀딩 또 참여하려고할때 플레시 메시지보여줌 -->
+    <div class="flashes"> 
+      <% if(flashMessages) {%>
+        <% if(flashMessages.info) {%>
+          <div class="flash_info">
+            <%= flashMessages.info %>
+          </div>
+      <% }%>
+        <%}%>
+    </div>
     <div class="search-container">
       <div class="search">물품 검색: </div>
       <form class="search-form" action="/joinfundingPage/fundingSearch" method="get">
         <input type="text" name="query" placeholder="펀딩 검색" class="search-input">
-        <button type="submit" class="search-btn">
+        <button type="submit" class="search-btn" onclick="executeSearch()">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
     </div>
-    <% let region='성북구' %>
       <div class="fundingRegion">
-        지금 <%= region %>에서 열린 공동 펀딩은..
+        지금 <%= products[0].district %>에서 열린 공동 펀딩은..
       </div>
       <!-- DB에 목록이 있을 때 -->
       <% if (Object.keys(products).length > 0) { %> 
@@ -63,7 +73,16 @@
     </a>
   </div>
   </div>
-
+</div>
 </body>
+
+<script> //enter키로 검색
+  document.getElementById('search-input').addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+          event.preventDefault(); // 폼 제출 방지
+          document.querySelector('.search-form').submit(); // 폼 제출
+      }
+  });
+</script>
 
 </html>
