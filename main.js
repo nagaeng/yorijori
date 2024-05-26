@@ -24,7 +24,7 @@ app.use("/joinfundingPage", joinFundingRouter);
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
-const searchRouter = require("./routers/recipe/searchRouter.js"); 
+const searchRouter = require("./routers/searchRouter.js"); 
 
 // home 접근
 app.get("/", homeRouter);
