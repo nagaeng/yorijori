@@ -29,6 +29,10 @@ Composition.init({
     type: Sequelize.INTEGER,
     allowNull: false,
     min: 1, // 최소값을 1로 설정
+  },
+  amount: {
+    type: Sequelize.DOUBLE,
+    allowNull: false,
   }
 }, {
   sequelize,
