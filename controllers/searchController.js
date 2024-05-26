@@ -5,8 +5,19 @@ const Post = db.post;
 exports.searchResult = async (req, res) => {
     try {
         const material = req.query.material; // 검색어 읽기
-        // 검색 결과 게시물을 담을 배열
-        let filteredPosts = [];
+        const sort = req.query.sort; // 정렬 방법 읽기
+        let order = [[db.view, 'views', 'DESC']]; // 디폴트 정렬 방법 popularity 조회수 따라
+
+         // 값에 따라 정렬 방법 선택
+         if (sort === 'latest') {
+            order = [['date', 'DESC']]; // 최신순
+        } else if (sort === 'oldest') {
+            order = [['date', 'ASC']]; // 과거순
+        } else if (sort === 'comments') {
+            order = [['', 'DESC']]; // 댓글 많은 순
+        }
+
+        let filteredPosts = []; // 검색 결과 게시물을 담을 배열
         // 검색어와 일치하는 포스트 찾기
         if (material && material.trim() !== "") {
             filteredPosts = await Post.findAll({
@@ -30,7 +41,7 @@ exports.searchResult = async (req, res) => {
                         model: db.ingredient,
                         through: { attributes: [] }
                     }]
-                }]
+                }],
             });
         }
 
@@ -46,8 +57,14 @@ exports.searchResult = async (req, res) => {
                         model: db.ingredient,
                         through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
                     }]
-                }
-            ]
+                },
+                {
+                    model: db.view,
+                    attributes: ['views'] // Fetch the views attribute
+                 }
+            ],
+                      
+            order: order
         });
 
         const postsWithIngredients = posts.map(post => ({
@@ -58,7 +75,8 @@ exports.searchResult = async (req, res) => {
         // 검색 결과 페이지 렌더링
         res.render('recipe/searchResult', {
             result_posts: postsWithIngredients,
-            searchQuery: material
+            searchQuery: material,
+            sort: sort
         });
     } catch (err) {
         console.error("Error rendering search page:", err);
