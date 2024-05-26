@@ -35,7 +35,13 @@ db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredient
 db.post.hasOne(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
 
-
+// Users and Posts(조회) 예은님이 주신 부분
+db.user.belongsToMany(db.post, { through: db.view, foreignKey: 'userId', otherKey: 'postId'});
+db.post.belongsToMany(db.user, { through: db.view, foreignKey: 'postId', otherKey: 'userId'});
+db.view.belongsTo(db.user, {foreignKey: 'userId'});
+db.view.belongsTo(db.post, {foreignKey: 'postId'});
+db.user.hasMany(db.view, {foreignKey: 'userId'});
+db.post.hasMany(db.view, {foreignKey: 'postId'});
 // Users and Addresses
 // db.user.belongsTo(db.address, { foreignKey: 'addressId' });
 // db.address.hasMany(db.user, { foreignKey: 'addressId' });
@@ -45,8 +51,8 @@ db.image.belongsTo(db.post, { foreignKey: 'postId' });
 // db.post.belongsTo(db.user, { foreignKey: 'userId' });
 
 // Posts and Comments
-// db.post.hasMany(db.comment, { foreignKey: 'postId' });
-// db.comment.belongsTo(db.post, { foreignKey: 'postId' });
+db.post.hasMany(db.comment, { foreignKey: 'postId' });
+db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 
 // Funding Groups and Funding Products
 db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'fundingProductId' });
