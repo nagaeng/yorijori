@@ -25,7 +25,7 @@
     font-size: 28px;
 }
 hr{
-    margin: 5px 0 5px 0;
+    margin: 10px 0 10px 0;
 }
 #hr-top{
     border: solid 2px rgb(65, 101, 88, 0.5);
@@ -42,7 +42,7 @@ hr{
     height: 16px;
     width: 1px;
 }
-.sort{
+.sort-by{
     display: flex;
     align-items: center;
     font-size: 16px;
@@ -50,8 +50,8 @@ hr{
     padding-right: 700px;
     width: 350px;
 }
-.sort>div{
-    margin: 3px 0 3px 13px;
+.sort-by>div, .sort-by>a{
+    margin-right: 10px;
 }
 .sort-method{
     font-weight: 200;

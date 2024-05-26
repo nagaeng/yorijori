@@ -16,14 +16,14 @@
             <h1 class="title">'<span id="title"><%= searchQuery %></span>' 검색 결과 '<span id="title"><%= result_posts.length %></span>'개의 레시피가 있습니다</h1>
             <hr id="hr-top"> <!-- 수평선 -->
             <!-- 정렬 순서 카테고리 -->
-            <div class="sort">
-                <div class="sort-method" id="first">인기순</div>
+            <div class="sort-by">
+                <a href="?sort=popularity&material=<%= searchQuery %>" class="sort-method" id="popularity">인기순</a>
                 <div id="ver"></div>
-                <div class="sort-method" id="second">최신순</div>
+                <a href="?sort=latest&material=<%= searchQuery %>" class="sort-method" id="latest">최신순</a>
                 <div id="ver"></div>
-                <div class="sort-method" id="third">과거순</div>
+                <a href="?sort=oldest&material=<%= searchQuery %>" class="sort-method" id="oldest">과거순</a>
                 <div id="ver"></div>
-                <div class="sort-method" id="fourth">댓글 많은 순</div>
+                <a href="?sort=comments&material=<%= searchQuery %>" class="sort-method" id="comments">댓글 많은 순</a>
             </div>
             <hr id="hr-bottom"> <!-- 수평선 -->
 
