@@ -99,3 +99,23 @@ exports.postWrite = async (req, res) => {
     }
 };
 
+//이미지 gcp 로 보내고 url 반환
+//받은 url 이미지 db에 담고 client로 넘김 
+exports.postImage = async (req,res)=>{
+    try{
+        console.log(req.file);
+        //이미지url 담아올 변수
+        let imgurl='';
+        if(req.file != undefined){
+            imgurl = req.file.path; 
+        }
+        console.log('전달할 url', JSON.stringify(imgurl));
+        res.json({ url: imgurl });
+    }
+    catch(err){
+        console.error("Error loading the write page:", err);
+        res.status(500).send({
+            message: "Error loading the write page"
+    })
+    }
+}

@@ -58,18 +58,20 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
         }
       }
     )
+    //썸머노트 설정
     $('#summernote').summernote({ 
       placeholder: '내용',
       tabsize: 2,
       focus: true,
       height: 400,
-      callbacks:{
-        // onImageUpload를 통해 이미지 업로드시 동작 개조 가능
-        // 개조하지 않으면 Base64로 이미지가 전환돼서 img태그로 바뀐뒤 본문에 추가된다.
-        onImageUpload: function(files){
-          sendFile(files[0], this);
+      callbacks:
+        {
+            onImageUpload: function(files){
+                for (let i = 0; i < files.length; i++) {
+                    sendFile(files[i], this);
+                }
+            }   
         }
-      }
     }); 
 });
 
@@ -82,21 +84,21 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
       data: data,
       type: "POST",
       // 이미지 처리를 할 url
-      url: "/insertImage",
+      url: "write/postImage",
       cache: false,
       contentType: false,
-      // multer-s3를 활용하므로 multipart/form-data형태로 넘겨줘야 한다.
       enctype: "multipart/form-data",
       processData: false,
       success: function (response) {
+        console.log(response.url);
         var imgurl = $('<img>').attr({
-          'src': response,
+          'src': response.url,
           // json형태로 반환되는 주소.
           'crossorigin': 'anonymous',
           // crossorigin attr을 삽입하지 않으면 CORS에러가 난다!
       });
         $("#summernote").summernote("insertNode", imgurl[0]);
-        // insertNode는 html tag를 summernote 내부에 삽입해주는 기능.
+        // insertNode는 html tag <img>를 summernote 내부에 삽입해주는 기능.
       },
     })
   }

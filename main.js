@@ -1,14 +1,35 @@
 const express = require("express"),
     app = express();
-layouts = require("express-ejs-layouts"),
-bodyParser = require('body-parser'),
-session = require('express-session'),
+    layouts = require("express-ejs-layouts"),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
     db = require("./models/index"),
-    db.sequelize.sync({});
+    multer = require('multer'),
+    multerGoogleStorage = require('multer-google-storage'),
+    db.sequelize.sync({}),
+    cors = require('cors');
+
+// core 오류 방지 설정
+app.use(cors({
+  origin: 'http://localhost:8080',
+  
+}));
     
-//바디파서 추가
+//bodyParser 추가
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//파일 업로드를 위한 multer 설정
+const upload = multer({
+    storage: multerGoogleStorage.storageEngine({
+        bucket: 'yorizori_post_img',
+        projectId: 'burnished-core-422015-g1',
+        keyFilename: '/home/g20221783/yorijori/secure/burnished-core-422015-g1-f3b170868aa8.json',
+       
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)
+});
+
 
 // View
 app.set('view engine', 'ejs');
