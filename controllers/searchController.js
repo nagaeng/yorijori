@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const db = require('../models');
 const Post = db.post;
 
@@ -6,7 +6,7 @@ exports.searchResult = async (req, res) => {
     try {
         const material = req.query.material; // 검색어 읽기
         const sort = req.query.sort; // 정렬 방법 읽기
-        let order = [[db.view, 'views', 'DESC']]; // 디폴트 정렬 방법 popularity 조회수 따라
+        let order =  [[db.view, 'views', 'DESC']]; // 디폴트 정렬 방법 popularity 조회수 따라
 
          // 값에 따라 정렬 방법 선택
          if (sort === 'latest') {
@@ -14,7 +14,7 @@ exports.searchResult = async (req, res) => {
         } else if (sort === 'oldest') {
             order = [['date', 'ASC']]; // 과거순
         } else if (sort === 'comments') {
-            order = [['', 'DESC']]; // 댓글 많은 순
+            order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId)'), 'DESC']; // 댓글 많은 순
         }
 
         let filteredPosts = []; // 검색 결과 게시물을 담을 배열
@@ -52,24 +52,24 @@ exports.searchResult = async (req, res) => {
             where: { postId: postIds }, // 'id' 대신 'postId' 사용
             include: [
                 {
-                    model: db.menu,
-                    include: [{
-                        model: db.ingredient,
-                        through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
-                    }]
+                    model: db.ingredient,
+                    through: { attributes: []}
                 },
                 {
                     model: db.view,
                     attributes: ['views'] // Fetch the views attribute
-                 }
-            ],
-                      
-            order: order
+                 },
+                 {
+                    model: db.comment,
+                    attributes: [] 
+                }
+            ],                
+            order: [order],
         });
 
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.menu.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
         }));
 
         // 검색 결과 페이지 렌더링
