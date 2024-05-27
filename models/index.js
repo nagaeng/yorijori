@@ -35,7 +35,6 @@ db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 db.post.hasOne(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
 
-
 // Users and Addresses
 // db.user.belongsTo(db.address, { foreignKey: 'addressId' });
 // db.address.hasMany(db.user, { foreignKey: 'addressId' });
@@ -45,8 +44,8 @@ db.image.belongsTo(db.post, { foreignKey: 'postId' });
 // db.post.belongsTo(db.user, { foreignKey: 'userId' });
 
 // Posts and Comments
-// db.post.hasMany(db.comment, { foreignKey: 'postId' });
-// db.comment.belongsTo(db.post, { foreignKey: 'postId' });
+db.post.hasMany(db.comment, { foreignKey: 'postId' });
+db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 
 // Posts and Ingredients (N:M)
 db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });

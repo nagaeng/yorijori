@@ -8,22 +8,27 @@
 </head>
 <body>
     <header>
-        <div id="logo">요리조리</div>
+        <div id="logo"><a href="/">요리조리</a></div>
+        <!-- 레시피 및 재료 검색 -->
         <div id="searchBar">
-            <form class="searchBar" action="" method="get">
-                <input class="search-txt" type="text" name="" placeholder="레시피, 재료 검색">
+            <form class="searchBar" action="/search" method="get">
+                <input class="search-txt" type="text" name="material" placeholder="레시피, 재료 검색" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
                 <button class="search-btn" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
         </div>
-        <!-- 로그인하기 전 회원가입, 로그인 버튼 -->
-        <div id="login">
+        <!-- 로그인하기 전 회원가입, 로그인 버튼 
+        <div id="before-login">
             <div id="signUp"><a href="#">회원가입</a></div>
             <div>&nbsp;|&nbsp;</div>
             <div id="signIn"><a href="#">로그인</a></div>
+        </div>-->
+        <!-- 로그인한 후 -->
+        <div id="after-login">
+            <div id="mypage"><a href="#"><i class="fa-solid fa-circle-user"></i></a></div>
+            <a href="#"><div id="write-post"><p>글쓰기</p></div></a>
         </div>
-        <!-- 로그인한 후 마이페이지, 글쓰기 버튼 (구현해야 함) -->
     </header>
 
     <% if (showCategoryBar) { %>
