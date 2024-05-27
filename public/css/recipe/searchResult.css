@@ -1,0 +1,116 @@
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+/* 검색 결과 */
+#searchResult{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 1090px;
+}
+#no-result{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1090px;
+}
+.title{
+    font-size: 25px;
+}
+#title{
+    color: #416558;
+    font-size: 28px;
+}
+hr{
+    margin: 10px 0 10px 0;
+}
+#hr-top{
+    border: solid 2px rgb(65, 101, 88, 0.5);
+    width: 1090px;
+}
+#hr-bottom{
+    border: solid 1px rgb(65, 101, 88, 0.5);
+    width: 1090px;
+}
+
+/*검색 결과 정렬 방법*/
+#ver{
+    background-color: #6A6A6A;
+    height: 16px;
+    width: 1px;
+}
+.sort-by{
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    float: left;
+    padding-right: 700px;
+    width: 350px;
+}
+.sort-by>div, .sort-by>a{
+    margin-right: 10px;
+}
+.sort-method{
+    font-weight: 200;
+    color: #6A6A6A;
+}
+.click {
+    color: black;
+    font-weight: bolder;
+  }
+
+/*검색 결과 게시물*/
+.list-group{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 레이아웃 */
+    margin: 20px 0 200px 0;
+    width: 1090px;
+    gap: 20px;
+    place-items: center;
+}
+
+.recipe-card {
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    overflow: hidden;
+    height: 220px;
+    width: 300px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.recipe-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
+}
+
+/* 펀딩 아이콘 위치*/
+#side-bar{
+  width: 200px;
+  min-height: calc(100vh - 150px);
+}
+.goto-funding{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 720px;
+    padding-bottom: 30px;
+}
+.funding-icon{
+    width: 150px;
+}
+.funding-txt{
+    margin: 0;
+    text-align: center;
+}
+a{
+    color: black;
+}

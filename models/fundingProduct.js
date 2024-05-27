@@ -27,13 +27,22 @@ FundingProduct.init({
     type: Sequelize.DATE,
     allowNull: false
   },
-  quantity: { //수량
+  quantity: { //총 수량
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 1
+  },
+  unit:{ //펀딩 물품 개수 단위
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 1
   },
   registrationDate: { //상품등록일자
     type: Sequelize.DATE,
+    allowNull: false
+  },
+  imageUrl: { //이미지주소
+    type: Sequelize.STRING,
     allowNull: false
   }
 }, {
