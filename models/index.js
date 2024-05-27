@@ -28,13 +28,12 @@ db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
 // Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
+// db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
+// db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
 
 // Posts and Images
 db.post.hasMany(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
-
 
 // Users and Addresses
 // db.user.belongsTo(db.address, { foreignKey: 'addressId' });
