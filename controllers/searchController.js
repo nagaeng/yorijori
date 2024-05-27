@@ -62,6 +62,7 @@ exports.searchResult = async (req, res) => {
                 }
             ],                
             order: [order],
+            
         });
 
         const postsWithIngredients = posts.map(post => ({
