@@ -29,18 +29,15 @@ exports.searchResult = async (req, res) => {
                             }
                         },
                         {
-                            '$menu.ingredients.ingredientName$': {
+                            '$ingredients.ingredientName$': {
                                 [Op.like]: `%${material}%`
                             }
                         }
                     ]
                 },
                 include: [{
-                    model: db.menu,
-                    include: [{
-                        model: db.ingredient,
-                        through: { attributes: [] }
-                    }]
+                    model: db.ingredient,
+                    attributes: [] 
                 }],
             });
         }
