@@ -3,12 +3,22 @@ const router = express.Router();
 db = require("../models/index");
 const joinFundingController = require("../controllers/joinFundingController");
 
-// router.get("/fundingPage", joinFundingController.fundingPage, joinFundingController.getFundingPage); //펀딩페이지
-router.get("/fundingPage", joinFundingController.getFundingPage);
-router.get("/joinFunding", joinFundingController.getJoinFunding); //펀딩참여페이지
-//이거 post인가 router.get("/fundingPage/:id", joinFundingController.openFunding, joinFundingController.getOpenFunding); 
+  
+// const session = require("express-session"),
+// flash = require("connect-flash");
 
-router.get("/joinFundingClick", joinFundingController.getJoinFundingClick); //펀딩참여확인페이지
-router.get("/joinFundingComplete", joinFundingController.getJoinFundingComplete); //펀딩완료페이지
+// router.use(flash()); //플래시메세지
+// router.use((req,res,next)=>{
+// res.locals.flashMessages = req.flash();
+// next();
+// })
+
+router.get("/fundingPage", joinFundingController.fundingList ,joinFundingController.getFundingPage);//펀딩페이지
+router.get("/fundingSearch", joinFundingController.fundingSearch, joinFundingController.getFundingSearch ); //펀딩검색페이지
+router.get("/joinFunding/:groupId", joinFundingController.joinFunding, joinFundingController.getJoinFunding); //펀딩참여페이지
+router.get("/joinFunding/:groupId/join", joinFundingController.joinFunding, joinFundingController.getJoinFundingClick); //펀딩참여확인페이지
+// router.post("/joinFunding/:groupId/joinRequest", joinFundingController.joinRequest, )
+// router.post(); //신청하면 정보 데베에 보내는거?
+router.get("/joinFundingComplete/:groupId/complete", joinFundingController.joinFunding, joinFundingController.joinRequest,  joinFundingController.getJoinFundingComplete); //펀딩완료페이지
 
 module.exports = router;

@@ -15,7 +15,8 @@ module.exports = (sequelize, Sequelize) => {
     },
     imageId: { //이미지번호
       type: Sequelize.STRING,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     imageUrl: { //이미지주소
       type: Sequelize.STRING,

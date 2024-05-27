@@ -6,6 +6,12 @@ body {
     color: #12373A;
 }
 
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
 .funding-box {
     /* position: relative; */
     height: 500px;
@@ -85,4 +91,66 @@ body {
 
 .item {
     background-color: #CED7C5;
+}
+
+
+#place{
+    font-size: 15px;
+    background-color: #CED7C5;
+    border-radius: 50px;
+    text-align: center;
+    border: 2px solid black;
+    margin-left: 7px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer
+}
+
+.popup-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* 40% 투명도 검은색 배경 */
+    z-index: 1000;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 650px;
+    height: 430px;
+    margin-top: -234.5px; /* 팝업 높이의 절반 */
+    margin-left: -365px; /* 팝업 너비의 절반 */
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1001;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+
+.popup button {
+    margin-right: 10px;
+}
+#map{
+    margin: auto;
+    width: 600px;
+    height: 400px;
+}
+#popupButton{
+    font-size: 15px;
+    background-color: #CED7C5;
+    border-radius: 50px;
+    text-align: center;
+    border: 2px solid black;
+    margin-left: 580px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    cursor: pointer
 }

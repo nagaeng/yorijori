@@ -93,6 +93,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
         console.log(response.url);
         var imgurl = $('<img>').attr({
           'src': response.url,
+          'name': 'imgurl',
           // json형태로 반환되는 주소.
           'crossorigin': 'anonymous',
           // crossorigin attr을 삽입하지 않으면 CORS에러가 난다!

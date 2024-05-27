@@ -3,16 +3,31 @@ const express = require("express"),
     layouts = require("express-ejs-layouts"),
     bodyParser = require('body-parser'),
     session = require('express-session'),
+    flash = require("connect-flash"),
     db = require("./models/index"),
     multer = require('multer'),
     multerGoogleStorage = require('multer-google-storage'),
-    db.sequelize.sync({}),
-    cors = require('cors');
+    cors = require('cors'),
+    db.sequelize.sync({alter:true}); //alter:true
+
+    
+app.use(flash()); //플래시메세지
+    
+app.use(session({
+        secret: 'your_secret_key', // 비밀 키를 원하는 값으로 설정하세요
+        resave: false,
+        saveUninitialized: true
+}));
+    
+app.use((req,res,next)=>{
+    res.locals.flashMessages = req.flash();
+    next();
+})
 
 // core 오류 방지 설정
 app.use(cors({
-  origin: 'http://localhost:8080',
-  
+    origin: 'http://localhost:8080',
+    
 }));
     
 //bodyParser 추가
@@ -59,10 +74,12 @@ app.use("/joinfundingPage", joinFundingRouter);
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
+const searchRouter = require("./routers/recipe/searchRouter.js"); 
 
 // home 접근
 app.get("/", homeRouter);
-
+// search 접근
+app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
 

@@ -28,13 +28,12 @@ db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
 // Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
+// db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
+// db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
 
 // Posts and Images
 db.post.hasOne(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
-
 
 // Users and Addresses
 // db.user.belongsTo(db.address, { foreignKey: 'addressId' });
@@ -45,17 +44,31 @@ db.image.belongsTo(db.post, { foreignKey: 'postId' });
 // db.post.belongsTo(db.user, { foreignKey: 'userId' });
 
 // Posts and Comments
-// db.post.hasMany(db.comment, { foreignKey: 'postId' });
-// db.comment.belongsTo(db.post, { foreignKey: 'postId' });
+db.post.hasMany(db.comment, { foreignKey: 'postId' });
+db.comment.belongsTo(db.post, { foreignKey: 'postId' });
+
+// Posts and Ingredients (N:M)
+db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });
+db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
 
 // Funding Groups and Funding Products
 db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'fundingProductId' });
 db.fundingProduct.hasMany(db.fundingGroup, { foreignKey: 'fundingProductId' });
 
 // Funding Groups and Users (Leaders)
-db.fundingGroup.belongsToMany(db.user, { through: 'composition'});
-db.user.belongsToMany(db.fundingGroup, { through: 'composition'});
+db.fundingGroup.belongsToMany(db.user, { 
+    through: 'composition',foreignKey: 'fundingGroupId',
+    otherKey: 'userId'});
+db.user.belongsToMany(db.fundingGroup, {
+     through: 'composition',foreignKey: 'userId',
+otherKey: 'fundingGroupId'});
 
-
+// Users and Posts(조회)
+db.user.belongsToMany(db.post, { through: db.view, foreignKey: 'userId', otherKey: 'postId'});
+db.post.belongsToMany(db.user, { through: db.view, foreignKey: 'postId', otherKey: 'userId'});
+db.view.belongsTo(db.user, {foreignKey: 'userId'});
+db.view.belongsTo(db.post, {foreignKey: 'postId'});
+db.user.hasMany(db.view, {foreignKey: 'userId'});
+db.post.hasMany(db.view, {foreignKey: 'postId'});
 
 module.exports= db;

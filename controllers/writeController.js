@@ -1,7 +1,8 @@
 const db = require("../models"),
     Ingredient = db.ingredient,
     Menu = db.menu,
-    Usage = db.usage,
+    Post = db.post,
+    Image = db.image,
     Sequelize = require('sequelize'),
     Op = Sequelize.Op;
 
@@ -76,29 +77,6 @@ exports.getMenu = async (req, res) => {
 };
 
 
-// 게시글 post 
-exports.postWrite = async (req, res) => {
-    try {
-        console.log(`요청 :`,req.body.title);
-        console.log(`요청 :`,req.body.menu);
-        console.log(`요청 :`,req.body.category);
-        console.log(`요청 :`,req.body.editordata);
-        let writeInfo = {
-            title: req.body.title,
-            menu : req.body.menu,
-            category : req.body.category,
-            ingredients :[req.body.ingredient],
-
-        }
-       
-    } catch (err) {
-        console.error("Error loading the write page:", err);
-        res.status(500).send({
-            message: "Error loading the write page"
-        });
-    }
-};
-
 //이미지 gcp 로 보내고 url 반환
 //받은 url 이미지 db에 담고 client로 넘김 
 exports.postImage = async (req,res)=>{
@@ -119,3 +97,65 @@ exports.postImage = async (req,res)=>{
     })
     }
 }
+
+// 게시글 post 
+exports.postWrite = async (req, res) => {
+    try {
+        console.log(`요청 :`,req.body.title);
+        console.log(`요청 :`,req.body.menu);
+        console.log(`요청 :`,req.body.category);
+        console.log(`요청 :`,req.body.editordata);
+        let writeInfo = {
+            title: req.body.title,
+            menu : req.body.menu,
+            category : req.body.category,
+            ingredients :[req.body.ingredient],
+            photo : req.body.imgurl
+
+
+        }
+
+        let menu=[];
+
+        if(req.body.menu){
+             menu = await Menu.findAll({
+                where: {
+                    menuName: {
+                        [Op.like]: `%${req.body.menu}%`
+                    }
+                }
+            });    
+        }
+
+        if(req.body){
+            await Post.create({
+                  title: req.body.title,
+                  content: req.body.editordata,
+                  date: currentData,
+                  menuId: menu.menuId,
+                  userId: 1,
+          });
+        }
+    
+        let searchPostId = ()=>{
+            Post.findAll({
+                where:{
+                    title:{
+                        [Op.like]: `%${req.body.title}%` }
+                }
+            });
+        }
+
+        if(req.body.imgurl){
+            await Image.create({
+                postId: searchPostId.postId,
+                imageUrl: req.body.imgurl
+            })
+        }
+    } catch (err) {
+        console.error("Error loading the write page:", err);
+        res.status(500).send({
+            message: "Error loading the write page"
+        });
+    }
+};
