@@ -189,7 +189,8 @@ module.exports = {
             // let currentUser = res.locals.currentUser;
             let groups = res.locals.group[0];
             let juso = getJuso(groups);
-            let query = `SELECT  
+            let query = `SELECT
+                        users.userId,  
                          users.name,
                          users.phoneNumber
                     FROM
@@ -201,7 +202,22 @@ module.exports = {
             let user = res.locals.user[0];
             // let price = (groups.unit * groups.unitPrice) + (groups.deliveryCost / (groups.people - 1));
             let price = res.locals.price;
+
+            let composition = await Composition.findOne({ //이미 참여한 펀딩인지 확인하기 위해
+                where: {
+                    fundingGroupId: groups.fundingGroupId,
+                    userId: user.userId
+                }
+            });
+            if (composition) {
+                //처음 펀딩목록화면으로 이동 후 플레시메시지
+
+                console.log("참여한펀딩");
+                req.flash('info', '이미 참여한 펀딩입니다.')
+                res.redirect('/joinfundingPage/fundingPage');
+            }else{
             res.render("funding/joinFundingClick", { user: user, group: groups, juso: juso, price: price });
+            }
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -217,28 +233,28 @@ module.exports = {
 
         let groups = res.locals.group[0];
         let groupId = req.params.groupId
-        let query = `SELECT  
-                         userId
-                    FROM
-                        users
-                    WHERE userId = 3;` //로그인한 유저의 정보로 수정필요함!!!!!!!
-                     //유저 id 로그인한 유저의 id로 수정필요 1 => currentUser.userId or currentUser.getDataValue('userId')
-        let [results, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
-        let userId = results[0].userId;
+        // let query = `SELECT  
+        //                  userId
+        //             FROM
+        //                 users
+        //             WHERE userId = 3;` //로그인한 유저의 정보로 수정필요함!!!!!!!
+        //              //유저 id 로그인한 유저의 id로 수정필요 1 => currentUser.userId or currentUser.getDataValue('userId')
+        // let [results, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
+        // let userId = results[0].userId;
 
-        let composition = await Composition.findOne({ //이미 참여한 펀딩인지 확인하기 위해
-            where: {
-                fundingGroupId: groupId,
-                userId: userId
-            }
-        });
-        if (composition) {
-            //처음 펀딩목록화면으로 이동 후 플레시메시지
+        // let composition = await Composition.findOne({ //이미 참여한 펀딩인지 확인하기 위해
+        //     where: {
+        //         fundingGroupId: groupId,
+        //         userId: userId
+        //     }
+        // });
+        // if (composition) {
+        //     //처음 펀딩목록화면으로 이동 후 플레시메시지
 
-            console.log("참여한펀딩");
-            req.flash('info', '이미 참여한 펀딩입니다.')
-            res.redirect('/joinfundingPage/fundingPage');
-        } else {
+        //     console.log("참여한펀딩");
+        //     req.flash('info', '이미 참여한 펀딩입니다.')
+        //     res.redirect('/joinfundingPage/fundingPage');
+        // } else {
                 // let query = `
                 //                 SELECT COUNT(*)
                 //                 FROM compositions
@@ -250,7 +266,7 @@ module.exports = {
                 let price = res.locals.price;
                 let newComposition = await Composition.create({ //펀딩참여시 composition테이블에 추가
                     fundingGroupId: groupId,
-                    userId: userId,
+                    userId: 1, //로그인한 유저의 ID로 수정필요!!!!!!!!!
                     quantity: groups.unit,
                     amount: price
                 });
@@ -260,7 +276,7 @@ module.exports = {
                 // }, { where: { fundingGroupId: groupId } });
                 next();
             // }
-        }
+        // }
     },
     getJoinFundingComplete: async (req, res) => { //참여완료하고 알림?정보 보여주는 페이지
         res.render("funding/joinFundingComplete", { group: res.locals.group[0] });
