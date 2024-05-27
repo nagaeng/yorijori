@@ -2,23 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= category %> - <%= subcategory %> Posts</title>
+    <title>All Posts</title>
     <link rel="stylesheet" href="/css/recipe/styles.css">
 </head>
-
 <body>
-    <h1><%= category %> posts</h1>
-    
-    <%- include('subCategoryBar', { category: category }); %>
-
-    <div class="gallery">
+    <h1>많이 본 게시글</h1>
+    <div class="gallery popular-recipes">
         <% if(posts.length > 0) { %>
-            <% posts.forEach(post => { %>
+            <% posts.slice(0, 100).forEach(post => { %>
                 <div class="recipe-card">
                     <% if (post.images && post.images.length > 0) { %>
                         <% const firstImage = post.images[0]; %>
                         <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
-                    <% } %>  
+                    <% } %>
                     <h2><%= post.title %></h2>
                     <p>주재료: <%= post.ingredients %></p>
                 </div>
@@ -27,9 +23,5 @@
             <p>No posts available for this category.</p>
         <% } %>
     </div>
-
-    <footer>
-        <p>View other categories or subcategories through navigation.</p>
-    </footer>
 </body>
 </html>

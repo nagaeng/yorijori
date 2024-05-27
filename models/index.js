@@ -31,8 +31,8 @@ db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
 db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
 
-// Posts and Images
-db.post.hasOne(db.image, { foreignKey: 'postId' });
+// Posts and Images (1:N)
+db.post.hasMany(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
 
 // Users and Addresses
