@@ -10,8 +10,11 @@ module.exports = (sequelize, Sequelize) => {
   Image.init({
     postId: { //글번호(FK)
       type: Sequelize.INTEGER,
-      primaryKey: true,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: Post,
+        key: 'postId'
+      }
     },
     imageId: { //이미지번호
       type: Sequelize.STRING,

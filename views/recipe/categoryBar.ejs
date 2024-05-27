@@ -8,12 +8,21 @@
 <body>
     <div class="category-bar">
         <% var categories = {
-            '고기': 'meat', 
-            '과일': 'fruit', 
-            '생선': 'fish', 
-            '채소': 'vegetable', 
-            '소스': 'source'
+            '육류': 'meat',
+            '해물류': 'seafood',
+            '채소': 'vegetable',
+            '과일': 'fruit',
+            '달걀/유제품': 'eggs_dairy',
+            '양념/소스': 'source',
+            '한식': 'korean',
+            '중식': 'chinese',
+            '일식': 'japanese',
+            '양식': 'western',
+            '디저트': 'dessert',
+            '버섯류': 'mushroom',
+            '콩/견과류': 'beans_nuts'
         };
+
         Object.keys(categories).forEach(function(displayName) {
             var categoryName = categories[displayName];
             %>

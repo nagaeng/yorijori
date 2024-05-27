@@ -28,21 +28,28 @@ db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
 // Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
+//db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
+//db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
+
+// Posts and Ingredients (N:M)
+db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });
+db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
 
 // Posts and Images
-db.post.hasOne(db.image, { foreignKey: 'postId' });
+db.post.hasMany(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
 
+// Users and Posts(작성)
+db.user.hasMany(db.post, { foreignKey: 'userId' });
+db.post.belongsTo(db.user, { foreignKey: 'userId' });
 
-// Users and Addresses
-// db.user.belongsTo(db.address, { foreignKey: 'addressId' });
-// db.address.hasMany(db.user, { foreignKey: 'addressId' });
-
-// Users and Posts
-// db.user.hasMany(db.post, { foreignKey: 'userId' });
-// db.post.belongsTo(db.user, { foreignKey: 'userId' });
+// Users and Posts(조회)
+db.user.belongsToMany(db.post, { through: db.view, foreignKey: 'userId', otherKey: 'postId'});
+db.post.belongsToMany(db.user, { through: db.view, foreignKey: 'postId', otherKey: 'userId'});
+db.view.belongsTo(db.user, {foreignKey: 'userId'});
+db.view.belongsTo(db.post, {foreignKey: 'postId'});
+db.user.hasMany(db.view, {foreignKey: 'userId'});
+db.post.hasMany(db.view, {foreignKey: 'postId'});
 
 // Posts and Comments
 // db.post.hasMany(db.comment, { foreignKey: 'postId' });
