@@ -15,8 +15,9 @@ Usage.init({
     references: {
       model: Ingredient,
       key: 'ingredientId'
-    }
+    },
   },
+  
   postId: { //게시글번호(FK)
     primaryKey: true,
     type: Sequelize.INTEGER,
@@ -24,12 +25,12 @@ Usage.init({
     references: {
       model: Post,
       key: 'postId'
-    }
+    },
   }
 }, {
   sequelize,
   modelName: 'usage',
-  timestamps: false
+  timestamps: false,
 });
 
 return Usage;
