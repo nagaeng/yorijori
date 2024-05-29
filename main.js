@@ -5,11 +5,15 @@ const express = require("express"),
     session = require('express-session'),
     flash = require("connect-flash"),
     db = require("./models/index"),
-    multer = require('multer'),
-    multerGoogleStorage = require('multer-google-storage'),
-    cors = require('cors'),
-    db.sequelize.sync({alter:true}); //alter:true
-    
+    db.sequelize.sync({}); //alter:true
+
+const session = require("express-session"),
+flash = require("connect-flash");
+
+
+multer = require('multer'),
+multerGoogleStorage = require('multer-google-storage'),
+cors = require('cors');
     
 app.use(flash()); //플래시메세지
     
