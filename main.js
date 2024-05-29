@@ -2,7 +2,7 @@ const express = require("express"),
     app = express();
 layouts = require("express-ejs-layouts"),
     db = require("./models/index"),
-    db.sequelize.sync({alter:true}); //alter:true
+    db.sequelize.sync({}); //alter:true
 
 // const router = express.Router();
 
@@ -43,7 +43,7 @@ app.use("/joinfundingPage", joinFundingRouter);
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
-const searchRouter = require("./routers/searchRouter.js"); 
+const searchRouter = require("./routers/recipe/searchRouter.js"); 
 
 // home 접근
 app.get("/", homeRouter);

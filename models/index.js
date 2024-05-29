@@ -49,7 +49,7 @@ db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 
 // Posts and Ingredients (N:M)
 db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
+db.ingredient.belongsToMany(db.post, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
 
 // Funding Groups and Funding Products
 db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'fundingProductId' });
