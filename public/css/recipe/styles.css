@@ -1,0 +1,90 @@
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding-top: 150px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.recipe-card {
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.recipe-image {
+    width: auto;
+    height: auto;
+    border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
+}
+
+/* 파일 경로: public/styles.css */
+.category-bar {
+    margin-top: 20px;
+    text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
+}
+
+.category-bar button {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
+    margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
+}
+
+.category-button:hover {
+    background-color: #76c276; /* 호버 시 보다 진한 연두색으로 변경 */
+}
+
+.subcategory-bar {
+    text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
+    display: grid; /* 그리드 컨테이너로 설정 */
+    grid-template-columns: repeat(8, 1fr); /* 8개의 동일한 너비의 컬럼을 생성 */
+}
+
+.subcategory-bar button {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
+    margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
+}
+
+.subcategory-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* 버튼이 활성화된 상태(현재 선택된 카테고리)를 표시하는 스타일 */
+.subcategory-bar button.active {
+    background-color: #ffc107;
+    color: black;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 10px 0 5px; /* 제목과 내용 사이 간격 조절 */
+}
+
+p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0; /* 마지막 마진 제거 */
+}

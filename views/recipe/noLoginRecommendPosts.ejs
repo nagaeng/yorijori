@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Posts</title>
+    <link rel="stylesheet" href="/css/recipe/styles.css">
+</head>
+<body>
+    <h1>많이 본 게시글</h1>
+    <div class="gallery popular-recipes">
+        <% if(posts.length > 0) { %>
+            <% posts.slice(0, 100).forEach(post => { %>
+                <div class="recipe-card">
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% const firstImage = post.images[0]; %>
+                        <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                    <% } %>
+                    <h2><%= post.title %></h2>
+                    <p>주재료: <%= post.ingredients %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No posts available for this category.</p>
+        <% } %>
+    </div>
+</body>
+</html>
