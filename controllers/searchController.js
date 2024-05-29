@@ -8,7 +8,8 @@ exports.searchResult = async (req, res) => {
         const sort = req.query.sort; // 정렬 방법 읽기
         let order =  [[db.view, 'views', 'DESC']]; // 디폴트 정렬 방법 popularity 조회수 따라
 
-         // 값에 따라 정렬 방법 선택
+
+        // 값에 따라 정렬 방법 선택
          if (sort === 'latest') {
             order = [['date', 'DESC']]; // 최신순
         } else if (sort === 'oldest') {
@@ -59,6 +60,10 @@ exports.searchResult = async (req, res) => {
                  {
                     model: db.comment,
                     attributes: [] 
+                },
+                {
+                    model: db.image,
+                    as: 'images'
                 }
             ],                
             order: [order],
@@ -74,7 +79,7 @@ exports.searchResult = async (req, res) => {
         res.render('recipe/searchResult', {
             result_posts: postsWithIngredients,
             searchQuery: material,
-            sort: sort
+            sort: sort,
         });
     } catch (err) {
         console.error("Error rendering search page:", err);
