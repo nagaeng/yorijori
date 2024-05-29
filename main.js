@@ -5,19 +5,16 @@ const express = require("express"),
     session = require('express-session'),
     flash = require("connect-flash"),
     db = require("./models/index"),
-    multer = require('multer'),
-    multerGoogleStorage = require('multer-google-storage'),
-    cors = require('cors'),
-    db.sequelize.sync({alter:true}); //alter:true
-    
-    
     db.sequelize.sync({}); //alter:true
-
-// const router = express.Router();
 
 const session = require("express-session"),
 flash = require("connect-flash");
 
+
+multer = require('multer'),
+multerGoogleStorage = require('multer-google-storage'),
+cors = require('cors');
+    
 app.use(flash()); //플래시메세지
     
 app.use(session({
@@ -90,7 +87,7 @@ app.get("/", homeRouter);
 app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
-//write 접근
+//write 접근ㅊ
 app.use("/write", writeRouter);
 
 app.set("port", 8080);
