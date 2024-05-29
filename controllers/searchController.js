@@ -38,7 +38,7 @@ exports.searchResult = async (req, res) => {
                 },
                 include: [{
                     model: db.ingredient,
-                    attributes: [] 
+                    through: {attributes: [] }
                 }],
             });
         }
