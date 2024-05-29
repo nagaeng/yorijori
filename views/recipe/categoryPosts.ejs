@@ -5,32 +5,37 @@
     <title><%= category %> Posts</title>
     <link rel="stylesheet" href="/css/recipe/styles.css">
 </head>
-<body>
 
-    <% if (category === 'meat') { %>
-        <h1>고기류</h1>
-        <div class="category-bar">
-            <button onclick="window.location.href='/meat/all'">전체</button>
-            <button onclick="window.location.href='/meat/beef'">소고기</button>
-            <button onclick="window.location.href='/meat/pork'">돼지고기</button>
-        </div>
-    <% } %>
+<body>
+    <% var categoryNames = {
+        'meat': '육류',
+        'seafood': '해물류',
+        'vegetable': '채소',
+        'fruit': '과일',
+        'eggs_dairy': '달걀/유제품',
+        'source': '양념/소스',
+        'korean': '한식',
+        'chinese': '중식',
+        'japanese': '일식',
+        'western': '양식',
+        'dessert': '디저트',
+        'mushroom': '버섯류',
+        'beans_nuts': '콩/견과류'
+    };
     
-    <% if (category === 'vegetable') { %>
-        <h1>채소류</h1>
-        <div class="category-bar">
-            <button onclick="window.location.href='/vegetable/all'">전체</button>
-            <button onclick="window.location.href='/vegetable/onion'">양파</button>
-            <button onclick="window.location.href='/vegetable/lettuce'">양상추</button>
-        </div>
-    <% } %>
+    var categoryKorean = categoryNames[category] || category; %>
+    <h1><%= categoryKorean %></h1>
+
+    <%- include('subCategoryBar', { category: category }); %>
 
     <div class="gallery">
         <% if(posts.length > 0) { %>
             <% posts.forEach(post => { %>
                 <div class="recipe-card">
-                    <!-- <img src="<%= post.imageUrl %>" alt="postImage" class="recipe-image"> -->
-                    <!-- <img src="postImage.png" alt="postImage"> -->
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% const firstImage = post.images[0]; %>
+                        <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                    <% } %>                    
                     <h2><%= post.title %></h2>
                     <p>주재료: <%= post.ingredients %></p>
                 </div>

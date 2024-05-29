@@ -9,7 +9,7 @@ const express = require("express"),
     multerGoogleStorage = require('multer-google-storage'),
     cors = require('cors'),
     db.sequelize.sync({alter:true}); //alter:true
-
+    
     
 app.use(flash()); //플래시메세지
     
@@ -33,6 +33,7 @@ app.use(cors({
 //bodyParser 추가
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 //파일 업로드를 위한 multer 설정
 const upload = multer({
@@ -82,7 +83,6 @@ app.get("/", homeRouter);
 app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
-
 //write 접근
 app.use("/write", writeRouter);
 

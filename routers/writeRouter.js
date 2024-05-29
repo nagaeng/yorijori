@@ -12,7 +12,7 @@ const upload = multer({
         projectId: 'burnished-core-422015-g1',
         keyFilename: '/home/g20221783/yorijori/secure/burnished-core-422015-g1-f3b170868aa8.json',
         filename: (req, file, cb) => {
-            cb(null, `yorizori_post_img/${Date.now()}_${file.originalname}`);
+            cb(null, `yorizori_post_img/${file.originalname}`);
         },
     }),
     limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)

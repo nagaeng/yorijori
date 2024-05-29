@@ -9,10 +9,14 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
                 data: {searchIngredient: searchIngredient },
                 success: function(data) { //success 시 데이터 받아옴
                     var resultsDiv = $('#results');
+                    var resultIngredi =$('.resultIngredi');
                     if (data.ingredients && data.ingredients.length > 0) {
-                            var ingredientElement = $('<div class="result-item"></div>')
+                            var ingredientElement = $('<div class="result-item" name="resultIngredien"></div>')
                                 .text(data.ingredients[0].ingredientName)
                             resultsDiv.append(ingredientElement);
+                            let hiddenIngredient = $('<input type="hidden" name="ingredi">')
+                                .val(data.ingredients[0].ingredientName)
+                                resultIngredi.append(hiddenIngredient);
 
                     } else {
                         alert('No ingredients found for "' + searchIngredient + '".');
@@ -93,7 +97,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
         console.log(response.url);
         var imgurl = $('<img>').attr({
           'src': response.url,
-          'name': 'imgurl',
+          'name': 'img',
           // json형태로 반환되는 주소.
           'crossorigin': 'anonymous',
           // crossorigin attr을 삽입하지 않으면 CORS에러가 난다!

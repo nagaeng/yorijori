@@ -1,3 +1,9 @@
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -20,28 +26,29 @@ body {
     border-radius: 10px;
     padding: 15px;
     overflow: hidden;
-    min-height: 300px; /* 카드의 최소 세로 길이를 300px로 설정 */
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .recipe-image {
-    width: 100%;
+    width: auto;
     height: auto;
     border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
 }
 
 /* 파일 경로: public/styles.css */
 .category-bar {
-    display: flex;
-    justify-content: space-between;
-    max-width: 600px;
-    margin: 20px auto;
+    margin-top: 20px;
+    text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
 }
+
 .category-bar button {
     padding: 10px 20px;
     cursor: pointer;
+    display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
+    margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
 }
 
 .category-button:hover {
@@ -49,24 +56,16 @@ body {
 }
 
 .subcategory-bar {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 10px;
-    text-align: center;
-    margin-bottom: 20px;
+    text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
+    display: grid; /* 그리드 컨테이너로 설정 */
+    grid-template-columns: repeat(8, 1fr); /* 8개의 동일한 너비의 컬럼을 생성 */
 }
 
-/* 버튼 스타일 */
 .subcategory-bar button {
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    color: white;
     padding: 10px 20px;
-    margin: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
+    margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
 }
 
 .subcategory-bar button:hover {

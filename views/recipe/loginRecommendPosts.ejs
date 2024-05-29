@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combined Posts</title>
+    <link rel="stylesheet" href="/css/recipe/styles.css">
+</head>
+<body>
+    <h1>많이 본 게시글</h1> 
+    <div class="gallery popular-recipes">
+        <% if(viewPosts.length > 0) { %>
+            <% viewPosts.slice(0, 3).forEach(post => { %>
+                <div class="recipe-card">
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% const firstImage = post.images[0]; %>
+                        <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                    <% } %>
+                    <h2><%= post.title %></h2>
+                    <p>주재료: <%= post.ingredients %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No popular posts available.</p>
+        <% } %>
+    </div>
+
+    <h1>추천 게시글</h1> 
+    <div class="gallery recommended-recipes">
+        <% if(recommendPosts.length > 0) { %>
+            <% recommendPosts.slice(0, 9).forEach(post => { %>
+                <div class="recipe-card">
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% const firstImage = post.images[0]; %>
+                        <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                    <% } %>
+                    <h2><%= post.title %></h2>
+                    <p>주재료: <%= post.ingredients %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No recommended posts available.</p>
+        <% } %>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ const db = require("../models"),
     Menu = db.menu,
     Post = db.post,
     Image = db.image,
+    Usage = db.usage,
     Sequelize = require('sequelize'),
     Op = Sequelize.Op;
 
@@ -87,8 +88,8 @@ exports.postImage = async (req,res)=>{
         if(req.file != undefined){
             imgurl = req.file.path; 
         }
-        console.log('전달할 url', JSON.stringify(imgurl));
-        res.json({ url: imgurl });
+        console.log('전달할 url', JSON.stringify(imgurl)); 
+        res.json({ url: imgurl }); //json 객체로 넘긴다. 
     }
     catch(err){
         console.error("Error loading the write page:", err);
@@ -101,57 +102,84 @@ exports.postImage = async (req,res)=>{
 // 게시글 post 
 exports.postWrite = async (req, res) => {
     try {
-        console.log(`요청 :`,req.body.title);
-        console.log(`요청 :`,req.body.menu);
-        console.log(`요청 :`,req.body.category);
-        console.log(`요청 :`,req.body.editordata);
-        let writeInfo = {
-            title: req.body.title,
-            menu : req.body.menu,
-            category : req.body.category,
-            ingredients :[req.body.ingredient],
-            photo : req.body.imgurl
-
-
-        }
-
+        console.log(`요청 :`,req.body);
         let menu=[];
-
-        if(req.body.menu){
-             menu = await Menu.findAll({
+        
+        //받은 메뉴이름으로 id 찾기
+        menu = await Menu.findAll({
+                attributes: ['menuId'],
                 where: {
                     menuName: {
                         [Op.like]: `%${req.body.menu}%`
                     }
                 }
             });    
-        }
 
+        //메뉴 id 확인
+        console.log(`menu :`,menu[0].dataValues.menuId);
+        
+        //currentDate 를 위한 데이트 객체 생성
+        const currentDate = new Date();
+        
+        //post 
         if(req.body){
             await Post.create({
                   title: req.body.title,
                   content: req.body.editordata,
-                  date: currentData,
-                  menuId: menu.menuId,
-                  userId: 1,
+                  date: currentDate,
+                  menuId: menu[0].dataValues.menuId,
+                  userId: 1, //로그인 구현 안되어있어서 임의로 넣음
           });
         }
     
-        let searchPostId = ()=>{
-            Post.findAll({
-                where:{
+        //post id 찾기
+        let searchPostId = await Post.findAll({
+                where:
+                {
                     title:{
-                        [Op.like]: `%${req.body.title}%` }
+                        [Op.like]: `%${req.body.title}%` } //title로 찾음. 중복불가 처리해놓음
                 }
             });
-        }
 
-        if(req.body.imgurl){
-            await Image.create({
-                postId: searchPostId.postId,
-                imageUrl: req.body.imgurl
-            })
+        //post id 확인
+        console.log('postid :' ,searchPostId[0].dataValues.postId);
+
+        // req.body.files가 배열인지 확인하고, 배열이 아닌 경우 배열로 변환
+        let files = Array.isArray(req.body.files) ? req.body.files : [req.body.files];
+        console.log(files);
+        //imgurl 디비에 저장 
+        if(req.body.files != ''){
+            for(let i=0; i<files.length; i++){ //이미지 여러개 처리
+                //gcp 경로 + 원본파일이름 =이미지 url 
+                let img_url = `https://yorizori_post_img.storage.googleapis.com/yorizori_post_img/${files[i]}`;
+
+                await Image.create({
+                      //autoincrement 안되어있어서 임의로 넣음
+                        postId: searchPostId[0].dataValues.postId,
+                        imageUrl:img_url
+                    });
+                }
         }
+        //post된 ingredientId 찾아서 메뉴 db에 넣기
+        let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
+        for(let i=0; i<req.body.ingredi.length; i++){
+            let ingredientArr = await Ingredient.findAll({
+                where:{
+                    ingredientName:{
+                        [Op.like]:`%${ingredient[i]}%`
+                    }
+                }
+            });
+            console.log("재료 :",ingredientArr[0].dataValues.ingredientId);
+       
+          //  menu usage 디비에 저장
+            await Usage.create({
+                ingredientId: ingredientArr[0].dataValues.ingredientId,
+                postId: searchPostId[0].dataValues.postId
+            });
+        
+        }
+          res.render('write');
     } catch (err) {
         console.error("Error loading the write page:", err);
         res.status(500).send({
