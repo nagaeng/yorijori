@@ -158,7 +158,7 @@ module.exports = {
             res.locals.group = result[0]; //result에 [[{키:값}],[{키:값}]]형태로 동일한 객체가 두개 존재해서 첫번째[{}]만 추출.
             // res.locals.groupId = groupId;
             // console.log(res.locals.group);
-            let price = (res.locals.group[0].unit * res.locals.group[0].unitPrice) + (res.locals.group[0].deliveryCost / (res.locals.group[0].people - 1));
+            let price = res.locals.group[0].unitPrice + (res.locals.group[0].deliveryCost / (res.locals.group[0].people - 1));
             res.locals.price = price;
             // console.log(res.locals.price);
             next();
