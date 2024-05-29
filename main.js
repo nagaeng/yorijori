@@ -87,7 +87,7 @@ app.get("/", homeRouter);
 app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
-//write 접근ㅊ
+//write 접근
 app.use("/write", writeRouter);
 
 app.set("port", 8080);
