@@ -10,7 +10,7 @@ const db = require("../models"),
 
 exports.getWritePage = async (req, res) => {
     try {
-        res.render('write'); // 검색 결과와 검색어를 뷰에 전달
+        res.render('write/write'); 
     } catch (err) {
         console.error("Error loading the write page:", err);
         res.status(500).send({
@@ -179,11 +179,50 @@ exports.postWrite = async (req, res) => {
             });
         
         }
-          res.render('write');
+          res.render('write/write');
     } catch (err) {
         console.error("Error loading the write page:", err);
         res.status(500).send({
             message: "Error loading the write page"
         });
     }
-};
+}
+
+// 게시글 눌렀을때 띄우기 
+exports.getWritedPage = async (req,res)=>{
+        try{
+            //postId 로 post 객체 찾기
+            if(req.query.postId){
+               let postvalue = await Post.findAll({
+                    where:{
+                        postId:{
+                            [Op.like]:`%${req.query.postId}%`
+                        }
+                    }
+                })
+            }
+            //postId 로 메뉴 객체 찾기
+            let menu = await Menu.findAll({
+                    where:{
+                        menuId:{
+                            [Op.like]:`%${postvalue[0].dataValues.menuId}%`
+                        }
+                    } 
+             });
+
+            //writedPage 로 객체 전달
+            // res.render('write/writedPage',{
+            //     title:postvalue,
+            //     content:postvalue,
+            //     date:postvalue,
+            //     menu:menu,
+            //     category: menu,  
+            // });
+
+        }catch(err){
+            console.error("Error loading the write page:", err);
+            res.status(500).send({
+                message: "Error loading the write page"
+            });
+        }
+}

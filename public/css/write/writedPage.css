@@ -1,0 +1,291 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+header{
+    height: 100px;
+}
+
+.main{
+    margin-bottom: 40px; 
+    width: 100%;
+    height: 100px;
+    font-size: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.writted-page{
+    margin: 0 350px;
+    background-color: white;
+}
+  
+.write-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 30px;
+}
+
+.nic{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(4, 5, 5);
+}
+
+.nic img{
+    border-radius: 100%;
+    width: 2vw;
+    height: 2vw;
+    margin-right: 5px;
+}
+
+.dok{
+    background-color:transparent;
+    border: none;
+    width: 1.5vw;
+    height: 1.5vw;
+    cursor: pointer;
+}
+
+.dok img{
+    width: 1.0vw;
+    height: 1.0vw;
+}
+
+.alter-box{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.correction{
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    border: solid 1px grey;
+    border-radius: 6px;
+    padding: 6px 4px;
+    font-weight: bold;
+}
+
+.correction div{
+    padding: 10px;
+}
+
+h2{
+    margin: 10px;
+    padding-top: 20px;
+}
+
+.data{
+    margin: 10px;
+    height: 300px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.writted-bottom{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.all-writed{
+    display: flex;
+    flex-direction: row;
+}
+
+.all-writed div{
+    margin-right: 10px;
+}
+
+.writted-num{
+    color: grey;
+    font-weight: bold;
+}
+
+.writted{
+    border: solid 1px lightgrey;
+    padding: 30px;
+}
+
+.writted-time{
+    font-size: 13px;
+
+}
+
+.comment div{
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.comment-place{
+    border: 1px solid rgb(225, 228, 230);
+    width: 100%;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    height: 70px;
+}
+
+.comment-bt{
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.comment-main{
+    margin-top: 30px;
+    width: 100%;
+    border: 1px solid rgb(225, 228, 230);
+    display: flex;
+    height: 100%;
+}
+
+.userImg{
+    border-radius: 100%;
+    width: 2vw;
+    height: 2vw;
+    margin-right: 5px;
+}
+
+
+
+.alter-box{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.correction{
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    border: solid 1px grey;
+    border-radius: 6px;
+    padding: 6px 4px;
+}
+
+.correction div{
+    padding: 10px;
+    color: black;
+}
+
+
+
+.comment-box{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    position: relative;
+}
+
+.nic-box{
+    display: flex;
+    flex-direction: row;
+    width: 150px;
+}
+
+.bt-img{
+    position: absolute;
+    align-items: center;
+}
+
+#img{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.comm-content1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.su:hover{
+    color: grey;
+    cursor: pointer;
+}
+
+.hak{
+    text-align: center;
+    line-height: 60px;
+}
+
+.h{
+    display: none;
+}
+
+.correction > a{
+    text-decoration-line: none;
+}
+
+.modal{
+    display:none;
+    justify-content: center;
+    top:0;
+    left:0;
+    width:100%;
+    min-height:100vh;
+    background-color: rgba(0,0,0,0.4);
+    overflow-y:auto; 
+    position: fixed
+}
+
+.modal_body{
+    position:absolute;
+    top:50%; 
+    width:100px;  
+    height:60px; 
+    padding:40px;  
+    text-align: center;
+    background-color: rgb(255,255,255); 
+    border-radius:10px; 
+    box-shadow:0 2px 3px 0 rgba(34,36,38,0.15); 
+    transform:translateY(-50%); 
+}
+
+.modal_body button{
+    padding: 6px 5px;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;  
+}
+
+.comm-content{
+    position: absolute;
+    top: 4px;
+    left: 100px;
+    display: none;
+
+}
+.com-su{
+    border:solid 1px grey;
+    height: 100px;
+    width: 450px;
+}
+.co{
+    display: none;
+}
+
+.w2{
+    box-sizing: content-box;
+}

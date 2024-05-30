@@ -90,7 +90,7 @@ app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
 
-app.set("port", 80);
+app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
 });

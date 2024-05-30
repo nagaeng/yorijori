@@ -22,6 +22,7 @@ router.get("/", writeController.getWritePage); //글쓰기페이지 이동
 router.get("/getIngredients", writeController.getIngredients); //재료 검색(요청)시 컨트롤러로 넘김
 router.get("/getMenu",writeController.getMenu); // 메뉴 검색(요청) 시 컨트롤러로 넘김
 router.post("/postWrite",writeController.postWrite); // 글을 처리해줄 경로
-router.post('/postImage',upload.single("img"), writeController.postImage); // file upload 처리
+router.post("/postImage",upload.single("img"), writeController.postImage); // file upload 처리
+router.get("/getWritedPage",writeController.getWritedPage);
 //파일 업로드위해 upload 미들웨어 사용
 module.exports = router;
