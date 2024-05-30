@@ -127,3 +127,33 @@ footer>p{
     color: white;
 }
 
+<<<<<<< HEAD
+
+.flash{
+    background: rgba(193, 255, 193, .7);
+    color: #625a56;
+    width: 100%;
+    text-align: center;
+    padding: 10px 30px;
+    position: absolute;
+    top: 150px;
+    z-index: 2;
+}
+
+.error{
+    color: #fff;
+    background: rgba(209, 46, 42, 0.7);
+}
+
+.success{
+    color: #fff;
+    background:rgba(193, 255, 193, .7);
+}
+
+.login{
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+=======
+>>>>>>> origin/master
