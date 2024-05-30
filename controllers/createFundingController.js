@@ -2,17 +2,22 @@ const db = require("../models/index"),
     FundingProduct = db.fundingProduct,
     FundingGroup = db.fundingGroup,
     User = db.user,
-    Composition = db.composition,
     sequelize = db.sequelize,
     Sequelize = db.Sequelize;
 
-// getAddress = group => {  
-//     let address = `${group.city} ${group.district} ${group.town} ${group.detail}`;
-//     return address;
-// };
-
 module.exports = {
-    createFundingSearch: async (req, res, next) => {
+    // 펀딩 검색 페이지를 렌더링
+    showCreateFundingSearchPage: async (req, res) => {
+        try {
+            res.render("funding/createFundingSearch");
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+            console.error(`Error: ${error.message}`);
+        }
+    },
+
+    // 검색 결과를 렌더링
+    searchProducts: async (req, res) => {
         try {
             let query = req.query.query;
             let sql = `SELECT 
@@ -31,49 +36,20 @@ module.exports = {
                             productName LIKE ?`;
             let values = query ? [`%${query}%`] : ['%%'];
             
-            let [results, metadata] = await sequelize.query(sql, {
+            let [results] = await sequelize.query(sql, {
                 replacements: values,
-                type: Sequelize.SELECT
+                type: Sequelize.QueryTypes.SELECT
             });
 
-            res.locals.results = results;
-            res.locals.query = query;
-            next();
-        } catch (error) {
-            res.status(500).send({ message: error.message });
-            console.error(`Error: ${error.message}`);
-        }
-    },
-    
-    getCreateFundingSearch: async (req, res) => {
-        res.render("funding/createFundingSearch", { results: res.locals.results, query: res.locals.query });
-    },
-
-    productList: async (req, res, next) => {
-        try {
-            let sql = `SELECT 
-                            fundingProductId, 
-                            productName, 
-                            seller, 
-                            unitPrice, 
-                            expirationDate, 
-                            quantity, 
-                            unit, 
-                            registrationDate, 
-                            imageUrl 
-                        FROM 
-                            fundingProducts`;
-            let products = await sequelize.query(sql, { type: Sequelize.SELECT });
-
-            res.locals.products = products;
-            next();
+            res.render("funding/searchResults", { results, query });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
         }
     },
 
-    productDetail: async (req, res, next) => {
+    // 특정 상품의 세부 정보를 렌더링
+    productDetail: async (req, res) => {
         try {
             let productId = req.params.productId;
             let sql = `SELECT 
@@ -92,26 +68,52 @@ module.exports = {
                             fundingProductId = ?`;
             let [product] = await sequelize.query(sql, {
                 replacements: [productId],
-                type: Sequelize.SELECT
+                type: Sequelize.QueryTypes.SELECT
             });
 
-            res.locals.product = product[0];
-            next();
+            res.render("funding/productDetail", { product: product[0] });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
         }
     },
 
-    getCreateFunding: async (req, res) => {
-        res.render("funding/create_funding", { product: res.locals.product });
+    // 펀딩 생성 페이지를 렌더링
+    showCreateFundingPage: async (req, res) => {
+        try {
+            let productId = req.params.productId;
+            let sql = `SELECT 
+                            fundingProductId, 
+                            productName, 
+                            seller, 
+                            unitPrice, 
+                            expirationDate, 
+                            quantity, 
+                            unit, 
+                            registrationDate, 
+                            imageUrl 
+                        FROM 
+                            fundingProducts 
+                        WHERE 
+                            fundingProductId = ?`;
+            let [product] = await sequelize.query(sql, {
+                replacements: [productId],
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            res.render("funding/createFunding", { product: product[0] });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+            console.error(`Error: ${error.message}`);
+        }
     },
 
-    createFunding: async (req, res, next) => {
+    // 펀딩을 생성하고 성공 페이지를 렌더링
+    createFunding: async (req, res) => {
         try {
             let { productId, deliveryDate, fundingDate, city, district, town, detail, distributionDate, people, representativeUserId, deliveryCost } = req.body;
             
-            let newFundingGroup = await db.fundingGroup.create({
+            let newFundingGroup = await FundingGroup.create({
                 fundingProductId: productId,
                 deliveryDate,
                 deliveryStatus: false,
@@ -126,15 +128,10 @@ module.exports = {
                 representativeUserId
             });
 
-            res.locals.newFundingGroup = newFundingGroup;
-            next();
+            res.render("funding/createFundingSuccess", { fundingGroup: newFundingGroup });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
         }
-    },
-
-    createFundingSuccess: async (req, res) => {
-        res.render("funding/create_funding_success", { fundingGroup: res.locals.newFundingGroup });
     }
 };
