@@ -7,7 +7,7 @@ const express = require("express"),
     db = require("./models/index"),
     db.sequelize.sync({}); //alter:true
 
-const session = require("express-session"),
+//const session = require("express-session"),
 flash = require("connect-flash");
 
 
@@ -79,7 +79,7 @@ app.use("/joinfundingPage", joinFundingRouter);
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
-const searchRouter = require("./routers/recipe/searchRouter.js"); 
+const searchRouter = require("./routers/searchRouter.js"); 
 
 // home 접근
 app.get("/", homeRouter);
@@ -90,7 +90,7 @@ app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
 
-app.set("port", 8080);
+app.set("port", 80);
 app.listen(app.get("port"), "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
 });
