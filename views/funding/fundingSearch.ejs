@@ -34,7 +34,7 @@
             <!-- 목록마다 링크 다르게해야함. 그룹아이디로 구별하기. -->
             <a href="<%=`/joinfundingPage/joinFunding/${result.fundingGroupId}` %>" class="funding-list">
               <div class="img-box">
-                <img src="/assets/image.png" class="img">
+                <img src="<%= result.imageUrl %>" alt="productImage" class="img">
               </div>
               <div class="information-box">
                 <p class="information">품명: <%= result.productName %> <%=result.quantity%>개

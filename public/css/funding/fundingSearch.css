@@ -2,12 +2,17 @@ header {
     z-index: 1000;
 }
 
+a {
+    color: #12373A;
+    text-decoration: none; /* 링크 밑줄 없애기 */
+}
+
 body{
     color: #12373A;
     font-family: 'ABeeZee';
 }
 #container{
-    /* display: flex; */
+    display: flex;
     justify-content: center;
     position: relative;
 }

@@ -36,7 +36,8 @@ module.exports = {
                                         fundingProducts.quantity,    
                                         fundingProducts.unit,
                                         users.name,
-                                        fundingGroups.district
+                                        fundingGroups.district,
+                                        fundingProducts.imageUrl
                                     FROM
                                         fundingGroups
                                     LEFT JOIN
@@ -85,7 +86,8 @@ module.exports = {
                             fundingProducts.quantity,
                             fundingProducts.unit,
                             users.name,
-                            users.district
+                            users.district,
+                            fundingProducts.imageUrl
                         FROM
                             fundingGroups
                         LEFT JOIN
@@ -146,7 +148,8 @@ module.exports = {
                                 fundingGroups.people,      
                                 fundingProducts.unit,
                                 fundingGroups.fundingGroupId,
-                                fundingGroups.deliveryCost
+                                fundingGroups.deliveryCost,
+                                fundingProducts.imageUrl
                             FROM
                                 fundingGroups
                             LEFT JOIN
