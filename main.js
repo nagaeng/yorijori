@@ -63,14 +63,6 @@ app.use((req, res, next) => {
     next();
 });
 
-//세션설정
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true
-  }));
-  
-
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // joinFundingRouter 접근
 app.use("/joinfundingPage", joinFundingRouter);
@@ -79,7 +71,9 @@ app.use("/joinfundingPage", joinFundingRouter);
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
-const searchRouter = require("./routers/searchRouter.js"); 
+const searchRouter = require("./routers/searchRouter.js")
+const createFundingRouter = require("./routers/createFundingRouter.js")
+
 
 // home 접근
 app.get("/", homeRouter);
@@ -89,6 +83,8 @@ app.use("/search", searchRouter);
 app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
+// create funding 접근
+app.use("/createfundingPage", createFundingRouter)
 
 app.set("port", 80);
 app.listen(app.get("port"), "0.0.0.0", () => {
