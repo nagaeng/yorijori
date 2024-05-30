@@ -1,5 +1,7 @@
-const { Sequelize, Model } = require("sequelize");
+//const { Sequelize, Model } = require("sequelize");
 const bcrypt = require("bcrypt");
+const passportLocalSequelize = require("passport-local-sequelize");
+
 
 module.exports = (sequelize, Sequelize) => {
   class User extends Sequelize.Model {
@@ -7,29 +9,30 @@ module.exports = (sequelize, Sequelize) => {
     static async findByPkAndUpdate(id, params) {
       let user = await User.findByPk(id);
       if (user) {
-        await User.update(params, {
-          where: { id: id }
+        user = await User.update(params, {
+            where: { id: id }
         });
-        user = await User.findByPk(id); // 업데이트 후 최신 상태로 다시 가져옵니다.
       }
       return user;
-    }
+      }
+      //id로 찾아서 삭제하는 메서드
+      static async findByPkAndRemove(id) {
+        let user = await User.findByPk(id);
+        if (user) {
+          user = await User.destroy({
+            where: { id: id }
+          });
+        }
+        return user;
+      }
 
-    // id로 찾아서 삭제하는 메서드
-    // static async findByPkAndRemove(id) {
-    //   let user = await User.findByPk(id);
-    //   if (user) {
-    //     await User.destroy({
-    //       where: { id: id }
-    //     });
-    //   }
-    //   return user;
-    // }
-    passwordComparison = (inputPassword) => {
-      let user = this;
-      return bcrypt.compare(inputPassword, user.password);
-    }
-  }
+      // async passwordComparison(inputPassword) {
+      //   console.log(`Comparing passwords: input=${inputPassword}, stored=${this.password}`);
+      //   const match = await bcrypt.compare(inputPassword, this.password);
+      //   console.log(`Password match: ${match}`);
+      //   return match;
+      // } 
+  };
 
   User.init({
     userId: { // 사용자번호
@@ -42,7 +45,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false
     },
     password: { // 비밀번호
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(1024),
       allowNull: false
     },
     name: { // 이름
@@ -73,18 +76,31 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true
     }
-  }, {
+    ,
+    // myhash: {
+    //   type: Sequelize.STRING(1024)
+    // },
+    mysalt: {
+      type: Sequelize.STRING
+    }
+  }, 
+  {
+    // hooks: {
+    //   beforeSave: async (user) => {
+    //     let hash = await bcrypt.hash(user.password, 10);
+    //     user.password = hash;
+    //   }
+    // },  
     sequelize,
     modelName: 'user',
     timestamps: false
-  },
-  {
-    hooks: {
-      beforeSave: async (user) => {
-        let hash = await bcrypt.hash(user.password, 10);
-        user.password = hash;
-      }
-    }    
+  }
+  );
+
+  passportLocalSequelize.attachToUser(User, {
+    usernameField: 'email',
+    hashField: 'password',
+    saltField: 'mysalt'
   });
   
   return User;

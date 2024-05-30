@@ -10,25 +10,36 @@
     <div class="mypage-main">마이페이지 > 나의 레시피</div>
     <div class="menu-bar">
         <div class="menu-bar-option">
-            <a href="/mypageMain">나의 레시피</a>
+            <a href="mypage">나의 레시피</a>
         </div>
         <div class="menu-bar-option">
-            <a href="/mypageComment">댓글</a>
+            <a href="mypageComment">댓글</a>
         </div>
         <div class="menu-bar-option">
-            <a href="/mypageScrap">스크랩</a>
+            <a href="mypageScrap">스크랩</a>
         </div>
         <hr class="custom-hr">
         <div class="menu-bar-option">
-            <a href="/mypage_funding">펀딩</a>
+            <a href="mypageFunding">펀딩</a>
         </div>
         <div class="menu-bar-option">
-            <a href="/mypage_myfunding">내가 연 펀딩</a>
+            <a href="mypageMyFunding">내가 연 펀딩</a>
         </div>
         <div class="menu-bar-option">
-            <a href="/mypage_participatedfunding">내가 참여한 펀딩</a>
+            <a href="mypage_participatedfunding">내가 참여한 펀딩</a>
         </div>
         <hr class="custom-hr">
+    </div>
+    <div class="mainbox">
+        <div class="mypost">
+            <%if (Object.keys(posts).length>0) { %>
+            <% posts.forEach(post => { %>
+                <h2><%= post.title %></h2>
+                <p>User ID: <%= post.userId %></p>
+            <% })} else{ %>
+                <p>no list</p>
+                <% }%>     
+        </div>
     </div>
     <div class="myprofile">
         <div class="profileimage"></div>

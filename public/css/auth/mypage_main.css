@@ -61,6 +61,18 @@ hr.custom-hr{
     background-color: white;
 }
 
+.mainbox{
+    margin-left: 600px;
+    margin-top: 130px;
+}
+
+.mypost{
+    width: 201px;
+    height: 169px;
+    border-radius: 10%;
+    border-color: black;
+}
+
 
 
 

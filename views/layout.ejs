@@ -26,6 +26,20 @@
         <!-- 로그인한 후 마이페이지, 글쓰기 버튼 (구현해야 함) -->
     </header>
 
+    <div class="flashes">
+        <% if(flashMessages) { %>
+            <% if (flashMessages.success) { %>
+                <div class ="flash success">
+                    <%= flashMessages.success %>
+                </div>
+            <% } else if (flashMessages.error) { %>
+                <div class="flash error">
+                    <%= flashMessages.error %>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+
     <% if (showCategoryBar) { %>
         <%- include('recipe/categoryBar.ejs') %>
     <% } %>    

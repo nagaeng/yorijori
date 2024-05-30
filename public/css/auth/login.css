@@ -1,3 +1,9 @@
+.container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
 .login-page {
     text-align: center;
     font-size: 25px;
