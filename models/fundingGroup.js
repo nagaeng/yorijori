@@ -33,9 +33,35 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
       defaultValue: 0
     },
-    fundingDate: { //펀딩날짜 추가함
+    fundingDate: { //펀딩날짜 추가
       type: Sequelize.DATE,
       allowNull: false
+    },
+    city: { //시도 추가
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    district: { //시군구 추가
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    town: { //읍면동 추가
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    detail: { //상세주소 추가
+      type: Sequelize.STRING,
+      allowNull: true
+    }, 
+    distributionDate: { //배포 날짜 및 시간 추가
+      type: Sequelize.DATE,
+      allowNull: false,
+      defaultValue: new Date(0)
+    },
+    people:{ //참여인원
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0
     },
     representativeUserId: { //대표자의 사용자번호(FK)
       type: Sequelize.INTEGER,

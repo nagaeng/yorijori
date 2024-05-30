@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
     {
       sequelize,
       modelName: 'ingredient',
-      timestamps: false
+      timestamps: false,
     });
 
   return Ingredient;

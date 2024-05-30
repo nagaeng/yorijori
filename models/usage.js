@@ -3,7 +3,7 @@
 
 module.exports = (sequelize, Sequelize) =>{
   const Ingredient = require("./ingredient")(sequelize,Sequelize); 
-  const Menu = require("./menu")(sequelize,Sequelize); 
+  const Post = require("./post")(sequelize,Sequelize); 
 
 class Usage extends Sequelize.Model {}
 
@@ -15,21 +15,22 @@ Usage.init({
     references: {
       model: Ingredient,
       key: 'ingredientId'
-    }
+    },
   },
-  menuId: { //메뉴번호(FK)
+  
+  postId: { //게시글번호(FK)
     primaryKey: true,
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: Menu,
-      key: 'menuId'
-    }
+      model: Post,
+      key: 'postId'
+    },
   }
 }, {
   sequelize,
   modelName: 'usage',
-  timestamps: false
+  timestamps: false,
 });
 
 return Usage;

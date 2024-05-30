@@ -12,6 +12,8 @@
 <% let message = "참여 인원 도달 시 주문과 함께 배송이 시작됩니다. <br> 배부 위치와 일자를 다시 한 번 확인해주세요." %>
 
 <body>
+    <div id="container">
+
     <div class="information-box">
         <div class="img-box">
             <img src="/assets/image.png" class="img">
@@ -25,15 +27,19 @@
         </div>
         <div class="distribution">
             <div>배부 위치: 
-                <span> <%= distributionPosition %> </span>
+                <span> <%= group.city%>
+                    <%= group.district%>
+                    <%= group.town%>
+                    <%= group.detail%>  </span>
             </div>
             <div>배부 일자 및 시간: 
-                <span> <%= dateOfDistribution %> </span>
+                <span> <%= group.distributionDate %> </span>
             </div>
         </div>
         <a href="/joinfundingPage/fundingPage">
             <span class="button">확인</span>
         </a>
     </div>
+</div>
 </body>
 </html>

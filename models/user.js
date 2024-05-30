@@ -1,9 +1,10 @@
 //const { Sequelize, Model } = require("sequelize");
-const bcrypt = require("bcrypt");
+//const bcrypt = require("bcrypt");
 const passportLocalSequelize = require("passport-local-sequelize");
 
 
 module.exports = (sequelize, Sequelize) => {
+
   class User extends Sequelize.Model {
     // id로 찾아서 업데이트하는 메서드
     static async findByPkAndUpdate(id, params) {
@@ -33,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
       //   return match;
       // } 
   };
-
+  
   User.init({
     userId: { // 사용자번호
       type: Sequelize.INTEGER,
@@ -102,6 +103,6 @@ module.exports = (sequelize, Sequelize) => {
     hashField: 'password',
     saltField: 'mysalt'
   });
-  
+
   return User;
 };

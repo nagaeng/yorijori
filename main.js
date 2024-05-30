@@ -1,18 +1,42 @@
-const express = require("express");
-const app = express();
-const errorController = require("./controllers/errorController");
-const homeController = require("./controllers/homeController");
-const layouts = require("express-ejs-layouts");
-const db = require("./models/index");
-const flash = require('connect-flash');
-const session = require('express-session');
-// const User = require('./models/user');
-const User = db.user;
-const passport = require("passport");
-var FileStore = require('session-file-store')(session);
+const express = require("express"),
+    app = express();
+layouts = require("express-ejs-layouts"),
+    db = require("./models/index"),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    flash = require("connect-flash"),
+    passport = require("passport"),
+    FileStore = require('session-file-store')(session);
 
-// 데이터베이스 동기화
-db.sequelize.sync({});
+    db.sequelize.sync({});
+    const User = db.user;
+
+multer = require('multer'),
+multerGoogleStorage = require('multer-google-storage'),
+cors = require('cors');
+
+// core 오류 방지 설정
+app.use(cors({
+    origin: 'http://localhost:8080',
+    
+}));
+    
+//bodyParser 추가
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+//파일 업로드를 위한 multer 설정
+const upload = multer({
+    storage: multerGoogleStorage.storageEngine({
+        bucket: 'yorizori_post_img',
+        projectId: 'burnished-core-422015-g1',
+        keyFilename: '/home/g20221783/yorijori/secure/burnished-core-422015-g1-f3b170868aa8.json',
+       
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)
+});
+
 
 // 뷰 엔진 설정
 app.set('view engine', 'ejs');
@@ -29,11 +53,6 @@ app.use(session({
     store: new FileStore()
 }));
 
-// app.use(function(req, res, next) {
-//     if(!req.session.views){
-//         req.session.views = {};
-//     }
-// });
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -49,12 +68,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.use((req, res, next) => {
-//     res.locals.flashMessages = req.flash();
-//     next();
-// });
-
-
 
 // 모든 요청 전에 실행되는 미들웨어
 app.use((req, res, next) => {
@@ -63,23 +76,27 @@ app.use((req, res, next) => {
     next();
 });
 
-// 미들웨어 설정
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
-// 라우터 설정
-const homeRouter = require("./routers/homeRouter");
-const postRouter = require("./routers/postRouter");
-const joinFundingRouter = require("./routers/joinFundingRouter");
+
+const joinFundingRouter = require("./routers/joinFundingRouter.js")
+// joinFundingRouter 접근
+app.use("/joinfundingPage", joinFundingRouter);
+
+// Router
+const homeRouter = require("./routers/homeRouter.js")
+const postRouter = require("./routers/postRouter.js")
+const writeRouter = require("./routers/writeRouter.js")
+const searchRouter = require("./routers/searchRouter.js"); 
 const authRouter = require("./routers/authRouter");
-//const myPageRouter = require("./routers/myPageRouter");
 
 // home 접근
 app.get("/", homeRouter);
-
+// search 접근
+app.use("/search", searchRouter);
 // post 접근
 app.use("/posts", postRouter);
-
+//write 접근
+app.use("/write", writeRouter);
 
 //플래시 메시지 미들웨어 설정
 app.use(flash());
@@ -95,11 +112,6 @@ app.set('view engine', 'ejs');
 
 // 라우터 설정
 app.use('/auth', authRouter);
-
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
 
 // joinFunding 접근
 app.use("/joinfundingPage", joinFundingRouter);

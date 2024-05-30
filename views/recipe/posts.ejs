@@ -11,7 +11,11 @@
         <% if(posts.length > 0) { %>
             <% posts.slice(0, 6).forEach(post => { %>
                 <div class="recipe-card">
-                    <img src="<%= post.imageUrl %>" alt="<%= post.title %> image" class="recipe-image">
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% post.images.forEach(image => { %>
+                          <img src="<%= image.imageUrl %>" alt="postImage">
+                        <% }); %>
+                    <% } %>
                     <h2><%= post.title %></h2>
                     <p>주재료: <%= post.ingredients %></p>
                 </div>
@@ -25,7 +29,10 @@
         <% if(posts.length > 6) { %>
             <% posts.slice(6, 15).forEach(post => { %>
                 <div class="recipe-card">
-                    <img src="<%= post.imageUrl %>" alt="<%= post.title %> image" class="recipe-image">
+                    <% if (post.images && post.images.length > 0) { %>
+                        <% const firstImage = post.images[0]; %>
+                        <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                    <% } %>  
                     <h2><%= post.title %></h2>
                     <p>주재료: <%= post.ingredients %></p>
                 </div>
