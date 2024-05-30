@@ -189,6 +189,19 @@ exports.getLoginRecommendPosts = async (req, res) => {
 // 메인 카테고리별 게시글
 exports.getPostsByCategory = async (req, res) => {
     const category = req.params.category; // URL에서 카테고리 받기
+    const sort = req.query.sort; // 정렬 방법 읽기
+
+    // 디폴트 정렬 방법: 조회수 순 (popularity)
+    let order = [[db.view, 'views', 'DESC']];
+
+    // 정렬 방법 선택
+    if (sort === 'latest') {
+        order = [['date', 'DESC']]; // 최신순
+    } else if (sort === 'oldest') {
+        order = [['date', 'ASC']]; // 과거순
+    } else if (sort === 'comments') {
+        order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId)'), 'DESC']; // 댓글 많은 순
+    }
 
     try {
         const posts = await Post.findAll({
@@ -204,8 +217,13 @@ exports.getPostsByCategory = async (req, res) => {
                 {
                     model: db.image,
                     as: 'images'
+                },
+                {
+                    model: db.view,
+                    attributes: ['views'] // Fetch the views attribute
                 }
-            ]
+            ],
+            order: order // 정렬 적용
         });
 
         const postsWithIngredients = posts.map(post => ({
@@ -216,7 +234,8 @@ exports.getPostsByCategory = async (req, res) => {
         res.render('recipe/categoryPosts', { // 카테고리별 포스트 렌더링할 뷰
             posts: postsWithIngredients,
             category: category,
-            showCategoryBar: true
+            showCategoryBar: true,
+            sort: sort // 현재 정렬 방법 전달
         });
 
     } catch (error) {
@@ -228,6 +247,19 @@ exports.getPostsByCategory = async (req, res) => {
 // 세부 카테고리별 게시글
 exports.getPostsBySubcategory = async (req, res) => {
     const { category, subcategory } = req.params; // URL에서 메인 카테고리와 세부 카테고리 받기
+    const sort = req.query.sort; // 정렬 방법 읽기
+
+    // 디폴트 정렬 방법: 조회수 순 (popularity)
+    let order = [[db.view, 'views', 'DESC']];
+
+    // 정렬 방법 선택
+    if (sort === 'latest') {
+        order = [['date', 'DESC']]; // 최신순
+    } else if (sort === 'oldest') {
+        order = [['date', 'ASC']]; // 과거순
+    } else if (sort === 'comments') {
+        order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId)'), 'DESC']; // 댓글 많은 순
+    }
 
     try {
         const ingredientCategoryCondition = {};
@@ -250,7 +282,7 @@ exports.getPostsBySubcategory = async (req, res) => {
                     model: db.image,
                     as: 'images'
                 }
-            ]
+            ],
         });
 
         // 필터링된 포스트의 모든 재료 가져오기
@@ -266,8 +298,13 @@ exports.getPostsBySubcategory = async (req, res) => {
                 {
                     model: db.image,
                     as: 'images'
+                },
+                {
+                    model: db.view,
+                    attributes: ['views'] // Fetch the views attribute
                 }
-            ]
+            ],
+            order: order // 정렬 적용
         });
 
         const postsWithIngredients = posts.map(post => ({
@@ -280,7 +317,8 @@ exports.getPostsBySubcategory = async (req, res) => {
             category: category,
             subcategory: subcategory,
             showCategoryBar: true,
-            showSubCategoryBar: true
+            showSubCategoryBar: true,
+            sort: sort // 현재 정렬 방법 전달
         });
 
 
