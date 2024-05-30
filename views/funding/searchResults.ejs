@@ -14,7 +14,7 @@
     <div class="content">
         <% if (Object.keys(results).length > 0) { %>
             <% results.forEach(product => { %>
-                <div class="funding-box">
+                <div class="funding-box" onclick="showProductDetail('<%= product.fundingProductId %>')">
                     <div class="information-box">
                         <div class="information-list">
                             <div class="information">상품 번호: 
@@ -40,9 +40,6 @@
                             <img src="<%= product.imageUrl %>" alt="Product Image"></img>
                         </div>
                     </div>
-                    <div class="button-container">
-                        <button class="funding-button" onclick="createFunding('<%= product.fundingProductId %>')">이 제품으로 펀딩 생성</button>
-                    </div>
                 </div>
             <% }) %>
         <% } else { %>
@@ -51,9 +48,10 @@
     </div>
 
     <script>
-        function createFunding(productNumber) {
-            window.location.href = `/create_funding_detail?fundingProductId=${productNumber}`;
+        function showProductDetail(productId) {
+            window.location.href = `/createfundingPage/product_detail/${productId}`;
         }
     </script>
 </body>
 </html>
+

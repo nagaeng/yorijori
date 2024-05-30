@@ -55,6 +55,7 @@ module.exports = {
     productDetail: async (req, res) => {
         try {
             let productId = req.params.productId;
+            console.log(productId)
             let sql = `SELECT 
                             fundingProductId, 
                             productName, 
@@ -68,12 +69,14 @@ module.exports = {
                         FROM 
                             fundingProducts 
                         WHERE 
-                            fundingProductId = ?`;
-            let [product] = await sequelize.query(sql, {
-                replacements: [productId],
-                type: Sequelize.QueryTypes.SELECT
-            });
-
+                            fundingProductId = ${productId}`;
+            let [product, a] = await sequelize.query(sql, {type: Sequelize.SELECT});
+            res.local
+            // let [product] = await sequelize.query(sql, {
+            //     replacements: [productId],
+            //     type: Sequelize.QueryTypes.SELECT
+            // });
+            console.log(product);
             res.render("funding/productDetail", { product: product[0] });
         } catch (error) {
             res.status(500).send({ message: error.message });
