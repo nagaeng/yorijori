@@ -20,6 +20,7 @@ module.exports = {
     searchProducts: async (req, res) => {
         try {
             let query = req.query.query;
+            console.log(query);
             let sql = `SELECT 
                             fundingProductId, 
                             productName, 
@@ -34,12 +35,14 @@ module.exports = {
                             fundingProducts 
                         WHERE 
                             productName LIKE ?`;
-            let values = query ? [`%${query}%`] : ['%%'];
+            let values = [`%${query}%`];
             
             let [results] = await sequelize.query(sql, {
                 replacements: values,
-                type: Sequelize.QueryTypes.SELECT
+                type: Sequelize.SELECT
             });
+            
+            console.log(results);
 
             res.render("funding/searchResults", { results, query });
         } catch (error) {
