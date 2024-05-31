@@ -8,9 +8,11 @@
     <script src="/js/recipe/searchResult.js"></script>
     <title>search result</title>
 </head>
-<body><!-- 검색 결과 컨테이너 박스 -->
+<body>
+    <!-- 검색 결과 컨테이너 박스 -->
     <div id="container">
         <div id="side-bar"></div>
+        
         <div id="searchResult">
             <% if (result_posts.length > 0) { %>
             <h1 class="title">'<span id="title"><%= searchQuery %></span>' 검색 결과 '<span id="title"><%= result_posts.length %></span>'개의 레시피가 있습니다</h1>
@@ -42,6 +44,7 @@
                 <div id="no-result"><h1> 검색 결과가 없습니다</h1></div>
             <% } %>
         </div>
+
         <div id="side-bar">    
             <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
             <div class="goto-funding">

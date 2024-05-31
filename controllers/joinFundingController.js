@@ -28,6 +28,7 @@ module.exports = {
             // let peopleCount = results[0];
             // let currentUser = res.locals.currentUser;
             //findAll()로 했더니 원하는 결과가 안나와서 raw 쿼리 사용함. 펀딩그룹을 기준으로 펀딩상품과 유저 테이블을 조인해서 정보가져옴.
+            let userId = res.locals.currentUser.getDataValue('userId');
             let query = `
                                  SELECT 
                                         fundingGroups.fundingGroupId,
@@ -47,7 +48,7 @@ module.exports = {
                                     WHERE fundingGroups.district = (select fundingGroups.district
                                         from fundingGroups
                                         left join  users On fundingGroups.district = users.district
-                                        where users.userId = 1
+                                        where users.userId = ${userId}
                                         LIMIT 1) AND fundingGroups.people != (SELECT COUNT(*)
                                                     FROM compositions
                                                     WHERE compositions.fundingGroupId = fundingGroups.fundingGroupId);`
@@ -79,6 +80,7 @@ module.exports = {
     fundingSearch: async (req, res, next) => {
         try {
             // let currentUser = res.locals.currentUser;
+            let userId = res.locals.currentUser.getDataValue('userId');
             let query = req.query.query;
             let sql = `SELECT fundingGroups.fundingGroupId,
                             fundingProducts.productName,
@@ -97,7 +99,7 @@ module.exports = {
                         WHERE fundingGroups.district = (select fundingGroups.district
                             from fundingGroups
                             left join  users On fundingGroups.district = users.district
-                            where users.userId = 1
+                            where users.userId = ${userId}
                             LIMIT 1) AND fundingGroups.people != (SELECT COUNT(*)
                             FROM compositions
                             WHERE compositions.fundingGroupId = fundingGroups.fundingGroupId) AND productName LIKE ?`;
@@ -190,6 +192,7 @@ module.exports = {
         try {
             
             // let currentUser = res.locals.currentUser;
+            let userId = res.locals.currentUser.getDataValue('userId');
             let groups = res.locals.group[0];
             let juso = getJuso(groups);
             let query = `SELECT
@@ -198,7 +201,7 @@ module.exports = {
                          users.phoneNumber
                     FROM
                         users
-                    WHERE users.userId = 1;` //로그인한 유저의 정보로 수정필요함!!!!!!!
+                    WHERE users.userId = ${userId};` //로그인한 유저의 정보로 수정필요함!!!!!!!
                     //유저 id 로그인한 유저의 id로 수정필요 1 => currentUser.userId or currentUser.getDataValue('userId')
             let result = await sequelize.query(query, { type: Sequelize.SELECT });
             res.locals.user = result[0];
@@ -266,10 +269,12 @@ module.exports = {
                 // let peopleCount = results[0];
 
             // if (peopleCount > 0) { //참여인원이 다 차지 않았다면
+            
+                let userId = res.locals.currentUser.getDataValue('userId');
                 let price = res.locals.price;
                 let newComposition = await Composition.create({ //펀딩참여시 composition테이블에 추가
                     fundingGroupId: groupId,
-                    userId: 1, //로그인한 유저의 ID로 수정필요!!!!!!!!!
+                    userId: userId, //로그인한 유저의 ID로 수정필요!!!!!!!!!
                     quantity: groups.unit,
                     amount: price
                 });

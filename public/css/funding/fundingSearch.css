@@ -72,9 +72,10 @@ body{
 }
 
 .noItems{
+    margin: auto;
     font-size: 20px;
-    width: 300px;
-    height: 500px;
+    width: 810px;
+    height: 600px;
     /* background-color: #9e95b4; */
     margin: auto;
     padding-top: 300px;
@@ -111,8 +112,8 @@ body{
 }
 
 .img {
-    height: 230px;
-    width: 230px;
+    height: 242px;
+    width: 242px;
     background-color: transparent;
 }
 .information-box{

@@ -31,11 +31,12 @@
         </button>
       </form>
     </div>
+      <!-- DB에 목록이 있을 때 -->
+      <div>
+      <% if (Object.keys(products).length > 0) { %> 
       <div class="fundingRegion">
         지금 <%= products[0].district %>에서 열린 공동 펀딩은..
       </div>
-      <!-- DB에 목록이 있을 때 -->
-      <% if (Object.keys(products).length > 0) { %> 
       <div class="funding-container">
         <% products.forEach(product=> { %>
           <div class="funding-card">
@@ -72,6 +73,7 @@
       </div>
     </a>
   </div>
+</div>
   </div>
 </div>
 </body>

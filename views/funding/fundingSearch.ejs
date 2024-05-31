@@ -22,12 +22,13 @@
         </button>
       </form>
     </div>
-    <% let region='성북구' %>
-      <div class="fundingRegion">
-        지금 <%= region %>에서 열린 공동 펀딩은..
-      </div>
+    <div> 
       <!-- DB에 목록이 있을 때 -->
       <% if (Object.keys(results).length > 0) { %> 
+        
+      <div class="fundingRegion">
+        지금 <%= results[0].district %>에서 열린 공동 펀딩은..
+      </div>
       <div class="funding-container">
         <% results.forEach(result=> { %>
           <div class="funding-card">
@@ -64,7 +65,7 @@
       </div>
     </a>
   </div>
-  </div>
+</div>
 
 </div>
 </body>
