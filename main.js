@@ -1,32 +1,19 @@
 const express = require("express"),
     app = express();
-    layouts = require("express-ejs-layouts"),
+layouts = require("express-ejs-layouts"),
+    db = require("./models/index"),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     flash = require("connect-flash"),
-    db = require("./models/index"),
-    db.sequelize.sync({}); //alter:true
+    passport = require("passport"),
+    FileStore = require('session-file-store')(session);
 
-//const session = require("express-session"),
-flash = require("connect-flash");
-
+    db.sequelize.sync({});
+    const User = db.user;
 
 multer = require('multer'),
 multerGoogleStorage = require('multer-google-storage'),
 cors = require('cors');
-    
-app.use(flash()); //플래시메세지
-    
-app.use(session({
-        secret: 'your_secret_key', // 비밀 키를 원하는 값으로 설정하세요
-        resave: false,
-        saveUninitialized: true
-}));
-    
-app.use((req,res,next)=>{
-    res.locals.flashMessages = req.flash();
-    next();
-})
 
 // core 오류 방지 설정
 app.use(cors({
@@ -51,10 +38,45 @@ const upload = multer({
 });
 
 
-// View
+// 뷰 엔진 설정
 app.set('view engine', 'ejs');
 app.use(layouts);
-app.use(express.static('public')); //정적파일 사용
+app.use(express.static('public')); // 정적 파일 사용
+
+app.use(flash());
+
+// 세션 설정
+app.use(session({
+    secret: 'yorijori_secret_key',
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore()
+}));
+
+//플래시 메시지 미들웨어 설정
+app.use(flash());
+
+// 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
+app.use((req, res, next) => {
+    res.locals.successMessages = req.flash('success');
+    res.locals.errorMessages = req.flash('error');
+    next();
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.loggedIn = req.isAuthenticated();
+    res.locals.currentUser = req.user;
+    res.locals.flashMessages = req.flash();
+    console.log(res.locals.flashMessages);
+    next();
+});
+
 
 // 모든 요청 전에 실행되는 미들웨어
 app.use((req, res, next) => {
@@ -63,13 +85,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//세션설정
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true
-  }));
-  
+
 
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // joinFundingRouter 접근
@@ -80,6 +96,7 @@ const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
 const searchRouter = require("./routers/searchRouter.js"); 
+const authRouter = require("./routers/authRouter");
 
 // home 접근
 app.get("/", homeRouter);
@@ -90,7 +107,22 @@ app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
 
+
+app.set('view engine', 'ejs');
+
+// 라우터 설정
+app.use('/auth', authRouter);
+
+// joinFunding 접근
+app.use("/joinfundingPage", joinFundingRouter);
+
+// 로그인 및 사용자 관리 접근
+app.use("/auth", authRouter);
+
+// 서버 실행
 app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
 });
+
+module.exports = app;

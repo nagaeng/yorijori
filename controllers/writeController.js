@@ -191,18 +191,21 @@ exports.postWrite = async (req, res) => {
 // 게시글 눌렀을때 띄우기 
 exports.getWritedPage = async (req,res)=>{
         try{
+            let postvalue =[];
             //postId 로 post 객체 찾기
             if(req.query.postId){
-               let postvalue = await Post.findAll({
+               postvalue = await Post.findAll({
                     where:{
                         postId:{
                             [Op.like]:`%${req.query.postId}%`
                         }
                     }
-                })
+                });
             }
+            console.log(postvalue);
+            let menu =[];
             //postId 로 메뉴 객체 찾기
-            let menu = await Menu.findAll({
+             menu = await Menu.findAll({
                     where:{
                         menuId:{
                             [Op.like]:`%${postvalue[0].dataValues.menuId}%`
@@ -210,14 +213,42 @@ exports.getWritedPage = async (req,res)=>{
                     } 
              });
 
+             //postId 로 재료찾기
+             let ingredient=[];
+             ingredient = await Usage.findAll({
+                where:{
+                    postId:{
+                        [Op.like]:`%${req.query.postId}%`
+                    }
+                }
+             });
+             console.log(ingredient);
+             console.log('ingredi',ingredient);
+             let ingredientArr=[];
+             for(let i=0; i<ingredient.length; i++){
+                let result= await Ingredient.findAll({
+                where:{
+                    ingredientId:{
+                        [Op.like]:`%${ingredient[i].dataValues.ingredientId}%`
+                    }
+                }
+             });
+             ingredientArr.push(result);
+            }
+           
+
+             console.log("ingredi 배열",ingredientArr[0][0].dataValues.ingredientName);
             //writedPage 로 객체 전달
-            // res.render('write/writedPage',{
-            //     title:postvalue,
-            //     content:postvalue,
-            //     date:postvalue,
-            //     menu:menu,
-            //     category: menu,  
-            // });
+             res.render('write/writedPage',
+              {
+                title:postvalue[0].dataValues.title,
+                content:postvalue[0].dataValues.content,
+                date:postvalue[0].dataValues.date,
+                menu:menu[0].dataValues.menuName,
+                category:menu[0].dataValues.category,
+                ingredientArr:ingredientArr
+              }
+            );
 
         }catch(err){
             console.error("Error loading the write page:", err);
