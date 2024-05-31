@@ -22,19 +22,20 @@
         </button>
       </form>
     </div>
-    <% let region='성북구' %>
-      <div class="fundingRegion">
-        지금 <%= region %>에서 열린 공동 펀딩은..
-      </div>
+    <div> 
       <!-- DB에 목록이 있을 때 -->
       <% if (Object.keys(results).length > 0) { %> 
+        
+      <div class="fundingRegion">
+        지금 <%= results[0].district %>에서 열린 공동 펀딩은..
+      </div>
       <div class="funding-container">
         <% results.forEach(result=> { %>
           <div class="funding-card">
             <!-- 목록마다 링크 다르게해야함. 그룹아이디로 구별하기. -->
             <a href="<%=`/joinfundingPage/joinFunding/${result.fundingGroupId}` %>" class="funding-list">
               <div class="img-box">
-                <img src="/assets/image.png" class="img">
+                <img src="<%= result.imageUrl %>" alt="productImage" class="img">
               </div>
               <div class="information-box">
                 <p class="information">품명: <%= result.productName %> <%=result.quantity%>개
@@ -64,7 +65,7 @@
       </div>
     </a>
   </div>
-  </div>
+</div>
 
 </div>
 </body>

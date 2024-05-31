@@ -85,9 +85,11 @@ app.use("/joinfundingPage", joinFundingRouter);
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
+
 const writeRouter = require("./routers/writeRouter.js")
 const searchRouter = require("./routers/searchRouter.js"); 
 const authRouter = require("./routers/authRouter");
+
 
 // home 접근
 app.get("/", homeRouter);
@@ -98,8 +100,13 @@ app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
 
+// joinFunding 접근
+app.use("/joinfundingPage", joinFundingRouter);
+
+// 로그인 및 사용자 관리 접근
+app.use("/auth", authRouter);
 //플래시 메시지 미들웨어 설정
-app.use(flash());
+// app.use(flash());
 
 // 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
 app.use((req, res, next) => {
@@ -108,16 +115,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 
 // 라우터 설정
-app.use('/auth', authRouter);
-
-// joinFunding 접근
-app.use("/joinfundingPage", joinFundingRouter);
-
-// 로그인 및 사용자 관리 접근
-app.use("/auth", authRouter);
+// app.use('/auth', authRouter);
 
 // 서버 실행
 app.set("port", 80);
