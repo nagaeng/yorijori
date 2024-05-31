@@ -166,17 +166,3 @@ body{
     font-weight: bold;
     padding-top: 3px;
 }
-/* 
-.product-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.product {
-    flex: 0 1 calc(33.33% - 20px);
-    height: 200px;
-    background-color: #f0f0f0;
-} */
