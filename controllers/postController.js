@@ -75,7 +75,7 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
 
 // 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
 exports.getLoginRecommendPosts = async (req, res) => {
-    const userId = req.user ? req.user.userId : 1; // req.user.id가 올바른지 확인하세요.
+    const userId = req.user.userId; // req.user.id가 올바른지 확인하세요.
 
     try {
         // 1. 많이 본 게시글 3개 가져오기
@@ -115,6 +115,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
             })
         ]);
 
+        const savedPostIds = savedPosts.map(save => save.postId);
         const uniquePostIds = [...new Set([...viewedPosts.map(v => v.postId), ...savedPosts.map(s => s.postId)])];
 
         // 3. 추천 게시글 9개 가져오기
@@ -146,7 +147,8 @@ exports.getLoginRecommendPosts = async (req, res) => {
                                 [Op.or]: relatedTitles.map(title => ({ [Op.like]: `%${title}%` }))
                             }
                         }
-                    ]
+                    ],
+                    postId: { [Op.notIn]: uniquePostIds } // 사용자가 보거나 저장하지 않은 게시글 중 추천
                 },
                 include: [
                     {
@@ -176,7 +178,9 @@ exports.getLoginRecommendPosts = async (req, res) => {
         res.render("recipe/loginRecommendPosts", {
             viewPosts: viewPostsWithIngredients,
             recommendPosts: recommendPostsWithIngredients,
-            showCategoryBar: true
+            savedPostIds,
+            showCategoryBar: true,
+            user: { userId } // 사용자 정보 추가
         });
     } catch (err) {
         console.error("Error: ", err);
@@ -325,5 +329,29 @@ exports.getPostsBySubcategory = async (req, res) => {
     } catch (error) {
         console.error("Error fetching posts by subcategory:", error);
         res.status(500).send("Error retrieving posts");
+    }
+};
+
+exports.postSave = async (req, res) => {
+    const { userId, postId } = req.body;
+
+    try {
+        await db.save.create({ userId, postId });
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, error: error.message });
+    }
+};
+
+exports.postUnsave = async (req, res) => {
+    const { userId, postId } = req.body;
+
+    try {
+        await db.save.destroy({ where: { userId, postId } });
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, error: error.message });
     }
 };
