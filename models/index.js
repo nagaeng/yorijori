@@ -27,10 +27,6 @@ db.view = require('./view.js')(sequelize, Sequelize); //조회
 db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
-// Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
-
 // Posts and Images (1:N)
 db.post.hasMany(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });

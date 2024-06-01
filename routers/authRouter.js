@@ -7,10 +7,10 @@ const myPageController = require('../controllers/myPageController');
 const layouts = require('express-layouts');
 
 // 미들웨어 설정
-router.use(layouts);
-router.use(express.static("public"));
-router.use(express.urlencoded({ extended: false }));
-router.use(express.json());
+// router.use(layouts);
+// router.use(express.static("public"));
+// router.use(express.urlencoded({ extended: false }));
+// router.use(express.json());
 
 // 홈 페이지 라우트
 //router.get("/", homeController.index);
