@@ -19,7 +19,11 @@
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
                                 <h2><%= post.title %></h2>
-                                <button class="bookmark-button">★</button>
+                                <button
+                                    class="bookmark-button bookmark-not-saved" 
+                                    id="btn-<%= post.postId %>" 
+                                    onclick="redirectToLogin();">
+                                </button>
                                 <p>주재료: <%= post.ingredients %></p>
                             </div>
                         <% }); %>
@@ -40,5 +44,12 @@
             </a>
         </div>
     </div>
+
+    <script>
+        function redirectToLogin() {
+            alert('로그인이 필요합니다.');
+            window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
+        }
+    </script>
 </body>
 </html>

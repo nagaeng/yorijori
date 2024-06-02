@@ -3,7 +3,7 @@ const router = express.Router();
 db = require("../models/index");
 const postController = require("../controllers/postController");
 
-router.get("/", postController.getAllPosts);
+//router.get("/", postController.getAllPosts);
 router.get("/noLoginRecommend", postController.getNoLoginRecommendPosts);
 router.get("/loginRecommend", postController.getLoginRecommendPosts);
 router.get("/:category", postController.getPostsByCategory);

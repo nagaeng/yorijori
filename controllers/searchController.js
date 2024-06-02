@@ -4,6 +4,7 @@ const Post = db.post;
 
 exports.searchResult = async (req, res) => {
     try {
+        const userId = req.user?.userId || ""; // 사용자 id 받아오기
         const material = req.query.material; // 검색어 읽기
         const sort = req.query.sort; // 정렬 방법 읽기
         let order =  [[db.view, 'views', 'DESC']]; // 디폴트 정렬 방법 popularity 조회수 따라
@@ -75,11 +76,22 @@ exports.searchResult = async (req, res) => {
             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
         }));
 
+        // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
+        const savedPosts = await db.save.findAll({
+            where: { userId },
+            attributes: ['postId']
+        });
+
+        const savedPostIds = savedPosts.map(save => save.postId);
+        
+
         // 검색 결과 페이지 렌더링
         res.render('recipe/searchResult', {
             result_posts: postsWithIngredients,
             searchQuery: material,
             sort: sort,
+            savedPostIds,
+            user: { userId }
         });
     } catch (err) {
         console.error("Error rendering search page:", err);

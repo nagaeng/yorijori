@@ -12,48 +12,96 @@
     
     <%- include('subCategoryBar', { category: category }); %>
 
-<!-- 카테고리 선택 결과 컨테이너 박스 -->
-<div id="container">
-    <div id="side-bar"></div>
-    
-    <div id="searchResult">
-        <% if (posts.length > 0) { %>
-            <h1 class="title">총 '<span id="title"><%= posts.length %></span>'개의 레시피가 있습니다</h1>
-        <hr id="hr-top"> <!-- 수평선 -->
-        <!-- 정렬 순서 카테고리 -->
-        <div class="sort-by">
-            <a href="?sort=popularity" class="sort-method <%= sort === 'popularity' || !sort ? 'active' : '' %>">인기순</a>
-            <div id="ver"></div>
-            <a href="?sort=latest" class="sort-method <%= sort === 'latest' ? 'active' : '' %>">최신순</a>
-            <div id="ver"></div>
-            <a href="?sort=oldest" class="sort-method <%= sort === 'oldest' ? 'active' : '' %>">과거순</a>
-            <div id="ver"></div>
-            <a href="?sort=comments" class="sort-method <%= sort === 'comments' ? 'active' : '' %>">댓글 많은 순</a>
-        </div>
-        <hr id="hr-bottom"> <!-- 수평선 -->
+    <!-- 카테고리 선택 결과 컨테이너 박스 -->
+    <div id="container">
+        <div id="side-bar"></div>
+        
+        <div id="searchResult">
+            <% if (posts.length > 0) { %>
+                <h1 class="title">총 '<span id="title"><%= posts.length %></span>'개의 레시피가 있습니다</h1>
+            <hr id="hr-top"> <!-- 수평선 -->
+            <!-- 정렬 순서 카테고리 -->
+            <div class="sort-by">
+                <a href="?sort=popularity" class="sort-method <%= sort === 'popularity' || !sort ? 'active' : '' %>">인기순</a>
+                <div id="ver"></div>
+                <a href="?sort=latest" class="sort-method <%= sort === 'latest' ? 'active' : '' %>">최신순</a>
+                <div id="ver"></div>
+                <a href="?sort=oldest" class="sort-method <%= sort === 'oldest' ? 'active' : '' %>">과거순</a>
+                <div id="ver"></div>
+                <a href="?sort=comments" class="sort-method <%= sort === 'comments' ? 'active' : '' %>">댓글 많은 순</a>
+            </div>
+            <hr id="hr-bottom"> <!-- 수평선 -->
 
-        <div class="list-group">
-            <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
-            <% if(posts.length > 0) { %>                    
-                <% posts.forEach(post => { %>
-                    <div class="recipe-card">
-                        <% if (post.images && post.images.length > 0) { %>
-                            <% const firstImage = post.images[0]; %>
-                            <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
-                        <% } %>                    
-                        <h2><%= post.title %></h2>
-                        <p>주재료: <%= post.ingredients %></p>
-                    </div>
-                <% }); %>
+            <div class="list-group">
+                <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
+                <% if(posts.length > 0) { %>                    
+                    <% posts.forEach(post => { %>
+                        <div class="recipe-card">
+                            <% if (post.images && post.images.length > 0) { %>
+                                <% const firstImage = post.images[0]; %>
+                                <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                            <% } %>                    
+                            <h2><%= post.title %></h2>
+                            <button
+                                class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                id="btn-<%= post.postId %>" 
+                                onclick="saveBookmark('<%= post.postId %>');">
+                            </button>
+                            <p>주재료: <%= post.ingredients %></p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No posts available for this category.</p>
+                <% } %>
+            </div>
+            <!--페이징 넘버-->
             <% } else { %>
-                <p>No posts available for this category.</p>
+                <div id="no-result"><h1> 세부 카테고리 결과가 없습니다</h1></div>
             <% } %>
         </div>
-        <!--페이징 넘버-->
-        <% } else { %>
-            <div id="no-result"><h1> 세부 카테고리 결과가 없습니다</h1></div>
-        <% } %>
     </div>
-</div>
+
+    <script>
+        const userId = '<%= user ? user.userId : "" %>';
+
+        function saveBookmark(postId) {
+            if (!userId) {
+                alert('로그인이 필요합니다.');
+                window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
+                return;
+            }
+
+            const button = document.getElementById('btn-' + postId);
+            const isSaved = button.classList.contains('bookmark-saved');
+            const url = isSaved ? '/posts/unsave' : '/posts/save';
+            const method = isSaved ? 'POST' : 'POST'; // 모두 POST 메서드 사용
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, postId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (isSaved) {
+                        button.classList.remove('bookmark-saved');
+                        button.classList.add('bookmark-not-saved');
+                    } else {
+                        button.classList.remove('bookmark-not-saved');
+                        button.classList.add('bookmark-saved');
+                    }
+                } else {
+                    alert('Failed to save the recipe.');
+                }
+            })
+            .catch((error) => {
+                alert(error);
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>

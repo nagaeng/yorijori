@@ -2,39 +2,6 @@ const db = require("../models/index"),
 Post = db.post,
 Op = db.Sequelize.Op;
 
-// 전체 게시글
-exports.getAllPosts = async (req, res) => {
-    try {
-        const posts = await db.post.findAll({
-            include: [
-              {
-                model: db.ingredient,
-                through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
-              },
-              {
-                model: db.image,
-                as: 'images'
-              }
-            ]
-        });
-
-        const postsWithIngredients = posts.map(post => ({
-            ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
-        }));
-        
-        res.render("recipe/posts", {
-            posts: postsWithIngredients,
-            showCategoryBar: true
-        });
-    } catch (err) {
-        console.error("Error: ", err);
-        res.status(500).send({
-            message: err.message
-        });
-    }
-};
-
 // 많이 본 & 최신 게시글 (로그인 X)
 exports.getNoLoginRecommendPosts = async (req, res) => {
     try {
@@ -75,7 +42,7 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
 
 // 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
 exports.getLoginRecommendPosts = async (req, res) => {
-    const userId = req.user.userId; // req.user.id가 올바른지 확인하세요.
+    const userId = req.user.userId; // 사용자 id 받아오기
 
     try {
         // 1. 많이 본 게시글 3개 가져오기
@@ -192,6 +159,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
 
 // 메인 카테고리별 게시글
 exports.getPostsByCategory = async (req, res) => {
+    const userId = req.user?.userId || ""; // 사용자 id 받아오기
     const category = req.params.category; // URL에서 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -235,10 +203,20 @@ exports.getPostsByCategory = async (req, res) => {
             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
         }));
 
+        // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
+        const savedPosts = await db.save.findAll({
+            where: { userId },
+            attributes: ['postId']
+        });
+
+        const savedPostIds = savedPosts.map(save => save.postId);
+
         res.render('recipe/categoryPosts', { // 카테고리별 포스트 렌더링할 뷰
             posts: postsWithIngredients,
             category: category,
             showCategoryBar: true,
+            savedPostIds,
+            user: { userId },
             sort: sort // 현재 정렬 방법 전달
         });
 
@@ -250,6 +228,7 @@ exports.getPostsByCategory = async (req, res) => {
 
 // 세부 카테고리별 게시글
 exports.getPostsBySubcategory = async (req, res) => {
+    const userId = req.user?.userId || ""; // 사용자 id 받아오기
     const { category, subcategory } = req.params; // URL에서 메인 카테고리와 세부 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -316,12 +295,22 @@ exports.getPostsBySubcategory = async (req, res) => {
             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
         }));
 
+        // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
+        const savedPosts = await db.save.findAll({
+            where: { userId },
+            attributes: ['postId']
+        });
+
+        const savedPostIds = savedPosts.map(save => save.postId);
+
         res.render('recipe/subCategoryPosts', { // 세부 카테고리별 포스트 렌더링할 뷰
             posts: postsWithIngredients,
             category: category,
             subcategory: subcategory,
             showCategoryBar: true,
             showSubCategoryBar: true,
+            savedPostIds,
+            user: { userId },
             sort: sort // 현재 정렬 방법 전달
         });
 
