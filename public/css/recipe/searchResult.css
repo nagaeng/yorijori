@@ -104,6 +104,11 @@ hr {
     border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
 }
 
+/* 페이지 넘버 */
+.pagination{
+    margin: 50px;
+}
+
 /* 펀딩 아이콘 위치*/
 #side-bar {
     width: 200px;
