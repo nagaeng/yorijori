@@ -4,10 +4,11 @@ const db = require("../models"),
     Post = db.post,
     Image = db.image,
     Usage = db.usage,
+    Comment = db.comment,
     Sequelize = require('sequelize'),
     Op = Sequelize.Op;
 
-
+//wirte 페이지 이동
 exports.getWritePage = async (req, res) => {
     try {
         res.render('write/write'); 
@@ -19,6 +20,7 @@ exports.getWritePage = async (req, res) => {
     }
 };
 
+//재료 받아오기
 exports.getIngredients = async (req, res) => {
     try {
         const searchIngredient = req.query.searchIngredient || ''; //url로 받아오기
@@ -48,6 +50,7 @@ exports.getIngredients = async (req, res) => {
     }
 };
 
+//메뉴 받아오기
 exports.getMenu = async (req, res) => {
     try {
         const searchMenu = req.query.searchMenu || ''; //url로 받아오기
@@ -162,7 +165,8 @@ exports.postWrite = async (req, res) => {
         }
         //post된 ingredientId 찾아서 메뉴 db에 넣기
         let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
-        for(let i=0; i<req.body.ingredi.length; i++){
+        console.log(ingredient.length);
+        for(let i=0; i<ingredient.length; i++){
             let ingredientArr = await Ingredient.findAll({
                 where:{
                     ingredientName:{
@@ -213,7 +217,7 @@ exports.getWritedPage = async (req,res)=>{
                     } 
              });
 
-             //postId 로 재료찾기
+             //postId 로 재료객체 찾기
              let ingredient=[];
              ingredient = await Usage.findAll({
                 where:{
@@ -222,8 +226,7 @@ exports.getWritedPage = async (req,res)=>{
                     }
                 }
              });
-             console.log(ingredient);
-             console.log('ingredi',ingredient);
+             //찾은 재료id로 재료이름 배열에 담기 
              let ingredientArr=[];
              for(let i=0; i<ingredient.length; i++){
                 let result= await Ingredient.findAll({
@@ -235,9 +238,22 @@ exports.getWritedPage = async (req,res)=>{
              });
              ingredientArr.push(result);
             }
-           
 
-             console.log("ingredi 배열",ingredientArr[0][0].dataValues.ingredientName);
+            //받은 userID
+            let LoginuserId = res.locals.currentUser.getDataValue('userId');
+            console.log(LoginuserId);
+
+            //userId로 commet 개수 띄우기
+            let comment =[];
+            comment = await Comment.findAll({
+                where:{
+                    postId:{
+                        [Op.like]:`%${req.query.postId}%`
+                    }
+                }
+            });
+            console.log(comment);
+            //userId로 조회수 띄우기 
             //writedPage 로 객체 전달
              res.render('write/writedPage',
               {
@@ -246,7 +262,10 @@ exports.getWritedPage = async (req,res)=>{
                 date:postvalue[0].dataValues.date,
                 menu:menu[0].dataValues.menuName,
                 category:menu[0].dataValues.category,
-                ingredientArr:ingredientArr
+                ingredientArr:ingredientArr,
+                userId: req.body.userId,
+                LoginuserId : LoginuserId,
+                comment : comment
               }
             );
 

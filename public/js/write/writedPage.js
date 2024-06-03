@@ -16,7 +16,9 @@ const comm = document.querySelector('.comm-content');
 const comSu = document.querySelector('.com-su');
 const dok = document.querySelector('.dok');
 const correction = document.querySelector('.co');
+const suOrErase = document.querySelector('.alter-box');
 let i = 0; 
+
 
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
 btnNo.addEventListener("click" , ()=>{ modal.style.display="none";} );
@@ -73,5 +75,17 @@ dok.addEventListener("click",()=>{
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const btBar = document.querySelector('.bt-bar');
+    if (btBar) {
+      const userId = '<%= userId %>';
+      const loginUserId = '<%= LoginuserId %>';
+      if (userId === loginUserId) {
+        btBar.style.display = 'flex';
+      } else {
+        btBar.style.display = 'none';
+      }
+    }
+  });
 
-
+  

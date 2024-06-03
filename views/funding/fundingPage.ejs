@@ -31,18 +31,19 @@
         </button>
       </form>
     </div>
+      <!-- DB에 목록이 있을 때 -->
+      <div>
+      <% if (Object.keys(products).length > 0) { %> 
       <div class="fundingRegion">
         지금 <%= products[0].district %>에서 열린 공동 펀딩은..
       </div>
-      <!-- DB에 목록이 있을 때 -->
-      <% if (Object.keys(products).length > 0) { %> 
       <div class="funding-container">
         <% products.forEach(product=> { %>
           <div class="funding-card">
             <!-- 목록마다 링크 다르게해야함. 그룹아이디로 구별하기. -->
             <a href="<%=`/joinfundingPage/joinFunding/${product.fundingGroupId}` %>" class="funding-list">
               <div class="img-box">
-                <img src="/assets/image.png" class="img">
+                <img src="<%= product.imageUrl %>" alt="productImage" class="img">
               </div>
               <div class="information-box">
                 <p class="information">품명: <%= product.productName %> <%=product.quantity%>개
@@ -72,6 +73,7 @@
       </div>
     </a>
   </div>
+</div>
   </div>
 </div>
 </body>

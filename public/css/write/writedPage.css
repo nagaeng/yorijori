@@ -47,12 +47,17 @@ header{
     margin-right: 5px;
 }
 
+.bt-bar{
+    display: none;
+}
+
 .dok{
     background-color:transparent;
     border: none;
     width: 1.5vw;
     height: 1.5vw;
     cursor: pointer;
+    display: none;
 }
 
 .dok img{
@@ -87,10 +92,11 @@ h2{
 
 .data{
     margin: 10px;
-    height: 300px;
+    min-height: 500px; /* 최소 높이 설정 */
     font-weight: 400;
     font-size: 20px;
     line-height: 20px;
+    overflow: auto; 
 }
 
 .writted-bottom{
@@ -293,6 +299,8 @@ h2{
 
 .data p{
     box-sizing: content-box;
+    height: 200px;
+    
 }
 
 p img{

@@ -39,11 +39,15 @@
                 <div class="ueerNic">닉네임</div>
               </div>
               <div class="bt-bar">
+                <%if(LoginuserId==userId){%>
                 <button class="dok">
                   <img src="/assets/---.png" />
                 </button>
               </div>
-            </div>
+              </div>
+               <%}%>
+               
+              </article>
             <div class="alter-box">
               <div class="correction co">
                 <a href="../html/wirte.html">
@@ -53,6 +57,7 @@
                 <div class="su erase">삭제하기</div>
               </div>
             </div>
+            
             <h2><%=title%></h2>
             <div class="data">
               <%-content%>
@@ -60,7 +65,7 @@
             <div class="writted-bottom">
               <div class="all-writed">
                 <div>댓글</div>
-                <div class="writted-num">1개</div>
+                <div class="writted-num"></div>
               </div>
               <div class="all-writed">
                 <div>조회수</div>
