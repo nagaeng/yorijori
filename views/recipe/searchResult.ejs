@@ -11,7 +11,9 @@
 <body>
     <!-- 검색 결과 컨테이너 박스 -->
     <div id="container">
-        <div id="side-bar"></div>
+        <div id="side-bar">
+            <div class="funding-icon"></div><!--side-bar width 안먹어서 임의로 넣어놓음-->
+        </div>
         
         <div id="searchResult">
             <% if (filteredPosts.length > 0) { %>
@@ -46,7 +48,15 @@
                     <% } %>
                 </div>
                 <% } else { %>
-                    <div id="no-result"><h1> 검색 결과가 없습니다</h1></div>
+                    <div id="no-result">
+                        <div class="img-box">
+                            <img src="/assets/image.png" class="no-result-img">
+                        </div>
+                        <div class="no-result-comment">
+                        <h1 class="comment1">'<span id="title"><%= searchQuery %></span>'에 대한 검색 결과가 없습니다</h1>
+                        <h3 class="comment2">정확한 단어로 다시 검색해주세요</h3>   
+                        </div>                       
+                    </div>
                 <% } %>
     
         </div>
@@ -65,6 +75,7 @@
                 </a>
             </div>
         </div>
+        
     </div>
 </body>
 </html>
