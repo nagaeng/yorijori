@@ -93,7 +93,7 @@ exports.searchResult = async (req, res) => {
             searchQuery: material,
             sort: sort,
             savedPostIds,
-            user: { userId }
+            user: { userId },
             pageNum: pageNum, // 전체 페이지 개수
             currentPage: currentPage //현재 페이지
         });
