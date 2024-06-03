@@ -99,7 +99,6 @@ module.exports = {
         }
     },
 
-    // 펀딩 생성 페이지를 렌더링
     showCreateFundingPage: async (req, res) => {
         try {
             let productId = req.params.productId;
@@ -121,23 +120,27 @@ module.exports = {
                 replacements: [productId],
                 type: Sequelize.QueryTypes.SELECT
             });
-
-            if (product && product.length > 0) {
-                product[0].formattedExpirationDate = formatDate(product[0].expirationDate);
+    
+            let representative = await User.findOne({
+                where: { userId: req.user.id }
+            });
+    
+            if (product) {
+                product.formattedExpirationDate = formatDate(product.expirationDate);
             }
-
-            res.render("funding/createFunding", { product: product[0] });
+    
+            res.render("funding/createFundingPage", { product, representative });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
         }
     },
-
-    // 펀딩을 생성하고 성공 페이지를 렌더링
+    
     createFunding: async (req, res) => {
         try {
-            let { productId, deliveryDate, fundingDate, city, district, town, detail, distributionDate, people, representativeUserId, deliveryCost } = req.body;
-            
+            let { productId, deliveryDate, city, district, town, detail, people, deliveryCost } = req.body;
+            let fundingDate = new Date();
+    
             let newFundingGroup = await FundingGroup.create({
                 fundingProductId: productId,
                 deliveryDate,
@@ -148,11 +151,11 @@ module.exports = {
                 district,
                 town,
                 detail,
-                distributionDate,
+                distributionDate: fundingDate,
                 people,
-                representativeUserId
+                representativeUserId: req.user.id
             });
-
+    
             res.render("funding/createFundingSuccess", { fundingGroup: newFundingGroup });
         } catch (error) {
             res.status(500).send({ message: error.message });

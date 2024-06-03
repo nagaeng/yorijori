@@ -7,6 +7,7 @@ router.get('/create_funding_search', createFundingController.showCreateFundingSe
 router.get('/search_results', createFundingController.searchProducts);
 router.get('/product_detail/:productId', createFundingController.productDetail);
 router.get('/create_funding/:productId', createFundingController.showCreateFundingPage);
-router.post('/create_funding', createFundingController.createFunding);
+router.post('/create_funding', createFundingController.sendCreateFundingPage);
+router.get('/create_funding_success/:fundingGroupId', createFundingController.createFunding);
 
 module.exports = router;
