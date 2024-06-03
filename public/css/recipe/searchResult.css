@@ -127,6 +127,10 @@ hr {
 .bookmark-not-saved {
     background-image: url('/assets/bookmark1.png'); /* 초기 이미지 경로 */
 }
+/* 페이지 넘버 */
+.pagination{
+    margin: 50px;
+}
 
 /* 펀딩 아이콘 위치*/
 #side-bar {

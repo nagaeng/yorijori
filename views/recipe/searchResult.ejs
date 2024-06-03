@@ -42,18 +42,52 @@
                         </button>
                         <p>주재료: <%= result_posts[i].ingredients %></p>
                     </div>
+            <% if (filteredPosts.length > 0) { %>
+                <h1 class="title">'<span id="title"><%= searchQuery %></span>' 검색 결과 '<span id="title"><%= filteredPosts.length %></span>'개의 레시피가 있습니다</h1>
+                <hr id="hr-top"> <!-- 수평선 -->
+                <!-- 정렬 순서 카테고리 -->
+                <div class="sort-by">
+                    <a href="?sort=popularity&material=<%= searchQuery %>" class="sort-method" id="popularity">인기순</a>
+                    <div id="ver"></div>
+                    <a href="?sort=latest&material=<%= searchQuery %>" class="sort-method" id="latest">최신순</a>
+                    <div id="ver"></div>
+                    <a href="?sort=oldest&material=<%= searchQuery %>" class="sort-method" id="oldest">과거순</a>
+                    <div id="ver"></div>
+                    <a href="?sort=comments&material=<%= searchQuery %>" class="sort-method" id="comments">댓글 많은 순</a>
+                </div>
+                <hr id="hr-bottom"> <!-- 수평선 -->
+    
+                <div class="list-group">
+                    <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
+                    <% for (var i = 0; i< result_posts.length; i++){ %>
+                        <div class="recipe-card">
+                            <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
+                            <h2><%= result_posts[i].title %></h2>
+                            <p>주재료: <%= result_posts[i].ingredients %></p>
+                        </div>
+                    <% } %>
+                </div>
+                <!--페이징 넘버-->
+                <div class="pagination">
+                    <% for (let page = 1; page <= pageNum; page++) { %>
+                    <a href="?sort=<%= sort %>&material=<%= searchQuery %>&page=<%= page %>" class="<%= currentPage === page ? 'active' : '' %>"><%= page %></a>
+                    <% } %>
+                </div>
+                <% } else { %>
+                    <div id="no-result"><h1> 검색 결과가 없습니다</h1></div>
                 <% } %>
-            </div>
-            <!--페이징 넘버-->
-            <% } else { %>
-                <div id="no-result"><h1> 검색 결과가 없습니다</h1></div>
-            <% } %>
+    
         </div>
 
         <div id="side-bar">    
-            <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
             <div class="goto-funding">
+                <% if (loggedIn) { %>
+                <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
                 <a href="/joinFundingPage/fundingPage">
+                <%} else {%>
+                <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+                <a href="/auth/login">
+                <%} %>
                 <img src="/assets/image.png" class="funding-icon">
                 <p class="funding-txt">펀딩하러 가기</p>
                 </a>
