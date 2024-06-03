@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/styles.css"> 
     <link rel="stylesheet" href="/css/recipe/searchResult.css">
     <script src="/js/recipe/searchResult.js"></script>
-    <title>search result</title>
+    <title>Search Result</title>
 </head>
 <body>
     <!-- 검색 결과 컨테이너 박스 -->
@@ -71,10 +71,10 @@
                 <% if (loggedIn) { %>
                 <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
                 <a href="/joinFundingPage/fundingPage">
-                <%} else {%>
+                <% } else { %>
                 <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
                 <a href="/auth/login">
-                <%} %>
+                <% } %>
                 <img src="/assets/image.png" class="funding-icon">
                 <p class="funding-txt">펀딩하러 가기</p>
                 </a>
@@ -86,7 +86,7 @@
     <script>
         const userId = '<%= user ? user.userId : "" %>';
 
-        function saveBookmark(postId) {
+        function saveBookmark(postId) { // 북마크로 게시글 저장 or 삭제
             if (!userId) {
                 alert('로그인이 필요합니다.');
                 window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
@@ -96,7 +96,7 @@
             const button = document.getElementById('btn-' + postId);
             const isSaved = button.classList.contains('bookmark-saved');
             const url = isSaved ? '/posts/unsave' : '/posts/save';
-            const method = isSaved ? 'POST' : 'POST'; // 모두 POST 메서드 사용
+            const method = 'POST'; // 모두 POST 메서드 사용
 
             fetch(url, {
                 method: method,
@@ -116,7 +116,7 @@
                         button.classList.add('bookmark-saved');
                     }
                 } else {
-                    alert('Failed to save the recipe.');
+                    alert('게시글 저장 실패');
                 }
             })
             .catch((error) => {
