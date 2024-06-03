@@ -27,10 +27,6 @@ db.view = require('./view.js')(sequelize, Sequelize); //조회
 db.menu.hasMany(db.post, { foreignKey: 'menuId' });
 db.post.belongsTo(db.menu, { foreignKey: 'menuId' });
 
-// Menus and Ingredients (N:M)
-db.menu.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'menuId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.menu, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'menuId' });
-
 // Posts and Images (1:N)
 db.post.hasMany(db.image, { foreignKey: 'postId' });
 db.image.belongsTo(db.post, { foreignKey: 'postId' });
@@ -50,6 +46,10 @@ db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 // Posts and Ingredients (N:M)
 db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });
 db.ingredient.belongsToMany(db.post, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
+
+// Posts and Users (저장)
+db.post.belongsToMany(db.ingredient, { through: db.save, foreignKey: 'postId', otherKey: 'userId' });
+db.user.belongsToMany(db.post, { through: db.save, foreignKey: 'userId', otherKey: 'postId' });
 
 // Funding Groups and Funding Products
 db.fundingGroup.belongsTo(db.fundingProduct, { foreignKey: 'fundingProductId' });

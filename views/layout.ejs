@@ -18,18 +18,35 @@
                 </button>
             </form>
         </div>
-        <!-- 로그인하기 전 회원가입, 로그인 버튼 
-        <div id="before-login">
-            <div id="signUp"><a href="#">회원가입</a></div>
-            <div>&nbsp;|&nbsp;</div>
-            <div id="signIn"><a href="#">로그인</a></div>
-        </div>-->
-        <!-- 로그인한 후 -->
+       <!-- 로그인한 후 -->
+       <% if (loggedIn) { %>
         <div id="after-login">
-            <div id="mypage"><a href="#"><i class="fa-solid fa-circle-user"></i></a></div>
-            <a href="#"><div id="write-post"><p>글쓰기</p></div></a>
+            <div id="mypage"><a href="/auth/mypage"><i class="fa-solid fa-circle-user"></i></a></div>
+            <a href="/write"><div id="write-post"><p>글쓰기</p></div></a>
         </div>
+        <%} else {%>
+         <!-- 로그인하기 전 회원가입, 로그인 버튼 -->
+         <div id="before-login">
+            <div id="signUp"><a href="/auth/login">회원가입</a></div>
+            <div>&nbsp;|&nbsp;</div>
+            <div id="signIn"><a href="/auth/login">로그인</a></div>
+        </div>
+        <%} %>
     </header>
+
+    <div class="flashes">
+        <% if(flashMessages) { %>
+            <% if (flashMessages.success) { %>
+                <div class ="flash success">
+                    <%= flashMessages.success %>
+                </div>
+            <% } else if (flashMessages.error) { %>
+                <div class="flash error">
+                    <%= flashMessages.error %>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
 
     <% if (showCategoryBar) { %>
         <%- include('recipe/categoryBar.ejs') %>
