@@ -5,6 +5,17 @@ const db = require("../models/index"),
     sequelize = db.sequelize,
     Sequelize = db.Sequelize;
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
+    const formattedDate = date.toLocaleDateString('ko-KR', options);
+    
+    // Format the date as YYYY/MM/DD (day)
+    const [year, month, day] = formattedDate.split('. ');
+    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+    return `${year}/${month}/${day} (${dayOfWeek})`;
+}
+
 module.exports = {
     // 펀딩 검색 페이지를 렌더링
     showCreateFundingSearchPage: async (req, res) => {
@@ -42,6 +53,11 @@ module.exports = {
                 type: Sequelize.SELECT
             });
             
+            // Format the expirationDate for each result
+            results.forEach(result => {
+                result.formattedExpirationDate = formatDate(result.expirationDate);
+            });
+
             console.log(results);
 
             res.render("funding/searchResults", { results, query });
@@ -70,13 +86,12 @@ module.exports = {
                             fundingProducts 
                         WHERE 
                             fundingProductId = ${productId}`;
-            let [product, a] = await sequelize.query(sql, {type: Sequelize.SELECT});
-            res.local
-            // let [product] = await sequelize.query(sql, {
-            //     replacements: [productId],
-            //     type: Sequelize.QueryTypes.SELECT
-            // });
-            console.log(product);
+            let [product] = await sequelize.query(sql, { type: Sequelize.SELECT });
+
+            if (product && product.length > 0) {
+                product[0].formattedExpirationDate = formatDate(product[0].expirationDate);
+            }
+
             res.render("funding/productDetail", { product: product[0] });
         } catch (error) {
             res.status(500).send({ message: error.message });
@@ -106,6 +121,10 @@ module.exports = {
                 replacements: [productId],
                 type: Sequelize.QueryTypes.SELECT
             });
+
+            if (product && product.length > 0) {
+                product[0].formattedExpirationDate = formatDate(product[0].expirationDate);
+            }
 
             res.render("funding/createFunding", { product: product[0] });
         } catch (error) {

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/create_funding.css">
     <link rel="stylesheet" href="/css/funding/joinFunding.css">
 
     <title>Yorijori Funding Product Searching</title>
@@ -17,9 +16,6 @@
                 <div class="funding-box" onclick="showProductDetail('<%= product.fundingProductId %>')">
                     <div class="information-box">
                         <div class="information-list">
-                            <div class="information">상품 번호: 
-                                <span class="info"> <%= product.fundingProductId %> </span>
-                            </div>
                             <div class="information">상품명: 
                                 <span class="info"> <%= product.productName %> </span>
                             </div>
@@ -31,9 +27,6 @@
                             </div>
                             <div class="information">가격:
                                 <span class="info"> <%= product.unitPrice %> </span>
-                            </div>
-                            <div class="information">유통기한: 
-                                <span class="info"> <%= product.expirationDate %> </span>
                             </div>
                         </div>
                         <div class="img">

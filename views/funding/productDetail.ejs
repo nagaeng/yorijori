@@ -4,36 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/product_detail.css">
+    <link rel="stylesheet" href="/css/funding/product_detail.css">
 
     <title>Yorijori Product Detail</title>
 </head>
 <body>
     <div class="content">
-        <div class="product-detail">
-            <div class="detail-item">
-                <span class="label">상품번호:</span>
-                <span class="value"><%= product.productId %></span>
-            </div>
-            <div class="detail-item">
-                <span class="label">상품명:</span>
-                <span class="value"><%= product.productName %></span>
-            </div>
-            <div class="detail-item">
-                <span class="label">상품 수량:</span>
-                <span class="value"><%= product.quantity %></span>
-            </div>
-            <div class="detail-item">
-                <span class="label">판매자(기업):</span>
-                <span class="value"><%= product.seller %></span>
-            </div>
-            <div class="detail-item">
-                <span class="label">가격:</span>
-                <span class="value"><%= product.unitPrice %></span>
-            </div>
-            <div class="detail-item">
-                <span class="label">유통기한:</span>
-                <span class="value"><%= product.expirationDate %></span>
+        <div class="information-box">
+            <div class="information-list">
+                <div class="information">상품번호:
+                    <span class="info"><%= product.fundingProductId %></span>
+                </div>
+                <div class="information">상품명:
+                    <span class="info"><%= product.productName %></span>
+                </div>
+                <div class="information">상품 수량:
+                    <span class="info"><%= product.quantity %></span>
+                </div>
+                <div class="information">판매자(기업):
+                    <span class="info"><%= product.seller %></span>
+                </div>
+                <div class="information">가격:
+                    <span class="info"><%= product.unitPrice %></span>
+                </div>
+                <div class="information">유통기한:
+                    <span class="info"><%= product.expirationDate %></span>
+                </div>
+            </div> 
+            <div class="img">
+                <img src="<%= product.imageUrl %>" alt="Product Image"></img>
             </div>
         </div>
     </div>
