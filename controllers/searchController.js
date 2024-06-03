@@ -7,7 +7,7 @@ exports.searchResult = async (req, res) => {
         const material = req.query.material; // 검색어 읽기
         const sort = req.query.sort; // 정렬 방법 읽기
 
-        let order =  [Sequelize.literal('(SELECT views FROM views WHERE views.postId = post.postId)'), 'DESC']; // 디폴트 정렬 방법 popularity 조회수 따라
+        let order =  [Sequelize.literal('(SELECT views FROM views WHERE views.postId = post.postId) DESC,date DESC')]; // 디폴트 정렬 방법 popularity 조회수 따라
 
         // 값에 따라 정렬 방법 선택
          if (sort === 'latest') {
@@ -15,7 +15,7 @@ exports.searchResult = async (req, res) => {
         } else if (sort === 'oldest') {
             order = [['date', 'ASC']]; // 과거순
         } else if (sort === 'comments') {
-            order = Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId) DESC'); // 댓글 많은 순
+            order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId) DESC, date DESC')]; // 댓글 많은 순
         }
 
         let filteredPosts = []; // 검색 결과 게시물을 담을 배열
@@ -67,8 +67,9 @@ exports.searchResult = async (req, res) => {
                     model: db.image,
                     as: 'images'
                 }
-            ],                
-            order: [order],
+            ],  
+            group: ['post.postId'],             
+            order: [order],            
             limit: pageSize,
             offset: offset
         });
@@ -80,6 +81,7 @@ exports.searchResult = async (req, res) => {
         
         // 검색 결과 페이지 렌더링
         res.render('recipe/searchResult', {
+            showCategoryBar: true,
             filteredPosts: filteredPosts,
             result_posts: postsWithIngredients,
             searchQuery: material,
