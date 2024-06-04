@@ -125,11 +125,15 @@ module.exports = {
      },
      */
 
+    edit:(req, res) => {
+        res.render("auth/editpwd");
+    },
+
     edit: async(req, res, next) => {
         let userId = req.params.id;
         try{
             let user = await User.findByPk(userId);
-            res.render("/auth/edit", {
+            res.render("/auth/editpwd", {
                 user: user
             });
         }

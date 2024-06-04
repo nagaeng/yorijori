@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>요리조리_마이페이지</title>
-    <link rel="stylesheet" href="/css/auth/mypage_main.css">
+    <link rel="stylesheet" href="/css/auth/mypage_myfunding.css">
 </head>
 
 <body>
     <div class="container">
         <div class="inincontainer">
-            <div class="mypage-main">마이페이지 > 나의 레시피</div>
+            <div class="mypage-main">마이페이지 > 내가 연 펀딩</div>
             <div class="incontainer">
                 <div class="menu-bar">
                     <div class="menu-bar-option">
@@ -46,13 +46,18 @@
                     <%if (Object.keys(posts).length>0) { %>
                         <% posts.forEach(post=> { %>
                             <div class="mypost">
+                                <div class="img-box">
+                                    <img src="<%= post.imageUrl %>" alt="productImage" class="img">
+                                  </div>
                                 <h2>
-                                    <%= post.title %>
+                                    <%= post.productName %>
+                                    <p>기간: <%= post.fundingDate %></p> 
+                                    <p>참여인원: <%= post.people %>명</p>
                                 </h2>
                             </div>
-                            <% })} else{ %>
-                                <p>no list</p>
-                                <% }%>
+                        <% })} else{ %>
+                            <p>no list</p>
+                        <% }%>
                 </div>
 
             </div>
