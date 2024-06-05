@@ -35,7 +35,7 @@
                 <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
                 <% for (var i = 0; i< result_posts.length; i++){ %>
                     <div class="recipe-card">
-                        <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
+                        <img src="<%= result_posts[i].images.length > 0 ? result_posts[i].images[0].imageUrl : '/assets/image.png' %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
                         <h2><%= result_posts[i].title %></h2>
                         <button
                             class="bookmark-button <%= savedPostIds.includes(result_posts[i].postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
