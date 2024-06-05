@@ -1,16 +1,17 @@
-/* Ensure body styles are consistent */
+header {
+    z-index: 1000;
+}
+
 body {
     color: #12373A;
 }
 
-/* Center the container */
 #container{
     display: flex;
     justify-content: center;
     position: relative;
 }
 
-/* Main box for product details */
 .funding-box {
     height: 500px;
     width: 1000px;
@@ -21,7 +22,6 @@ body {
     align-items: center; /* Center vertically */
 }
 
-/* Selector position */
 #select {
     height: 50px;
     font-size: 25px;
@@ -30,7 +30,6 @@ body {
     position: absolute;
 }
 
-/* Style for the information box */
 .information-box {
     display: flex;
     justify-content: space-between; 
@@ -41,7 +40,6 @@ body {
     margin: 50px auto 0 auto;
 }
 
-/* List of information aligned to the left */
 .information-list {
     display: flex;
     flex-direction: column; 
@@ -49,7 +47,6 @@ body {
     margin: 65px auto 0 20px; 
 }
 
-/* Style for each piece of information */
 .information {
     font-size: 22px;
     height: 35px;

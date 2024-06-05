@@ -2,46 +2,99 @@ header {
     z-index: 1000;
 }
 
-.container {
-    max-width: 600px;
+body {
+    color: #12373A;
+}
+
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.funding-box {
+    height: 500px;
+    width: 1000px;
     margin: auto;
+    margin-top: 90px;
+    display: flex;
+    justify-content: center; /* Center the information-box */
+    align-items: center; /* Center vertically */
+}
+
+#select {
+    height: 50px;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-left: 90px;
+    position: absolute;
+}
+
+.information-box {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1000px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+    margin: 50px auto 0 auto;
 }
 
 h1 {
     text-align: center;
+    margin-top: 20px;
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
-.form-group {
+.information {
+    font-size: 22px;
+    height: 35px;
+    width: auto;
     margin-bottom: 15px;
+    font-weight: bold;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
+.info {
+    background-color: #CED7C5;
+    font-weight: lighter;
+    height: 22px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+.form-containter
+ {
+    margin-top: 20px;
+ }
+
+.img {
+    height: 260px;
+    width: 260px;
+    background-color: transparent;
+    display: block; 
+    margin-left: auto; 
 }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.funding-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px; 
+}
+
+.funding-button {
+    background-color: #ADBC9F;
+    color: #12372A;
+    border: 2.5px solid #12372A;
+    border-radius: 90px;
+    padding: 10px 30px; 
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
-    background-color: #218838;
+.funding-button:hover {
+    background-color: #12372A;
+    color: #ADBC9F;
 }
