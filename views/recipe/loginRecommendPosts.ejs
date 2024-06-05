@@ -5,11 +5,19 @@
     <title>Combined Posts</title>
     <link rel="stylesheet" href="/css/recipe/styles.css">
     <link rel="stylesheet" href="/css/recipe/searchResult.css">
+    <script src="/js/recipe/bookmark.js"></script>
 </head>
 <body>
+    <div id="container-box">
+
+    <div id="side-bar">
+        <div class="funding-icon"></div><!--side-bar width 안먹어서 임의로 넣어놓음-->
+    </div>
+     
     <div class="posts-section">
+        <div class="view-posts-container">
         <h1>많이 본 게시글</h1> 
-        <div id="container" class="view-posts-container">
+       
             <div id="searchResult" class="view-posts">
                 <% if (viewPosts.length > 0) { %>
                     <div class="list-group">
@@ -33,11 +41,9 @@
                 <% } %>
             </div>
         </div>
-    </div>
-
-    <div class="posts-section">
-    <h1>추천 게시글</h1> 
-        <div id="container" class="recommend-posts-container">
+        <div class="recommend-posts-container">
+        <h1>추천 게시글</h1> 
+        
             <div id="searchResult" class="recommend-posts">
                 <% if (recommendPosts.length > 0) { %>
                     <div class="list-group">
@@ -64,17 +70,29 @@
     </div>
 
     <div id="side-bar">    
-        <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
         <div class="goto-funding">
+            <% if (loggedIn) { %>
+            <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
             <a href="/joinFundingPage/fundingPage">
+            <% } else { %>
+            <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+            <a href="/auth/login"  onclick="redirectToLogin();">
+            <% } %>
             <img src="/assets/image.png" class="funding-icon">
             <p class="funding-txt">펀딩하러 가기</p>
             </a>
         </div>
     </div>
 
-    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+    </div>
 
-    <script src="/js/recipe/bookmark.js"></script>
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+    <script>
+        function redirectToLogin() {
+            alert('로그인이 필요합니다.');
+            window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
+        }
+    </script>
+    
 </body>
 </html>
