@@ -23,12 +23,14 @@
                                     <% if (post.images && post.images.length > 0) { %>
                                         <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                     <% } %>
+                                    <div class="btn-position">
                                     <h2><%= post.title %></h2>
                                     <button
                                         class="bookmark-button bookmark-not-saved" 
                                         id="btn-<%= post.postId %>" 
                                         onclick="redirectToLogin();">
                                     </button>
+                                    </div>
                                     <p>주재료: <%= post.ingredients %></p>
                                 </div>
                             <% }); %>
