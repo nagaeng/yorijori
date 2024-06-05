@@ -36,10 +36,11 @@
                 </div>
             <% }) %>
         <% } else { %>
-            <p>검색 결과가 없습니다.</p>
+            <div class ="information-box">
+                <p>검색 결과가 없습니다.</p>
+            </div>
         <% } %>
     </div>
-
     <script>
         function showProductDetail(productId) {
             window.location.href = `/createfundingPage/product_detail/${productId}`;

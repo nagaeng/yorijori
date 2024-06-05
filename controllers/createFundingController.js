@@ -67,7 +67,6 @@ module.exports = {
         }
     },
 
-    // 특정 상품의 세부 정보를 렌더링
     productDetail: async (req, res) => {
         try {
             let productId = req.params.productId;
@@ -101,62 +100,92 @@ module.exports = {
 
     showCreateFundingPage: async (req, res) => {
         try {
+            console.log("showCreateFundingPage function called");
             let productId = req.params.productId;
-            let sql = `SELECT 
-                            fundingProductId, 
-                            productName, 
-                            seller, 
-                            unitPrice, 
-                            expirationDate, 
-                            quantity, 
-                            unit, 
-                            registrationDate, 
-                            imageUrl 
-                        FROM 
-                            fundingProducts 
-                        WHERE 
-                            fundingProductId = ?`;
-            let [product] = await sequelize.query(sql, {
+            console.log(`productId: ${productId}`);
+
+            let productQuery = `SELECT 
+                                    fundingProductId, 
+                                    productName, 
+                                    seller, 
+                                    unitPrice, 
+                                    expirationDate, 
+                                    quantity, 
+                                    unit, 
+                                    registrationDate, 
+                                    imageUrl 
+                                FROM 
+                                    fundingProducts 
+                                WHERE 
+                                    fundingProductId = ?`;
+            let userQuery = `SELECT 
+                                userId, 
+                                email, 
+                                name, 
+                                nickname, 
+                                phoneNumber, 
+                                city, 
+                                district, 
+                                town, 
+                                detail 
+                            FROM 
+                                users 
+                            WHERE 
+                                userId = ?`;
+
+            let [product] = await sequelize.query(productQuery, {
                 replacements: [productId],
-                type: Sequelize.QueryTypes.SELECT
+                type: Sequelize.SELECT
             });
-    
-            let representative = await User.findOne({
-                where: { userId: req.user.id }
+            
+            let [representative] = await sequelize.query(userQuery, {
+                replacements: [req.user.userId],
+                type: Sequelize.SELECT
             });
-    
-            if (product) {
-                product.formattedExpirationDate = formatDate(product.expirationDate);
+
+            if (product && product.length > 0) {
+                product[0].formattedExpirationDate = formatDate(product[0].expirationDate);
             }
-    
-            res.render("funding/createFundingPage", { product, representative });
+
+            res.render("funding/createFunding", { product: product[0], representative: representative[0] });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
         }
     },
-    
+
     createFunding: async (req, res) => {
         try {
-            let { productId, deliveryDate, city, district, town, detail, people, deliveryCost } = req.body;
+            let productId = req.params.productId;
+            let { deliveryDate, city, district, town, detail, people, distributionDate } = req.body;
             let fundingDate = new Date();
-    
+
             let newFundingGroup = await FundingGroup.create({
                 fundingProductId: productId,
                 deliveryDate,
-                deliveryStatus: false,
-                deliveryCost,
                 fundingDate,
                 city,
                 district,
                 town,
                 detail,
-                distributionDate: fundingDate,
+                distributionDate,
                 people,
-                representativeUserId: req.user.id
+                representativeUserId: req.user.userId
             });
-    
-            res.render("funding/createFundingSuccess", { fundingGroup: newFundingGroup });
+
+            res.redirect(`/create_funding_success/${newFundingGroup.fundingGroupId}`);
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+            console.error(`Error: ${error.message}`);
+        }
+    },
+
+    showCreateFundingSuccessPage: async (req, res) => {
+        try {
+            let fundingGroupId = req.params.fundingGroupId;
+            let fundingGroup = await FundingGroup.findByPk(fundingGroupId);
+
+            res.render("funding/createFundingSuccess", { fundingGroup });
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
