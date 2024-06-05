@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/styles.css"> 
     <link rel="stylesheet" href="/css/recipe/searchResult.css">
     <script src="/js/recipe/searchResult.js"></script>
-    <title>search result</title>
+    <title>Search Result</title>
 </head>
 <body>
     <!-- 검색 결과 컨테이너 박스 -->
@@ -71,10 +71,10 @@
                 <% if (loggedIn) { %>
                 <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
                 <a href="/joinFundingPage/fundingPage">
-                <%} else {%>
+                <% } else { %>
                 <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
                 <a href="/auth/login">
-                <%} %>
+                <% } %>
                 <img src="/assets/image.png" class="funding-icon">
                 <p class="funding-txt">펀딩하러 가기</p>
                 </a>
@@ -83,47 +83,8 @@
         
     </div>
 
-    <script>
-        const userId = '<%= user ? user.userId : "" %>';
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
 
-        function saveBookmark(postId) {
-            if (!userId) {
-                alert('로그인이 필요합니다.');
-                window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
-                return;
-            }
-
-            const button = document.getElementById('btn-' + postId);
-            const isSaved = button.classList.contains('bookmark-saved');
-            const url = isSaved ? '/posts/unsave' : '/posts/save';
-            const method = isSaved ? 'POST' : 'POST'; // 모두 POST 메서드 사용
-
-            fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId, postId }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (isSaved) {
-                        button.classList.remove('bookmark-saved');
-                        button.classList.add('bookmark-not-saved');
-                    } else {
-                        button.classList.remove('bookmark-not-saved');
-                        button.classList.add('bookmark-saved');
-                    }
-                } else {
-                    alert('Failed to save the recipe.');
-                }
-            })
-            .catch((error) => {
-                alert(error);
-                console.error('Error:', error);
-            });
-        }
-    </script>
+    <script src="/js/recipe/bookmark.js"></script>
 </body>
 </html>
