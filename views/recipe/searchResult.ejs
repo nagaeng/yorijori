@@ -39,11 +39,19 @@
                         <img src="<%= result_posts[i].images.length > 0 ? result_posts[i].images[0].imageUrl : '/assets/image.png' %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
                         <div class="btn-position">
                         <h2><%= result_posts[i].title %></h2>
-                        <button
+                        <% if (loggedIn) { %>
+                            <button
                             class="bookmark-button <%= savedPostIds.includes(result_posts[i].postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
                             id="btn-<%= result_posts[i].postId %>" 
                             onclick="saveBookmark('<%= result_posts[i].postId %>');">
-                        </button>
+                            </button>
+                        <% } else { %>
+                            <button
+                            class="bookmark-button bookmark-not-saved" 
+                            id="btn-<%= result_posts[i].postId %>" 
+                            onclick="redirectToLogin();">
+                           </button>
+                        <% } %>
                     </div>
                         <p>주재료: <%= result_posts[i].ingredients %></p>
                     </div>
