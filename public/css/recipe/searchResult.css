@@ -115,23 +115,68 @@ hr {
 }
 
 .recipe-card {
-    position: relative;
     background: #000;
     color: #fff;
     border-radius: 10px;
     padding: 15px;
     overflow: hidden;
-    height: 220px;
+    height: 310px;
     width: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .recipe-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
+    width: 300px;
+    height: 230px;
+    border-radius: 10px; /* 이미지 상단에 라운드 코너 */
+}
+.recipe-card h2, .recipe-card p{
+    margin: 0;
+    margin-top: 10px;
+    color: #242424;
+    width: 250px;
+}
+.btn-position{
+    display: flex;
+    justify-content: space-between;
+}
+.bookmark-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top:10px;
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bookmark-saved {
+    background-image: url('/assets/bookmark2.png'); /* 저장된 이미지 경로 */
+    width: 24px; /* 저장된 이미지 크기 조정 */
+    height: 24px;
+}
+
+.bookmark-not-saved {
+    background-image: url('/assets/bookmark1.png'); /* 초기 이미지 경로 */
+}
+/* 페이지 넘버 */
+.pagination{
+    margin: 100px 0 50px 0;
+}
+
+.pagination a {
+    color: gray;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    transition: color 0.3s;
+}
+
+.pagination a.active {
+    color: black;
+    font-weight: bold;
 }
 
 .bookmark-button {
@@ -175,11 +220,6 @@ hr {
 }
 
 /* 펀딩 아이콘 위치*/
-
-.side-bar {
-    width: 200px;
-    min-height: calc(100vh - 150px);
-}
 #side-bar {
     width: 200px;
     min-height: calc(100vh - 150px);
@@ -220,7 +260,8 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    
+    width: 1090px;
 }
 
 .posts-section h1 {

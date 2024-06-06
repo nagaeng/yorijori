@@ -32,8 +32,7 @@ const upload = multer({
     storage: multerGoogleStorage.storageEngine({
         bucket: 'yorizori_post_img',
         projectId: 'burnished-core-422015-g1',
-        keyFilename: '/home/g20221783/yorijori/secure/burnished-core-422015-g1-f3b170868aa8.json',
-       
+        keyFilename: 'secure/burnished-core-422015-g1-f3b170868aa8.json',
     }),
     limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)
 });
@@ -89,8 +88,6 @@ app.use((req, res, next) => {
     res.locals.showSubCategoryBar = false; // 기본적으로 세부 카테고리 바를 표시하지 않음
     next();
 });
-
-
 
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // joinFundingRouter 접근

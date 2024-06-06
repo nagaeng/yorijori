@@ -7,42 +7,55 @@
     <link rel="stylesheet" href="/css/recipe/searchResult.css">
 </head>
 <body>
-    <div class="posts-section">
-        <h1>많이 본 게시글</h1>
-        <div id="container">
-            <div id="searchResult">
-                <% if (posts.length > 0) { %>
-                    <div class="list-group">
-                        <% posts.forEach(post => { %>
-                            <div class="recipe-card">
-                                <% if (post.images && post.images.length > 0) { %>
-                                    <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
-                                <% } %>
-                                <h2><%= post.title %></h2>
-                                <button
-                                    class="bookmark-button bookmark-not-saved" 
-                                    id="btn-<%= post.postId %>" 
-                                    onclick="redirectToLogin();">
-                                </button>
-                                <p>주재료: <%= post.ingredients %></p>
-                            </div>
-                        <% }); %>
-                    </div>
-                <% } else { %>
-                    <p>No posts available for this category.</p>
-                <% } %>
-            </div>
-        </div>
-    </div>
+    <div id="container-box">
 
-    <div id="side-bar">    
-        <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
-        <div class="goto-funding">
-            <a href="/auth/login">
+        <div id="side-bar">
+            <div class="funding-icon"></div><!--side-bar width 안먹어서 임의로 넣어놓음-->
+        </div>
+
+        <div class="posts-section">
+            <h1>많이 본 게시글</h1>
+                <div id="searchResult">
+                    <% if (posts.length > 0) { %>
+                        <div class="list-group">
+                            <% posts.forEach(post => { %>
+                                <div class="recipe-card">
+                                    <% if (post.images && post.images.length > 0) { %>
+                                        <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
+                                    <% } %>
+                                    <div class="btn-position">
+                                    <h2><%= post.title %></h2>
+                                    <button
+                                        class="bookmark-button bookmark-not-saved" 
+                                        id="btn-<%= post.postId %>" 
+                                        onclick="redirectToLogin();">
+                                    </button>
+                                    </div>
+                                    <p>주재료: <%= post.ingredients %></p>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <p>No posts available for this category.</p>
+                    <% } %>
+                </div>
+        </div>
+
+        <div id="side-bar">    
+            <div class="goto-funding">
+            <% if (loggedIn) { %>
+            <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
+            <a href="/joinFundingPage/fundingPage">
+            <% } else { %>
+            <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+            <a href="/auth/login"  onclick="redirectToLogin();">
+            <% } %>
             <img src="/assets/image.png" class="funding-icon">
             <p class="funding-txt">펀딩하러 가기</p>
             </a>
+            </div>
         </div>
+
     </div>
 
     <script>

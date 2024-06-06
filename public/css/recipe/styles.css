@@ -1,9 +1,10 @@
-#container{
+
+#container-box {
     display: flex;
     justify-content: center;
     position: relative;
+    width: 100%;
 }
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -19,25 +20,6 @@ body {
     background: #fff;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.recipe-card {
-    background: #000;
-    color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    overflow: hidden;
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.recipe-image {
-    width: auto;
-    height: auto;
-    border-radius: 10px 10px 0 0; /* 이미지 상단에 라운드 코너 */
-}
-
 /* 파일 경로: public/styles.css */
 .category-bar {
     margin-top: 20px;

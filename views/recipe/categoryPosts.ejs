@@ -56,13 +56,9 @@
                             <% if (post.images && post.images.length > 0) { %>
                                 <% const firstImage = post.images[0]; %>
                                 <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
-                            <% } %>                    
+                            <% } %> 
+                            <div class="btn-position">            
                             <h2><%= post.title %></h2>
-                            <button
-                                class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
-                                id="btn-<%= post.postId %>" 
-                                onclick="saveBookmark('<%= post.postId %>');">
-                            </button>
                             <p>주재료: <%= post.ingredients %></p>
                         </div>
                     <% }); %>
@@ -74,6 +70,20 @@
             <% } else { %>
                 <div id="no-result"><h1> 카테고리 결과가 없습니다</h1></div>
             <% } %>
+        </div>
+        <div id="side-bar">    
+            <div class="goto-funding">
+                <% if (loggedIn) { %>
+                <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
+                <a href="/joinFundingPage/fundingPage">
+                <% } else { %>
+                <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+                <a href="/auth/login"  onclick="redirectToLogin();">
+                <% } %>
+                <img src="/assets/image.png" class="funding-icon">
+                <p class="funding-txt">펀딩하러 가기</p>
+                </a>
+            </div>
         </div>
     </div>
 
