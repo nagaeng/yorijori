@@ -58,6 +58,11 @@
                                 <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
                             <% } %>                    
                             <h2><%= post.title %></h2>
+                            <button
+                                class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                id="btn-<%= post.postId %>" 
+                                onclick="saveBookmark('<%= post.postId %>');">
+                            </button>
                             <p>주재료: <%= post.ingredients %></p>
                         </div>
                     <% }); %>
@@ -71,5 +76,9 @@
             <% } %>
         </div>
     </div>
+
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+
+    <script src="/js/recipe/bookmark.js"></script>
 </body>
 </html>

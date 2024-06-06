@@ -14,7 +14,14 @@ module.exports = {
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
             console.log("Query Results:", myposts); // 쿼리 결과를 콘솔에 출력
-            res.render("auth/mypage_main", { posts: myposts }); // 결과를 사용하여 페이지 렌더링
+            let query2 = `
+                 SELECT nickname, imageUrl
+                 FROM users
+                 where userId = ${userId};     
+            `;
+            let [results, metadata2] = await sequelize.query(query2, { type: Sequelize.SELECT });
+            console.log(results);
+            res.render("auth/mypage_main", { posts: myposts, result:results[0], userId:userId}); // 결과를 사용하여 페이지 렌더링
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -39,8 +46,15 @@ module.exports = {
                 post.date = date.toLocaleDateString('en-US', options);
             });
 
+            let query2 = `
+                 SELECT nickname, imageUrl
+                 FROM users
+                 where userId = ${userId};     
+            `;
+            let [results, metadata2] = await sequelize.query(query2, { type: Sequelize.SELECT });
+
             console.log("Query Results:", myposts); // 쿼리 결과를 콘솔에 출력
-            res.render("auth/mypage_scrap", { posts: myposts }); // 결과를 사용하여 페이지 렌더링
+            res.render("auth/mypage_scrap", { posts: myposts, result:results[0], userId:userId }); // 결과를 사용하여 페이지 렌더링
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -56,7 +70,7 @@ module.exports = {
                         SELECT p.title, c.content, c.createdAt  
                         FROM comments c
                         left join posts p on p.postId= c.postId
-                        where c.userId = 1;
+                        where c.userId = ${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
 
@@ -67,8 +81,16 @@ module.exports = {
                 post.createdAt = date.toLocaleDateString('en-US', options);
             });
 
+            let query2 = `
+                 SELECT nickname, imageUrl
+                 FROM users
+                 where userId = ${userId};     
+            `;
+            let [results, metadata2] = await sequelize.query(query2, { type: Sequelize.SELECT });
+
+
             console.log("Query Results:", myposts); // 쿼리 결과를 콘솔에 출력
-            res.render("auth/mypage_comment", { posts: myposts }); // 결과를 사용하여 페이지 렌더링
+            res.render("auth/mypage_comment", { posts: myposts, result:results[0], userId:userId }); // 결과를 사용하여 페이지 렌더링
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -93,8 +115,16 @@ module.exports = {
                 post.fundingDate = date.toLocaleDateString('en-US', options);
             });
 
+            let query2 = `
+                 SELECT nickname, imageUrl
+                 FROM users
+                 where userId = ${userId};     
+            `;
+            let [results, metadata2] = await sequelize.query(query2, { type: Sequelize.SELECT });
+
+
             console.log("Query Results:", myposts); // 쿼리 결과를 콘솔에 출력
-            res.render("auth/mypage_myfunding", { posts: myposts }); // 결과를 사용하여 페이지 렌더링
+            res.render("auth/mypage_myfunding", { posts: myposts, result:results[0], userId:userId }); // 결과를 사용하여 페이지 렌더링
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -120,8 +150,16 @@ module.exports = {
                 post.fundingDate = date.toLocaleDateString('en-US', options);
             });
 
+            let query2 = `
+                 SELECT nickname, imageUrl
+                 FROM users
+                 where userId = ${userId};     
+            `;
+            let [results, metadata2] = await sequelize.query(query2, { type: Sequelize.SELECT });
+
+
             console.log("Query Results:", myposts); // 쿼리 결과를 콘솔에 출력
-            res.render("auth/mypage_participatedfunding", { posts: myposts }); // 결과를 사용하여 페이지 렌더링
+            res.render("auth/mypage_participatedfunding", { posts: myposts, result:results[0], userId:userId }); // 결과를 사용하여 페이지 렌더링
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);

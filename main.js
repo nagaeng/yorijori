@@ -6,9 +6,10 @@ layouts = require("express-ejs-layouts"),
     session = require('express-session'),
     flash = require("connect-flash"),
     passport = require("passport"),
+    fs = require('fs'),
     FileStore = require('session-file-store')(session);
 
-    db.sequelize.sync({});
+    db.sequelize.sync({alter:true});
     const User = db.user;
 
 multer = require('multer'),
@@ -37,6 +38,19 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)
 });
 
+//프로필 이미지 업로드를 위한 multer 설정 
+const path = require('path');
+
+const uploadprofile = require('./config/multerProfileConfig');
+
+// `uploadprofile` 디렉토리가 존재하지 않으면 생성합니다.
+const uploadDir = path.join(__dirname, 'uploadprofile');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+// 정적 파일 제공 설정
+app.use('/uploadprofile', express.static(path.join(__dirname, 'uploadprofile')));
 
 // 뷰 엔진 설정
 app.set('view engine', 'ejs');
@@ -92,7 +106,7 @@ const authRouter = require("./routers/authRouter");
 
 
 // home 접근
-app.get("/", homeRouter);
+app.use("/", homeRouter);
 // search 접근
 app.use("/search", searchRouter);
 // post 접근

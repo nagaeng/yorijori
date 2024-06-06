@@ -1,7 +1,9 @@
 const db = require("../models/index");
 const User = db.user;
-const bcrypt = require('bcrypt');
 const passport = require("passport");
+// const path = require("path");
+// const upload = require("../config/multerConfig"); // Import the multer config
+
 
 const getUserParams = body => ({
     name: body.name,
@@ -12,7 +14,8 @@ const getUserParams = body => ({
     city: body.city,
     district: body.district,
     town: body.town,
-    detail: body.detail
+    detail: body.detail,
+    imageUrl: body.imageUrl
 });
 
 module.exports = {
@@ -25,40 +28,6 @@ module.exports = {
         res.render("auth/newuser");
     },
 
-    // authenticate: async(req, res, next) => {
-    //     try{
-    //         let user = await User.findOne({where: {email: req.body.email}})
-    //         if(user){
-    //             console.log("aaaaaaaaa");
-    //             console.log(req.body.password);
-    //             console.log(user.password);
-    //             let passwordMatch = await user.passwordComparison(req.body.password);
-    //             console.log(passwordMatch);
-    //             console.log("aaaacccccccccc");
-    //             if(passwordMatch){
-    //                 res.locals.redirect = `/`;
-    //                 req.flash("success", `${user.name} logged in successfully`);
-    //                 res.locals.user = user;
-    //                 next();
-    //             }
-    //             else{
-    //                 req.flash("error", "your account or password is incorrect.");
-    //                 res.locals.redirect = "/auth/login";
-    //                 next();
-    //             }
-    //         }      
-    //        else{
-    //         req.flash("error", "Failed to log in user account: Incorrect Password.");
-    //         res.locals.redirect = "/auth/login";
-    //         next();
-    //     }
-    // }
-    //     catch(error){
-    //         console.log(`error logging in user: ${err.message}`);
-    //         next(error);
-    //     };
-    // },
-
     authenticate: passport.authenticate("local", {
         successRedirect: "/",
         successFlash: "Logged in!",
@@ -69,8 +38,7 @@ module.exports = {
     logout: (req, res, next) => {
         req.logout((err) => {
             req.flash("success", "You have been logged out!");
-            res.locals.redirect = "/";
-            next();
+            res.redirect("/");
         });
     },
 
@@ -80,83 +48,104 @@ module.exports = {
         else next();
     },
 
-    create: async (req, res, next) => {
-        if(req.skip) next();
+    create: (req, res, next) => {
+        const { password, PwdCheck } = req.body;
+
+        if (password !== PwdCheck) {
+            req.flash("error", "입력한 비밀번호가 다릅니다."); // Passwords do not match
+            return res.redirect("/auth/newuser");
+        }
+
+        if (req.skip) next();
         let userParams = getUserParams(req.body);
         
-        try{
-            let user = new User(userParams);
-            User.register(user, req.body.password, (error, user) => {
-                if(user) {
-                    req.flash("success", `${user.name} account created successfully`);
-                    res.locals.redirect = "/auth/login";
-                    res.locals.user = user;
-                    next();
-                }
-                else{
-                    console.log(`Error saving user: ${error.message}`);
-                    res.locals.redirect = "/auth/newuser";
-                    req.flash("error", `Failed to create user account because: ${error.message}`);
-                    next(error);
-                }
-            });
-        }
-        catch(error){
-            console.log(`Error saving user: ${error.message}`);
-            res.locals.redirect = "/auth/newuser";
-            req.flash("error", `Failed to create user account because: ${error.message}`);
-            next(error);
-        };
-        
+        User.register(new User(userParams), req.body.password, (error, user) => {
+            if (user) {
+                req.flash("success", `${user.name} account created successfully`);
+                res.redirect("/auth/login");
+            } else {
+                console.log(`Error saving user: ${error.message}`);
+                req.flash("error", `Failed to create user account because: ${error.message}`);
+                res.redirect("/auth/newuser");
+            }
+        });
     },
-    /*
-         let userParams = getUserParams(req.body);
-         console.log(userParams);
-         try{
-             let user = await User.create(userParams);
-             res.locals.redirect = "/auth/login";
-             res.locals.user = user;
-             next();
-         }
-         catch(error){
-             console.log('Error saving user: ${error.message}');
-             next(error);
-         };
-     },
-     */
 
-    edit:(req, res) => {
+    editpwd:(req, res) => {
         res.render("auth/editpwd");
     },
+
+    updatepwd: async (req, res, next) => {
+        const { email, newPwd, newPwdCheck } = req.body;
+    
+        if (newPwd !== newPwdCheck) {
+            req.flash("error", "입력한 비밀번호가 다릅니다."); // Passwords do not match
+            return res.redirect("/auth/editpwd");
+        }
+    
+        try {
+            let user = await User.findOne({ where: { email } });
+            if (user) {
+                user.setPassword(newPwd, async (err) => {
+                    if (err) {
+                        console.log(`Error updating password: ${err.message}`);
+                        req.flash("error", "Error updating password.");
+                        res.redirect("/auth/editpwd");
+                    } else {
+                        await user.save();
+                        req.flash("success", "Password updated successfully!");
+                        res.redirect("/auth/login");
+                    }
+                });
+            } else {
+                req.flash("error", "User not found.");
+                res.redirect("/auth/editpwd");
+            }
+        } catch (error) {
+            console.log(`Error updating password: ${error.message}`);
+            req.flash("error", "Error updating password.");
+            res.redirect("/auth/editpwd");
+        }
+    },    
 
     edit: async(req, res, next) => {
         let userId = req.params.id;
         try{
             let user = await User.findByPk(userId);
-            res.render("/auth/editpwd", {
+            res.render("auth/edit", {
                 user: user
             });
         }
         catch(error){
-            console.log('Error fatching user by ID: ${error.message}');
-            next(error);
-        };
+            console.log(`Error fetching user by ID: ${error.message}`);
+            req.flash("error", "Error fetching user.");
+            res.redirect("/");
+        }
     },
 
-    update: async(req, res, next) => {
-        let userId = req.params.id,
-        userParams = getUserParams(req.body);
-        try{
-            let user = await User.findByPkAndUpdate(userId, userParams);
-            res.locals.redirect = 'auth/${userId}';
-            res.locals.user = user;
-            next();
+    update: async (req, res, next) => {
+        let userId = req.params.id;
+        let userParams = getUserParams(req.body);
+
+        if (req.file) {
+            userParams.imageUrl = '/uploadprofile/' + req.file.filename; // 파일 경로를 imageUrl에 저장
         }
-        catch(error){
-            console.log('Error updating user by ID: ${error.message}');
-            next(error);
-        };
+
+        try {
+            let user = await User.findByPk(userId);
+
+            if (user) {
+                await user.update(userParams);
+                req.flash("success", "User updated successfully!");
+                res.redirect(`/auth/mypage`);
+            } else {
+                req.flash("error", "User not found.");
+                res.redirect("/");
+            }
+        } catch (error) {
+            console.log(`Error updating user by ID: ${error.message}`);
+            req.flash("error", "Error updating user.");
+            res.redirect("/");
+        }
     }
-
-
 };
