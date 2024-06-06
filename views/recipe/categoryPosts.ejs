@@ -62,6 +62,21 @@
                                 <p>주재료: <%= post.ingredients %></p>
                             </div>
                         </a>
+                        <a href="/write/getWritedPage?postId=<%=post.postId%>">
+                        <div class="recipe-card">
+                            <% if (post.images && post.images.length > 0) { %>
+                                <% const firstImage = post.images[0]; %>
+                                <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                            <% } %>                    
+                            <h2><%= post.title %></h2>
+                            <button
+                                class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                id="btn-<%= post.postId %>" 
+                                onclick="saveBookmark('<%= post.postId %>');">
+                            </button>
+                            <p>주재료: <%= post.ingredients %></p>
+                        </div>
+                        </a>
                     <% }); %>
                 <% } else { %>
                     <p>No posts available for this category.</p>
@@ -73,5 +88,9 @@
             <% } %>
         </div>
     </div>
+
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+
+    <script src="/js/recipe/bookmark.js"></script>
 </body>
 </html>

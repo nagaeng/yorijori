@@ -14,13 +14,20 @@
                 <% if (posts.length > 0) { %>
                     <div class="list-group">
                         <% posts.forEach(post => { %>
-                            <div class="recipe-card">
-                                <% if (post.images && post.images.length > 0) { %>
-                                    <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
-                                <% } %>
-                                <h2><%= post.title %></h2>
-                                <p>주재료: <%= post.ingredients %></p>
-                            </div>
+                            <a href="/write/getWritedPage?postId=<%=post.postId%>">
+                                <div class="recipe-card">
+                                    <% if (post.images && post.images.length > 0) { %>
+                                        <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
+                                    <% } %>
+                                    <h2><%= post.title %></h2>
+                                    <button
+                                        class="bookmark-button bookmark-not-saved" 
+                                        id="btn-<%= post.postId %>" 
+                                        onclick="redirectToLogin();">
+                                    </button>
+                                    <p>주재료: <%= post.ingredients %></p>
+                                </div>
+                            </a>
                         <% }); %>
                     </div>
                 <% } else { %>
@@ -29,5 +36,22 @@
             </div>
         </div>
     </div>
+
+    <div id="side-bar">    
+        <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+        <div class="goto-funding">
+            <a href="/auth/login">
+            <img src="/assets/image.png" class="funding-icon">
+            <p class="funding-txt">펀딩하러 가기</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function redirectToLogin() {
+            alert('로그인이 필요합니다.');
+            window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
+        }
+    </script>
 </body>
 </html>

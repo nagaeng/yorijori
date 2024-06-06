@@ -47,17 +47,12 @@ header{
     margin-right: 5px;
 }
 
-.bt-bar{
-    display: none;
-}
-
 .dok{
     background-color:transparent;
     border: none;
     width: 1.5vw;
     height: 1.5vw;
     cursor: pointer;
-    display: none;
 }
 
 .dok img{
@@ -282,6 +277,7 @@ h2{
     top: 4px;
     left: 100px;
     display: none;
+    position: relative;
 
 }
 .com-su{

@@ -98,7 +98,7 @@ const authRouter = require("./routers/authRouter");
 
 
 // home 접근
-app.get("/", homeRouter);
+app.use("/", homeRouter);
 // search 접근
 app.use("/search", searchRouter);
 // post 접근

@@ -43,11 +43,19 @@ function checkInput2(){
 
 commentBt.addEventListener("click", checkInput);
 
-btnNo2.addEventListener("click" , ()=>{comm.style.display="flex"; 
-                    h.style.display="flex";
-                    alt.style.display="none";});
+// btnNo2.querySelectorAll("click" , ()=>{comm.style.display="flex"; 
+//                     h.style.display="flex";
+//                     alt.style.display="none";});
 
-
+document.querySelectorAll('.bu2').forEach(function(btnNo2) {
+    btnNo2.addEventListener('click', function() {
+        const parentDiv = btnNo2.closest('.alt');
+        if (parentDiv) {
+            const commentId = parentDiv.dataset.commentId;
+            // commentId를 사용하여 원하는 작업을 수행할 수 있습니다.
+        }
+    });
+});
 hak.addEventListener("click", checkHak);
 
 function checkHak(){
@@ -75,17 +83,15 @@ dok.addEventListener("click",()=>{
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btBar = document.querySelector('.bt-bar');
-    if (btBar) {
-      const userId = '<%= userId %>';
-      const loginUserId = '<%= LoginuserId %>';
-      if (userId === loginUserId) {
-        btBar.style.display = 'flex';
-      } else {
-        btBar.style.display = 'none';
-      }
-    }
-  });
+console.log("LoginuserId 값:", LoginuserId);
 
-  
+
+
+document.querySelector(".comment-bt").addEventListener("click", function(event) {
+    // 로그인 여부 확인
+    if ( LoginuserId == -1) {
+        // 로그인되지 않은 경우
+        alert('로그인이 필요합니다!');
+        event.preventDefault(); // 폼 제출 중지
+    }
+});

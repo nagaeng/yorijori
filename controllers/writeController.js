@@ -1,9 +1,13 @@
+const { render } = require("ejs");
+const { Where } = require("sequelize/lib/utils");
+
 const db = require("../models"),
     Ingredient = db.ingredient,
     Menu = db.menu,
     Post = db.post,
     Image = db.image,
     Usage = db.usage,
+    User = db.user,
     Comment = db.comment,
     Sequelize = require('sequelize'),
     Op = Sequelize.Op;
@@ -124,6 +128,8 @@ exports.postWrite = async (req, res) => {
         //currentDate 를 위한 데이트 객체 생성
         const currentDate = new Date();
         
+        //userId 가져오기
+        let userId = res.locals.currentUser.getDataValue('userId');
         //post 
         if(req.body){
             await Post.create({
@@ -131,7 +137,7 @@ exports.postWrite = async (req, res) => {
                   content: req.body.editordata,
                   date: currentDate,
                   menuId: menu[0].dataValues.menuId,
-                  userId: 1, //로그인 구현 안되어있어서 임의로 넣음
+                  userId: userId
           });
         }
     
@@ -206,7 +212,7 @@ exports.getWritedPage = async (req,res)=>{
                     }
                 });
             }
-            console.log(postvalue);
+            // console.log(postvalue);
             let menu =[];
             //postId 로 메뉴 객체 찾기
              menu = await Menu.findAll({
@@ -239,21 +245,52 @@ exports.getWritedPage = async (req,res)=>{
              ingredientArr.push(result);
             }
 
-            //받은 userID
-            let LoginuserId = res.locals.currentUser.getDataValue('userId');
-            console.log(LoginuserId);
+            let LoginuserId;
+            if (res.locals.currentUser) {
+                LoginuserId = res.locals.currentUser.getDataValue('userId');
+            } else {
+                LoginuserId = -1;
+            }
 
-            //userId로 commet 개수 띄우기
-            let comment =[];
-            comment = await Comment.findAll({
+            //postId로 post 닉네임 찾기 
+            let nic = await User.findAll({
                 where:{
-                    postId:{
-                        [Op.like]:`%${req.query.postId}%`
+                    userId:{
+                        [Op.like]:`%${postvalue[0].dataValues.userId}%`
                     }
                 }
-            });
+            })
+
+            
+            //postId로 해당게시물 commet 찾기
+            let comment =[];
+                comment = await Comment.findAll({
+                    where:{
+                        postId:{
+                            [Op.like]:`%${req.query.postId}%`
+                        }
+                    }
+                });
             console.log(comment);
-            //userId로 조회수 띄우기 
+            //comment쓴 유저 객체
+            let commentUserJson=[];
+            for(let i=0; i<comment.length; i++){
+                commentUserJson[i] = await User.findAll({
+                where:{
+                    userId:{
+                        [Op.like]:`%${comment[i].dataValues.userId}%`
+                    }
+                }
+                });
+            }   
+            //찾은 user객체에서 닉네임 뽑기
+            let commentUser = []
+            for(let i=0; i<commentUserJson.length; i++){
+               commentUser[i]= commentUserJson[i][0].dataValues.nickname;
+               console.log(commentUser[i]);
+            };
+    
+            
             //writedPage 로 객체 전달
              res.render('write/writedPage',
               {
@@ -263,9 +300,12 @@ exports.getWritedPage = async (req,res)=>{
                 menu:menu[0].dataValues.menuName,
                 category:menu[0].dataValues.category,
                 ingredientArr:ingredientArr,
-                userId: req.body.userId,
+                userId:postvalue[0].dataValues.userId,
                 LoginuserId : LoginuserId,
-                comment : comment
+                nicName: nic[0].dataValues.nickname,
+                postId : req.query.postId,
+                comment:comment,
+                commentUser :commentUser
               }
             );
 
@@ -275,4 +315,30 @@ exports.getWritedPage = async (req,res)=>{
                 message: "Error loading the write page"
             });
         }
+}
+
+exports.postCommentPage =async(req,res)=>{
+    try{
+       console.log(req.body);
+       //현재 유저
+       let commentUserId= res.locals.currentUser.getDataValue('userId');
+       // 현재 날짜 생성
+       const currentDate = new Date();
+       //comment db에 저장
+       await Comment.create({
+          content:req.body.comment,
+          createdAt:currentDate,
+          postId:req.body.postId,
+          userId:commentUserId
+      });
+      
+    res.redirect('/write/getWritedPage?postId=' + req.body.postId + '&comment=' + req.body.comment+'&commentUserId=' + commentUserId);
+
+
+    }catch(err){
+        console.error("Error loading the write page:", err);
+        res.status(500).send({
+            message: "Error loading the write page"
+        });
+    }
 }

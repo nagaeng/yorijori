@@ -24,5 +24,7 @@ router.get("/getMenu",writeController.getMenu); // 메뉴 검색(요청) 시 컨
 router.post("/postWrite",writeController.postWrite); // 글을 처리해줄 경로
 router.post("/postImage",upload.single("img"), writeController.postImage); // file upload 처리
 router.get("/getWritedPage",writeController.getWritedPage);
+router.post("/postCommentPage",writeController.postCommentPage);
+
 //파일 업로드위해 upload 미들웨어 사용
 module.exports = router;

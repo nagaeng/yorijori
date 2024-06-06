@@ -19,6 +19,11 @@
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
                                 <h2><%= post.title %></h2>
+                                <button
+                                    class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                    id="btn-<%= post.postId %>" 
+                                    onclick="saveBookmark('<%= post.postId %>');">
+                                </button>
                                 <p>주재료: <%= post.ingredients %></p>
                             </div>
                         <% }); %>
@@ -37,13 +42,20 @@
                 <% if (recommendPosts.length > 0) { %>
                     <div class="list-group">
                         <% recommendPosts.slice(0, 9).forEach(post => { %>
-                            <div class="recipe-card">
+                            <a href="/write/getWritedPage?postId=<%=post.postId%>">
+                                <div class="recipe-card">
                                 <% if (post.images && post.images.length > 0) { %>
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
                                 <h2><%= post.title %></h2>
+                                <button
+                                    class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                    id="btn-<%= post.postId %>" 
+                                    onclick="saveBookmark('<%= post.postId %>');">
+                                </button>
                                 <p>주재료: <%= post.ingredients %></p>
-                            </div>
+                                </div>
+                            </a>
                         <% }); %>
                     </div>
                 <% } else { %>
@@ -52,5 +64,19 @@
             </div>
         </div>
     </div>
+
+    <div id="side-bar">    
+        <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+        <div class="goto-funding">
+            <a href="/joinFundingPage/fundingPage">
+            <img src="/assets/image.png" class="funding-icon">
+            <p class="funding-txt">펀딩하러 가기</p>
+            </a>
+        </div>
+    </div>
+
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+
+    <script src="/js/recipe/bookmark.js"></script>
 </body>
 </html>
