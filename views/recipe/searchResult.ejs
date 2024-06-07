@@ -35,17 +35,7 @@
                 <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
                 <% for (var i = 0; i< result_posts.length; i++){ %>
                     <a href="/write/getWritedPage?postId=<%=result_posts[i].postId%>">
-                        <div class="recipe-card">
-                            <img src="<%= result_posts[i].imageUrl %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
-                            <h2><%= result_posts[i].title %></h2>
-                            <button
-                                class="bookmark-button <%= savedPostIds.includes(result_posts[i].postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
-                                id="btn-<%= result_posts[i].postId %>" 
-                                onclick="saveBookmark('<%= result_posts[i].postId %>');">
-                            </button>
-                            <p>주재료: <%= result_posts[i].ingredients %></p>
-                        </div>
-                    </a>
+                    
                     <div class="recipe-card">
                         <img src="<%= result_posts[i].images.length > 0 ? result_posts[i].images[0].imageUrl : '/assets/image.png' %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
                         <div class="btn-position">
@@ -63,9 +53,10 @@
                             onclick="redirectToLogin();">
                            </button>
                         <% } %>
-                    </div>
+                        </div>
                         <p>주재료: <%= result_posts[i].ingredients %></p>
                     </div>
+                    </a>
                 <% } %>
             </div>
             <!--페이징 넘버-->
