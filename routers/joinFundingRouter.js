@@ -10,5 +10,5 @@ router.get("/fundingSearch", joinFundingController.fundingSearch, joinFundingCon
 router.get("/joinFunding/:groupId", joinFundingController.joinFunding, joinFundingController.getJoinFunding); //펀딩참여페이지
 router.get("/joinFunding/:groupId/join", joinFundingController.joinFunding, joinFundingController.getJoinFundingClick); //펀딩참여확인페이지
 router.get("/joinFundingComplete/:groupId/complete", joinFundingController.joinFunding, joinFundingController.joinRequest,  joinFundingController.getJoinFundingComplete); //펀딩완료페이지
-
+router.get("/cancleFunding/:groupId", joinFundingController.cancleFunding);
 module.exports = router;
