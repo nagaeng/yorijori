@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>요리조리_마이페이지</title>
-    <link rel="stylesheet" href="/css/auth/mypage_comment.css">
+    <link rel="stylesheet" href="/css/auth/mypage_participatedfunding.css">
 </head>
 
 <body>
     <div class="container">
         <div class="inincontainer">
-            <div class="mypage-main">마이페이지 > 댓글</div>
+            <div class="mypage-main">마이페이지 > 내가 참여한 펀딩</div>
             <div class="incontainer">
                 <div class="menu-bar">
                     <div class="menu-bar-option">
@@ -34,7 +34,6 @@
                         <a href="mypageParticipatedFunding">내가 참여한 펀딩</a>
                     </div>
                     <hr class="custom-hr">
-
                     <div class="myprofile">
                         <div class="profileimage">
                             <img src="<%= result.imageUrl %>" alt="profileImage" class="img">
@@ -51,30 +50,41 @@
                             </a>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="mainbox">
                     <%if (Object.keys(posts).length>0) { %>
                         <% posts.forEach(post=> { %>
-                            <a href="/write/getWritedPage?postId=<%= post.postId %>">
-                                <div class="mypost">
-                                    <h2>
-                                        <%= post.title  %>
-                                    </h2>
-                                    <h1>
-                                        <%= post.content %>
-                                    </h1>
-                                    <p><%= post.createdAt %></p>
+                            <div class="mypost">
+                                <div class="img-box">
+                                    <img src="<%= post.imageUrl %>" alt="productImage" class="img">
+                                  </div>
+                                <h2>
+                                    <%= post.productName %>
+                                    <p>기간: <%=post.fundingDate %></p> 
+                                    <p>참여인원: <%= post.people %>명</p>
+                                </h2>
+                                
+                                <div class="cancleFunding">
+                                        <button class="btn-block" id="btn1" onclick="showPopup2()" type="button">펀딩 취소하기</button>
                                 </div>
-                                <% })} else{ %>
-                                    <p>작성한 댓글이 아직 없습니다.</p>
-                                    <% }%>
-                            </a>
+                                
+                                <div class="popup2" id="popup2">
+                                    <p id ="pp">펀딩 참여를 취소하시겠습니까?</p>
+                                        <a href="/joinFundingPage/cancleFunding/<%= post.fundingGroupId%>">
+                                            <button type="button" onclick="closePopup()" id="popupButton">예</button>
+                                        </a>
+                                        <button type="button" onclick="closePopup()" id="popupButton">아니오</button>
+                                </div>
+                            </div>
+                        <% })} else{ %>
+                            <p>참여한 펀딩이 아직 없습니다.</p>
+                        <% }%>
                 </div>
 
             </div>
             </div>
         </div>
+        
 
 
 
@@ -109,6 +119,7 @@
                 <button type="submit" id="popupButton">저장</button>
             </form>
         </div>
+    </div>
 
         <script>
             function showPopup() {
@@ -118,6 +129,18 @@
 
             function closePopup() {
                 document.getElementById('popup').style.display = 'none';
+                document.getElementById('popup-bg').style.display = 'none';
+            }
+        </script>
+
+        <script>
+            function showPopup2() {
+                document.getElementById('popup2').style.display = 'block';
+                document.getElementById('popup-bg').style.display = 'block';
+            }
+
+            function closePopup() {
+                document.getElementById('popup2').style.display = 'none';
                 document.getElementById('popup-bg').style.display = 'none';
             }
         </script>

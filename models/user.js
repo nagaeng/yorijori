@@ -76,6 +76,10 @@ module.exports = (sequelize, Sequelize) => {
     detail: { // 상세주소
       type: Sequelize.STRING,
       allowNull: true
+    },
+    imageUrl: { //이미지주소
+      type: Sequelize.STRING,
+      allowNull: true
     }
     ,
     // myhash: {
