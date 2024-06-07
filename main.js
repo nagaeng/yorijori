@@ -31,8 +31,7 @@ const upload = multer({
     storage: multerGoogleStorage.storageEngine({
         bucket: 'yorizori_post_img',
         projectId: 'burnished-core-422015-g1',
-        keyFilename: '/home/g20221783/yorijori/secure/burnished-core-422015-g1-f3b170868aa8.json',
-       
+        keyFilename: 'secure/burnished-core-422015-g1-f3b170868aa8.json',
     }),
     limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (예: 5MB)
 });
@@ -53,6 +52,15 @@ app.use(session({
     store: new FileStore()
 }));
 
+//플래시 메시지 미들웨어 설정
+app.use(flash());
+
+// 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
+app.use((req, res, next) => {
+    res.locals.successMessages = req.flash('success');
+    res.locals.errorMessages = req.flash('error');
+    next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -76,13 +84,10 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-const joinFundingRouter = require("./routers/joinFundingRouter.js")
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
-
+const joinFundingRouter = require("./routers/joinFundingRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
 const searchRouter = require("./routers/searchRouter.js")
 const createFundingRouter = require("./routers/createFundingRouter.js")
@@ -97,13 +102,14 @@ app.use("/search", searchRouter);
 app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
-// create funding 접근
-app.use("/createfundingPage", createFundingRouter)
-// joinFunding 접근
-app.use("/joinfundingPage", joinFundingRouter);
-
 // 로그인 및 사용자 관리 접근
 app.use("/auth", authRouter);
+// createFundingRouter 접근
+app.use("/createfundingPage", createFundingRouter);
+// joinFundingRouter 접근
+app.use("/joinfundingPage", joinFundingRouter);
+
+
 //플래시 메시지 미들웨어 설정
 // app.use(flash());
 
@@ -113,6 +119,7 @@ app.use((req, res, next) => {
     res.locals.errorMessages = req.flash('error');
     next();
 });
+
 
 // app.set('view engine', 'ejs');
 
