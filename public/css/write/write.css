@@ -2,69 +2,97 @@
   margin: 0;
   padding: 0;
 }
-
-.form {
-  margin-top: 30px;
-  padding: 0 200px;
+.all{
   display: flex;
-  align-items: center;
-}
-
-.form-a {
+  position: relative;
   width: 100%;
-  margin: 10px;
-  padding: 10px;
+  margin: 50px 0 50px 0;
+  justify-content: center;
+}
+.form{
   display: flex;
   flex-direction: column;
+  width: 1090px;
+  margin-top:50px;
 }
-
-
-.write div {
-  margin-top: 5px;
-  font-size: 20px;
-  color: black;
-  font-weight: bold;
-  line-height: 30px;
+/*메인 문구*/
+.write{
+  width: 1090px;
+  margin-bottom: 70px;
+  justify-content: center;
+  text-align: center;
 }
-
-.start-write {
+#write1 {
   font-size: 40px;
   font-weight: 600;
 }
-
+#write2 {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 30px;
+  margin-left: 5px;
+}
+#write3{
+  font-size: 28px;  
+  font-weight: bold;
+  line-height: 30px;
+}
+/* 게시물 작성 메인 */
 .title {
   margin-top: 20px;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: bold;
+  display: flex;
 }
-
-.title-bax {
+.title>div{
+  width: 200px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.title-box {
   box-sizing: border-box;
   height: 30px;
+  width: 650px;
   border: 1px solid #416558
 }
-
+.result-menu{
+  display: none;
+  box-sizing: border-box;
+  height: 30px;
+  width: 600px;
+}
 .search-menu{
   width: 200px;
   margin-bottom: 20px;
 }
-.menubox{
-  width: 300px;
-  height: 100px;
-  border: 3px solid #416558;
+/*메뉴 담아오는 박스*/
+.ingredi-box{
+  margin-left: 200px;
+  width: 650px;
+  height: 50px;
+  border: 2px solid #416558;
 }
-
+.search-Menu-button, .search-button{
+  margin:0;
+  width:60px;
+  height: 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-left: 30px;
+}
+/* 글 작성 박스 */
+#empty-box{
+  height: 30px;
+}
 #data {
   box-sizing: border-box;
-  height: 30em;
   resize: none;
   margin-bottom: 10px;
   border: 1px solid #416558;
 }
-
-
+/* 제출 버튼 */
 .submit {
-  margin-top: 10px;
+  margin: 20px 0 0 850px;
   padding: 6px 5px;
   border: 1px solid #ADBC9F;
   box-sizing: border-box;
@@ -73,11 +101,11 @@
   text-align: center;
   line-height: 1;
   cursor: pointer;
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 40px;
   background-color: #ADBC9F;
   border-radius: 5px;
-  box-shadow :  3px 3px 2px lightgrey;
+  box-shadow :  0px 1px 6px 1px lightgrey;
 }
 
 header,footer {
@@ -85,3 +113,16 @@ header,footer {
   z-index: 1;
 }
 
+::placeholder{
+  font-size: 15px;
+  text-align: center;
+}
+.note-placeholder {
+  font-size: 15px;
+}
+select{
+  height: 35px;
+}
+option{
+  font-size: 15px;
+}
