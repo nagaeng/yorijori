@@ -1,6 +1,9 @@
-const { Op, Sequelize } = require('sequelize');
-const db = require('../models');
-const Post = db.post;
+//const { Op, Sequelize } = require('sequelize');
+const db = require("../models/index"),
+Post = db.post,
+Op = db.Sequelize.Op;
+
+const { Sequelize, sequelize } = require('../models');
 
 exports.searchResult = async (req, res) => {
     try {
@@ -75,9 +78,29 @@ exports.searchResult = async (req, res) => {
             offset: offset
         });
 
+        const query = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:postIds)
+            GROUP BY p.postId;
+        `;
+
+        const ingredientResults = await sequelize.query(query, {
+            replacements: { postIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ingredientMap = ingredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
+
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ingredientMap[post.postId] || ''
         }));
 
         // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회

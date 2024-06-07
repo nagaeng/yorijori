@@ -44,8 +44,8 @@ db.post.hasMany(db.comment, { foreignKey: 'postId' });
 db.comment.belongsTo(db.post, { foreignKey: 'postId' });
 
 // Posts and Ingredients (N:M)
-db.post.belongsToMany(db.ingredient, { through: 'usage', foreignKey: 'postId', otherKey: 'ingredientId' });
-db.ingredient.belongsToMany(db.post, { through: 'usage', foreignKey: 'ingredientId', otherKey: 'postId' });
+db.post.belongsToMany(db.ingredient, { through: db.usage, foreignKey: 'postId', otherKey: 'ingredientId' });
+db.ingredient.belongsToMany(db.post, { through: db.usage, foreignKey: 'ingredientId', otherKey: 'postId' });
 
 // Posts and Users (저장)
 db.post.belongsToMany(db.ingredient, { through: db.save, foreignKey: 'postId', otherKey: 'userId' });

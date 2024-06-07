@@ -1,41 +1,12 @@
 const db = require("../models/index"),
 Post = db.post,
 Op = db.Sequelize.Op;
-// 전체 게시글
-// exports.getAllPosts = async (req, res) => {
-//     try {
-//         const posts = await db.post.findAll({
-//             include: [
-//               {
-//                 model: db.ingredient,
-//                 through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
-//               },
-//               {
-//                 model: db.image,
-//                 as: 'images'
-//               }
-//             ]
-//         });
 
-//         const postsWithIngredients = posts.map(post => ({
-//             ...post.get({ plain: true }),
-//             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
-//         }));
-        
-//         res.render("recipe/posts", {
-//             posts: postsWithIngredients,
-//             showCategoryBar: true
-//         });
-//     } catch (err) {
-//         console.error("Error: ", err);
-//         res.status(500).send({
-//             message: err.message
-//         });
-//     }
-// };
+const { Sequelize, sequelize } = require('../models');
 
 // 많이 본 & 최신 게시글 (로그인 X)
 exports.getNoLoginRecommendPosts = async (req, res) => {
+    const userId = req.user?.userId || 16; // 사용자 id 받아오기
     try {
         const posts = await db.post.findAll({
             include: [
@@ -55,14 +26,37 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
             order: [[db.view, 'views', 'DESC'], ['date', 'DESC']] // 조회수, 작성일 기준 내림차순 정렬
         });
 
+        const postIds = posts.map(post => post.postId);
+
+        const query = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:postIds)
+            GROUP BY p.postId;
+        `;
+
+        const ingredientResults = await sequelize.query(query, {
+            replacements: { postIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ingredientMap = ingredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
+
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ingredientMap[post.postId] || ''
         }));
-        
+
         res.render("recipe/noLoginRecommendPosts", {
             posts: postsWithIngredients,
-            showCategoryBar: true
+            showCategoryBar: true,
+            user: { userId }
         });
     } catch (err) {
         console.error("Error: ", err);
@@ -94,12 +88,33 @@ exports.getLoginRecommendPosts = async (req, res) => {
                 }
             ],
             order: [[db.view, 'views', 'DESC']]
-            //limit: 3
         });
+
+        const viewPostIds = viewPosts.map(post => post.postId);
+
+        const viewQuery = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:viewPostIds)
+            GROUP BY p.postId;
+        `;
+
+        const viewIngredientResults = await sequelize.query(viewQuery, {
+            replacements: { viewPostIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const viewIngredientMap = viewIngredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
 
         const viewPostsWithIngredients = viewPosts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: viewIngredientMap[post.postId] || ''
         }));
 
         // 2. 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
@@ -130,7 +145,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
             const relatedCategories = [...new Set(relatedPosts.map(post => post.menu.category))];
             const relatedTitles = [...new Set(relatedPosts.map(post => post.title.split(' ')).flat())];
 
-            const recommendedPosts = await db.post.findAll({
+            const recommendedPostResults = await db.post.findAll({
                 where: {
                     [Op.or]: [
                         {
@@ -164,12 +179,32 @@ exports.getLoginRecommendPosts = async (req, res) => {
                     }
                 ],
                 order: [[db.view, 'views', 'DESC'], ['date', 'DESC']]
-                //limit: 9
             });
 
-            recommendPostsWithIngredients = recommendedPosts.map(post => ({
+            const recommendedPostIds = recommendedPostResults.map(post => post.postId);
+
+            const recommendQuery = `
+                SELECT p.postId,
+                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:recommendedPostIds)
+                GROUP BY p.postId;
+            `;
+            const recommendIngredientResults = await sequelize.query(recommendQuery, {
+                replacements: { recommendedPostIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            const recommendIngredientMap = recommendIngredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+
+            recommendPostsWithIngredients = recommendedPostResults.map(post => ({
                 ...post.get({ plain: true }),
-                ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+                ingredients: recommendIngredientMap[post.postId] || ''
             }));
         }
 
@@ -191,7 +226,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
 
 // 메인 카테고리별 게시글
 exports.getPostsByCategory = async (req, res) => {
-    const userId = req.user?.userId || ""; // 사용자 id 받아오기
+    const userId = req.user?.userId || 16; // 사용자 id 받아오기
     const category = req.params.category; // URL에서 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -230,9 +265,30 @@ exports.getPostsByCategory = async (req, res) => {
             order: order // 정렬 적용
         });
 
+        const postIds = posts.map(post => post.postId);
+
+        const query = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:postIds)
+            GROUP BY p.postId;
+        `;
+        const ingredientResults = await sequelize.query(query, {
+            replacements: { postIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ingredientMap = ingredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
+
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ingredientMap[post.postId] || ''
         }));
 
         // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
@@ -260,7 +316,7 @@ exports.getPostsByCategory = async (req, res) => {
 
 // 세부 카테고리별 게시글
 exports.getPostsBySubcategory = async (req, res) => {
-    const userId = req.user?.userId || ""; // 사용자 id 받아오기
+    const userId = req.user?.userId || 16; // 사용자 id 받아오기
     const { category, subcategory } = req.params; // URL에서 메인 카테고리와 세부 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -290,7 +346,7 @@ exports.getPostsBySubcategory = async (req, res) => {
                 },
                 {
                     model: db.ingredient,
-                    where: subcategory !== 'all' ? { category: subcategory } : {}, // 세부 카테고리로 필터링
+                    where: ingredientCategoryCondition, // 세부 카테고리로 필터링
                     through: { attributes: [] } // usage 테이블을 통해 연결됨
                 },
                 {
@@ -303,29 +359,37 @@ exports.getPostsBySubcategory = async (req, res) => {
         // 필터링된 포스트의 모든 재료 가져오기
         const postIds = filteredPosts.map(post => post.postId);
 
-        const posts = await db.post.findAll({
-            where: { postId: postIds },
-            include: [
-                {
-                    model: db.ingredient,
-                    through: { attributes: [] }
-                },
-                {
-                    model: db.image,
-                    as: 'images'
-                },
-                {
-                    model: db.view,
-                    attributes: ['views'] // Fetch the views attribute
-                }
-            ],
-            order: order // 정렬 적용
-        });
-
-        const postsWithIngredients = posts.map(post => ({
+        let postsWithIngredients = filteredPosts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ''
         }));
+
+        if (postIds.length > 0) {
+            const query = `
+                SELECT p.postId,
+                    GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:postIds)
+                GROUP BY p.postId;
+            `;
+            
+            const ingredientResults = await sequelize.query(query, {
+                replacements: { postIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            const ingredientMap = ingredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+
+            postsWithIngredients = filteredPosts.map(post => ({
+                ...post.get({ plain: true }),
+                ingredients: ingredientMap[post.postId] || ''
+            }));
+        }
 
         // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
         const savedPosts = await db.save.findAll({
@@ -370,6 +434,29 @@ exports.postUnsave = async (req, res) => {
 
     try {
         await db.save.destroy({ where: { userId, postId } });
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, error: error.message });
+    }
+};
+
+exports.incrementView = async (req, res) => {
+    const { userId, postId } = req.body;
+
+    try {
+        // Check if the view entry exists for the given postId
+        let view = await db.view.findOne({ where: { userId, postId } });
+
+        if (!view) {
+            // If it doesn't exist, create a new entry with an initial view count of 1
+            view = await db.view.create({ userId, postId, views: 1 });
+        } else {
+            // If it exists, increment the view count
+            view.views += 1;
+            await view.save();
+        }
+
         res.json({ success: true });
     } catch (error) {
         console.error(error);

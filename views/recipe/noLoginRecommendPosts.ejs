@@ -19,13 +19,14 @@
                     <% if (posts.length > 0) { %>
                         <div class="list-group">
                             <% posts.forEach(post => { %>
-                                <a href="/write/getWritedPage?postId=<%=post.postId%>">
-                                <div class="recipe-card">
+                                <div class="recipe-card" data-post-id="<%=post.postId%>">
                                         <% if (post.images && post.images.length > 0) { %>
                                             <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                         <% } %>
                                     <div class="btn-position">
+                                        <a href="/write/getWritedPage?postId=<%=post.postId%>">
                                         <h2><%= post.title %></h2>
+                                        </a>
                                         <button
                                             class="bookmark-button bookmark-not-saved" 
                                             id="btn-<%= post.postId %>" 
@@ -34,7 +35,6 @@
                                     </div>
                                         <p>주재료: <%= post.ingredients %></p>
                                     </div>
-                                </a>
                         <% }); %>
                         </div>
                     <% } else { %>
@@ -65,6 +65,32 @@
             alert('로그인이 필요합니다.');
             window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
         }
+    </script>
+
+    <script>
+        document.querySelectorAll('.recipe-card').forEach(card => {
+            card.addEventListener('click', function(event) {
+                const postId = this.getAttribute('data-post-id');
+                
+                fetch('/posts/view', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: 16, postId })
+
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('View count incremented');
+                    } else {
+                        console.log('Error incrementing view count');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
     </script>
 </body>
 </html>
