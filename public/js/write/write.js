@@ -34,7 +34,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
             clickbtNum++;
         let searchMenu = $('#search-menu').val();
         $.ajax({
-            url:'write/getMenu',
+            url:'../write/getMenu',
             type:'GET',
             data:{searchMenu : searchMenu},
             success:function(data){

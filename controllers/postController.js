@@ -1,6 +1,38 @@
 const db = require("../models/index"),
 Post = db.post,
 Op = db.Sequelize.Op;
+// 전체 게시글
+// exports.getAllPosts = async (req, res) => {
+//     try {
+//         const posts = await db.post.findAll({
+//             include: [
+//               {
+//                 model: db.ingredient,
+//                 through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
+//               },
+//               {
+//                 model: db.image,
+//                 as: 'images'
+//               }
+//             ]
+//         });
+
+//         const postsWithIngredients = posts.map(post => ({
+//             ...post.get({ plain: true }),
+//             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+//         }));
+        
+//         res.render("recipe/posts", {
+//             posts: postsWithIngredients,
+//             showCategoryBar: true
+//         });
+//     } catch (err) {
+//         console.error("Error: ", err);
+//         res.status(500).send({
+//             message: err.message
+//         });
+//     }
+// };
 
 // 많이 본 & 최신 게시글 (로그인 X)
 exports.getNoLoginRecommendPosts = async (req, res) => {
