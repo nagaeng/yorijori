@@ -52,6 +52,15 @@ app.use(session({
     store: new FileStore()
 }));
 
+//플래시 메시지 미들웨어 설정
+app.use(flash());
+
+// 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
+app.use((req, res, next) => {
+    res.locals.successMessages = req.flash('success');
+    res.locals.errorMessages = req.flash('error');
+    next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -75,14 +84,11 @@ app.use((req, res, next) => {
     next();
 });
 
-const joinFundingRouter = require("./routers/joinFundingRouter.js")
-// joinFundingRouter 접근
-app.use("/joinfundingPage", joinFundingRouter);
 
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
-
+const joinFundingRouter = require("./routers/joinFundingRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
 const searchRouter = require("./routers/searchRouter.js"); 
 const authRouter = require("./routers/authRouter");
@@ -96,12 +102,12 @@ app.use("/search", searchRouter);
 app.use("/posts", postRouter);
 //write 접근
 app.use("/write", writeRouter);
-
-// joinFunding 접근
-app.use("/joinfundingPage", joinFundingRouter);
-
 // 로그인 및 사용자 관리 접근
 app.use("/auth", authRouter);
+// joinFundingRouter 접근
+app.use("/joinfundingPage", joinFundingRouter);
+
+
 //플래시 메시지 미들웨어 설정
 // app.use(flash());
 
@@ -112,13 +118,14 @@ app.use((req, res, next) => {
     next();
 });
 
+
 // app.set('view engine', 'ejs');
 
 // 라우터 설정
 // app.use('/auth', authRouter);
 
 // 서버 실행
-app.set("port", 80);
+app.set("port", 8080);
 app.listen(app.get("port"), "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
 });

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글작성</title>
-    <link rel="stylesheet" href="/css/write.css" />
+    <link rel="stylesheet" href="/css/write/write.css" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/write.js"></script>
+    <script src="/js/write/write.js"></script>
      <!-- CDN 추가 시작 -->
      <script
      src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -27,7 +27,8 @@
 <body>
     <div>
     <div class="form">
-        <form class="form-a" action="write/postWrite" method="POST" name="write-form"> 
+      <form class="form-a" action="/write/updatePost" method="POST" name="write-form"> 
+        <input type="hidden" name=postId value="<%= postId %>">
           <!-- 메인 form  -->
           <div class="write">
             <span class="start-write">"당신만의"</span>
