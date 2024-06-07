@@ -17,23 +17,6 @@ header{
     font-family: 'Abhaya Libre ExtraBold', sans-serif;
 }
 
-.simple_signin{
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.signin-type {
-    margin-top: 54px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 54px; /* 요소들 간의 간격을 54px로 설정 */
-}
-
 .input-container{
     display: flex;
     justify-content: center;
