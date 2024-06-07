@@ -94,7 +94,7 @@ function checkHak(commentId){
 };
 
 dok.addEventListener("click",()=>{
-    if(i==0){
+    if(j==0){
     correction.style.display="block";
     i ++; 
     }
@@ -104,15 +104,12 @@ dok.addEventListener("click",()=>{
     }
 });
 
-
-document.querySelector(".comment-bt").addEventListener("click", function(event) {
+function checkLogin(LoginuserId, event) {
     // 로그인 여부 확인
-    if ( LoginuserId == -1) {
+    if (LoginuserId == -1) {
         // 로그인되지 않은 경우
         alert('로그인이 필요합니다!');
         event.preventDefault(); // 폼 제출 중지
     }
-});
+}
 
-
-  

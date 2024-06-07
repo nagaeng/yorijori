@@ -146,7 +146,7 @@ exports.postWrite = async (req, res) => {
                 where:
                 {
                     title:{
-                        [Op.like]: `%${req.body.title}%` } //title로 찾음. 중복불가 처리해놓음
+                        [Op.like]: `%${req.body.content}%` } //title로 찾음. 중복불가 처리해놓음
                 }
             });
 
@@ -489,6 +489,7 @@ exports.increaseViews=async(req,res)=>{
             console.error('게시글 조회수 증가에 실패했습니다:', error);
             res.status(500).send('게시글 조회수 증가에 실패했습니다.');
         });
+        
 }
 
 exports.deletePost=async(req,res)=>{

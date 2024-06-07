@@ -70,11 +70,11 @@
                 <div>조회수</div>
                 <div class="writted-num"></div>
               </div>
-              <div class="writted-time"><%=date%></div>
+              <div class="writted-time"><%= new Date(date).toLocaleDateString() %></div>
             </div>
           </article>
           <div class="write">
-            <!-- update comment post -->
+            <!-- 커멘트 작성 -->
             <form action="../write/postCommentPage" method="POST" name="comment">
               <input type="hidden" name="postId" value="<%= postId %>">
               <div class="comment">
@@ -86,7 +86,7 @@
                       required
                       name="comment"
                     />
-                    <button class="comment-bt" onclick="return checkLogin('<%= LoginuserId %>')" type="submit">답변등록</button>
+                    <button class="comment-bt" onclick="checkLogin('<%= LoginuserId %>', event)" type="submit">답변등록</button>
                 </div>
               </div>
            </form>
