@@ -171,6 +171,7 @@ exports.postWrite = async (req, res) => {
         }
         //post된 ingredientId 찾아서 메뉴 db에 넣기
         let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
+
         console.log(ingredient.length);
         for(let i=0; i<ingredient.length; i++){
             let ingredientArr = await Ingredient.findAll({
