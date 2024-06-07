@@ -199,6 +199,10 @@ module.exports = {
             let fundingGroupId = req.params.fundingGroupId;
             let fundingGroup = await FundingGroup.findByPk(fundingGroupId);
 
+            if (fundingGroup) {
+                fundingGroup.distributionDateFormatted = formatDate(fundingGroup.distributionDate);
+            }
+
             res.render("funding/createFundingSuccess", { fundingGroup });
         } catch (error) {
             res.status(500).send({ message: error.message });
