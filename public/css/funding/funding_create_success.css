@@ -9,6 +9,7 @@ a {
 
 body {
     color: #12373A;
+    font-family: 'ABeeZee', sans-serif;
 }
 #container{
     display: flex;
