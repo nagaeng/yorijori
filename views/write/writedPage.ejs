@@ -38,23 +38,23 @@
                 <img src="/assets/Vector.png" class="userImg" />
                 <div class="ueerNic"><%=nicName%></div>
               </div>
+              <!-- 수정 삭제 바 -->
               <div class="bt-bar">
-                  <button class="dok" style="display: block;">
+                  <button class="dok" style="display:block;">
                       <img src="/assets/---.png" />
                   </button>
             
               </div>  
               </div>
-              
-               
               </article>
+            <!-- 게시글 수정버튼 -->
             <div class="alter-box">
               <div class="correction co">
-                <a href="../html/wirte.html">
-                  <div class="su">수정하기</div>
+                <a href="../write/viewUpdatePage?postId=<%= postId %>">
+                  <div class="su suj">수정하기</div>
                 </a>
                 <hr />
-                <div class="su erase">삭제하기</div>
+                <div class="su erase" onclick="eraseModal2('<%= postId %>')">삭제하기</div>
               </div>
             </div>
             
@@ -75,10 +75,11 @@
             </div>
           </article>
           <div class="write">
+            <!-- update comment post -->
             <form action="../write/postCommentPage" method="POST" name="comment">
+              <input type="hidden" name="postId" value="<%= postId %>">
               <div class="comment">
                 <div>
-                    <input type="hidden" name="postId" value="<%= postId %>" />
                     <input
                       type="text"
                       class="comment-place"
@@ -92,11 +93,12 @@
            </form>
           </div>
           <% if (typeof comment!== 'undefined' && comment !== null) { %>
+            <!-- 모든 코멘트 보여주기 -->
             <div class="allComment">
             <div>
               <%for(let i=0; i<comment.length; i++){%>
               <article>
-                <%const commentId = commen[i].dataValues.commentId%>
+                <%const commentId = comment[i].dataValues.commentId%>
                 <div class="comment-main">
                   <div class="comment-box">
                     <div class="nic-box">
@@ -105,40 +107,66 @@
                       </div>
                       <div class="nic"><%=commentUser[i]%></div>
                     </div>
-                    <form>
-                      <div class="comm-content">
+                    <!-- 코멘트 수정 박스 hiddent 처리 되어있음-->
+                    <form action="../write/commentUpdate" method="POST" name="commentUpdate">
+                      <input type="hidden" name="commentId" value="<%= commentId %>">
+                      <input type="hidden" name="commentUserId" value="<%=comment[i].dataValues.userId %>">
+                       <input type="hidden" name="postId" value="<%=postId%>">
+                      <div class="comm-content" id="editForm-<%=commentId%>">
                         <input
-                          id="comm"
-                          name="title"
+                          id="comm-<%= commentId %>"
+                          name="commentContent"
                           type="text"
                           class="com-su"
                           placeholder="내용을 입력하세요"
                           required
                         />
+                        <button class="su hak" onclick="checkHak('<%= commentId %>')">확인</button>  
                       </div>
                     </form>
+                    <!-- 코멘트 내용 -->
                     <div class="comm-content1"><%=comment[i].dataValues.content%></div>
-                    <div class="alt">
+                    <!-- 코멘트 수정 삭제 버튼-->
+                    <div class="alt" id="alt-<%= commentId %>">
                       <div class="alter-box">
                         <% if(LoginuserId==comment[i].dataValues.userId){ %>
                         <div class="correction">
-                          <div class="su bu2">수정하기</div>
+                          <div class="su bu2" onclick="openEditForm('<%= commentId %>')">수정하기</div>
                           <hr />
-                          <div class="su er">삭제하기</div>
+                          <!-- 삭제하기 버튼 -->
+                          <div class="su er" onclick="eraseModal('<%= commentId %>')">삭제하기</div>
                         </div>
                         <% } %>
                       </div>
                     </div>
-                    <div class="h">
-                      <div class="alter-box">
-                        <div class="correction">
-                          <div class="su hak">확인</div>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </article>
+
+              <div class="modal" id="modal-<%=commentId%>">
+                <div class="modal_body">
+                  <p>정말 삭제하시겠습니까?</p>
+                    <form action="/write/commentDelete" method="POST" name="commentDelete">
+                    <input type="hidden" name="commentId" value="<%= commentId %>">
+                    <input type="hidden" name="commentUserId" value="<%=comment[i].dataValues.userId %>">
+                    <input type="hidden" name="postId" value="<%=postId%>">
+                    <button class="btn-ok" type="submit" >확인</button>
+                  </form>
+                  <button class="btn-no" onclick="cancellation('<%= commentId %>')">취소</button>
+                </div>
+              </div>
+              <div class="modal2" id="modal2-<%=postId%>">
+                <div class="modal_body">
+                  <p>정말 삭제하시겠습니까?</p>
+                    <form action="../write/deletePost" method="POST" name="commentDelete">
+                    <input type="hidden" name="postId" value="<%= postId %>">
+                    <button class="btn-ok" type="submit">확인</button>
+                  </form>
+                  <button class="btn-no" onclick="cancellation('<%= commentId %>')">취소</button>
+                </div>
+              </div>
+              
               <%}%>
             </div>
           </div>
@@ -146,12 +174,6 @@
         </div>
       </div>
     </div>
-    <div class="modal">
-      <div class="modal_body">
-        <p>정말 삭제하시겠습니까?</p>
-        <button class="btn-ok">확인</button>
-        <button class="btn-no">취소</button>
-      </div>
-    </div>
+    
   </body>
 </html>

@@ -226,6 +226,13 @@ h2{
 .hak{
     text-align: center;
     line-height: 60px;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    border: solid 1px grey;
+    border-radius: 6px;
+    padding: 6px 4px;
+    background-color: white;
 }
 
 .h{
@@ -247,7 +254,17 @@ h2{
     overflow-y:auto; 
     position: fixed
 }
-
+.modal2{
+    display:none;
+    justify-content: center;
+    top:0;
+    left:0;
+    width:100%;
+    min-height:100vh;
+    background-color: rgba(0,0,0,0.4);
+    overflow-y:auto; 
+    position: fixed
+}
 .modal_body{
     position:absolute;
     top:50%; 

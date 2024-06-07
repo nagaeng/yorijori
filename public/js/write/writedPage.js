@@ -1,30 +1,44 @@
 
 const modal = document.querySelector('.modal');
+const modal2 = document.querySelector('.modal2');
 const btnOk=document.querySelector('.btn-ok');
 const btnNo=document.querySelector('.btn-no');
-const btnNo2 = document.querySelector('.bu2')
 const erase = document.querySelector('.erase');
 const er = document.querySelector('.er');
-const comment = document.querySelector('.comment-box')
-const comm1 = document.querySelector('.comm-content1')
-const hak = document.querySelector('.hak')
-const h = document.querySelector('.h');
-const alt = document.querySelector('.alt');
 const inputElement = document.querySelector('.comment-place');
 const commentBt = document.querySelector('.comment-bt');
-const comm = document.querySelector('.comm-content');
-const comSu = document.querySelector('.com-su');
 const dok = document.querySelector('.dok');
 const correction = document.querySelector('.co');
 const suOrErase = document.querySelector('.alter-box');
 let i = 0; 
 
-
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
 btnNo.addEventListener("click" , ()=>{ modal.style.display="none";} );
 erase.addEventListener("click", ()=>{modal.style.display = 'flex';  });
-er.addEventListener("click", ()=>{modal.style.display = 'flex';  });
 
+// 모달 표시 함수
+function eraseModal(commentId) {
+    // 모달 요소 가져오기
+    var modal = document.querySelector(`#modal-${commentId}`);
+    // 모달 표시
+    modal.style.display = 'flex';
+}
+
+//모달표시2 
+
+function eraseModal2(postId) {
+    // 모달 요소 가져오기
+    var modal = document.querySelector(`#modal2-${postId}`);
+    // 모달 표시
+    modal.style.display = 'flex';
+}
+//취소
+function cancellation(commentId) {
+    var modal = document.querySelector(`#modal-${commentId}`);
+    // 모달을 숨기기 전에 commentId를 삭제합니다.
+    delete modal.dataset.commentId;
+    modal.style.display = 'none';
+}
 
 function checkInput() {
     if (inputElement.value == '') {
@@ -32,8 +46,9 @@ function checkInput() {
     }
 };
 
-function checkInput2(){
-    if(comSu.value == ''){
+function checkInput2(commentId){
+    const comSu = document.querySelector(`#comm-${commentId}`);
+    if(comSu.value ==''){
         alert('입력란이 비어있습니다!');
         return 1; 
     }
@@ -43,32 +58,38 @@ function checkInput2(){
 
 commentBt.addEventListener("click", checkInput);
 
-// btnNo2.querySelectorAll("click" , ()=>{comm.style.display="flex"; 
-//                     h.style.display="flex";
-//                     alt.style.display="none";});
+function openEditForm(commentId) {
+    // commentId를 사용하여 해당 댓글의 수정 창을 표시
+    const editForm = document.querySelector(`#editForm-${commentId}`);
+    const alt = document.querySelector(`#alt-${commentId}`);
+    const h = document.querySelector(`#h-${commentId}`);
+    const correction = document.querySelector(`.correction`)
+    editForm.style.display = 'flex';
+    h.style.display="none";
+    alt.style.display="none";
+    correction.style.display ="none";
+}
 
-document.querySelectorAll('.bu2').forEach(function(btnNo2) {
-    btnNo2.addEventListener('click', function() {
-        const parentDiv = btnNo2.closest('.alt');
-        if (parentDiv) {
-            const commentId = parentDiv.dataset.commentId;
-            // commentId를 사용하여 원하는 작업을 수행할 수 있습니다.
-        }
-    });
-});
-hak.addEventListener("click", checkHak);
+document.querySelector(".hak").addEventListener("click", function() {
+    const commentId = '<%= commentId %>';
+    checkHak(commentId);
+  });
 
-function checkHak(){
-    checkInput2();
-    if(checkInput2 == 1){
-        comm.style.display ="flex";
+//확인시 값 들어가있는지 체크 
+function checkHak(commentId){
+    const editForm = document.querySelector(`#editForm-${commentId}`);
+    const alt = document.querySelector(`#alt-${commentId}`);
+    const h = document.querySelector(`#h-${commentId}`);
+    let result = checkInput2(commentId);
+    if(result == 1){
+        editForm.style.display ="flex";
        
     }
     else{
-        comm.style.display = "none";
+        editForm.style.display = "none";
         h.style.display = "none";
         alt.style.display = "flex";
-        
+
     }
 };
 
@@ -83,9 +104,6 @@ dok.addEventListener("click",()=>{
     }
 });
 
-console.log("LoginuserId 값:", LoginuserId);
-
-
 
 document.querySelector(".comment-bt").addEventListener("click", function(event) {
     // 로그인 여부 확인
@@ -95,3 +113,6 @@ document.querySelector(".comment-bt").addEventListener("click", function(event) 
         event.preventDefault(); // 폼 제출 중지
     }
 });
+
+
+  
