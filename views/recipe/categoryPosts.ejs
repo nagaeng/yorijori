@@ -52,6 +52,17 @@
                 <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
                 <% if(posts.length > 0) { %>                    
                     <% posts.forEach(post => { %>
+                        <a href="/write/getWritedPage?postId=<%=post.postId%>">
+                            <div class="recipe-card">
+                                <% if (post.images && post.images.length > 0) { %>
+                                    <% const firstImage = post.images[0]; %>
+                                    <img src="<%= firstImage.imageUrl %>" alt="postImage" class="recipe-image">
+                                <% } %>                    
+                                <h2><%= post.title %></h2>
+                                <p>주재료: <%= post.ingredients %></p>
+                            </div>
+                        </a>
+                        <a href="/write/getWritedPage?postId=<%=post.postId%>">
                         <div class="recipe-card">
                             <% if (post.images && post.images.length > 0) { %>
                                 <% const firstImage = post.images[0]; %>
@@ -61,6 +72,7 @@
                             <h2><%= post.title %></h2>
                             <p>주재료: <%= post.ingredients %></p>
                         </div>
+                        </a>
                     <% }); %>
                 <% } else { %>
                     <p>No posts available for this category.</p>

@@ -5,6 +5,7 @@
     <title>Combined Posts</title>
     <link rel="stylesheet" href="/css/recipe/styles.css">
     <link rel="stylesheet" href="/css/recipe/searchResult.css">
+    <script src="/js/post/post.js"></script>
 </head>
 <body>
     <div id="container-box">
@@ -21,14 +22,22 @@
                 <% if (viewPosts.length > 0) { %>
                     <div class="list-group">
                         <% viewPosts.slice(0, 3).forEach(post => { %>
+                            <a href="/write/getWritedPage?postId=<%=post.postId%>" class="post-link" data-post-id="<%= post.postId %>">
                             <div class="recipe-card">
                                 <% if (post.images && post.images.length > 0) { %>
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
                                 <div class="btn-position">
                                 <h2><%= post.title %></h2>
+                                <button
+                                    class="bookmark-button <%= savedPostIds.includes(post.postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
+                                    id="btn-<%= post.postId %>" 
+                                    onclick="saveBookmark('<%= post.postId %>');">
+                                </button>
+                            </div>
                                 <p>주재료: <%= post.ingredients %></p>
                             </div>
+                            </a>
                         <% }); %>
                     </div>
                 <% } else { %>
@@ -44,7 +53,8 @@
                 <% if (recommendPosts.length > 0) { %>
                     <div class="list-group">
                         <% recommendPosts.slice(0, 9).forEach(post => { %>
-                            <div class="recipe-card">
+                            <a href="/write/getWritedPage?postId=<%=post.postId%>" class="post-link" data-post-id="<%= post.postId %>">
+                                <div class="recipe-card">
                                 <% if (post.images && post.images.length > 0) { %>
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
@@ -55,7 +65,8 @@
                                     onclick="saveBookmark('<%= post.postId %>');">
                                 </button>
                                 <p>주재료: <%= post.ingredients %></p>
-                            </div>
+                                </div>
+                            </a>
                         <% }); %>
                     </div>
                 <% } else { %>

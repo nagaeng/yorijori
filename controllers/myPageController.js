@@ -23,6 +23,7 @@ module.exports = {
                 if (!postsMap[post.postId]) {
                     postsMap[post.postId] = {
                         title: post.title,
+                        postId: post.postId,
                         userId: post.userId,
                         images: []
                     };
@@ -53,7 +54,7 @@ module.exports = {
             //내가 저장한 게시글 목록 불러오기 
             let userId = res.locals.currentUser.getDataValue('userId');
             let query = `
-                SELECT p.title, p.date
+                SELECT p.title, p.date, p.postId
                 FROM saves s
                 LEFT join posts p on s.postId = p.postId
                 where s.userId =1;   
@@ -91,7 +92,7 @@ module.exports = {
             //내가 단 댓글 목록 불러오기 
             let userId = res.locals.currentUser.getDataValue('userId');
             let query = `
-                        SELECT p.title, c.content, c.createdAt  
+                        SELECT p.title, c.content, c.createdAt, p.postId  
                         FROM comments c
                         left join posts p on p.postId= c.postId
                         where c.userId = 1;

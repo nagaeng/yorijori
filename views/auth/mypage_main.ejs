@@ -54,18 +54,18 @@
                 <div class="mainbox">
                     <% if (posts.length > 0) { %>
                         <% posts.forEach(post => { %>
-                            <div class="mypost">
-                                <a href="">
-                                        <% if (post.images.length > 0) { %>
-                                            <img src="<%= post.images[0] %>" alt="postImage" class="img">
-                                        <% } else { %>
-                                            <img src="/path/to/default/image.jpg" alt="defaultImage" class="img">
-                                        <% } %>
-                                    <h2>
-                                        <%= post.title %>
-                                    </h2>
-                                </a>
-                            </div>
+                            <a href="/write/getWritedPage?postId=<%= post.postId %>">
+                                <div class="mypost">
+                                            <% if (post.images.length > 0) { %>
+                                                <img src="<%= post.images[0] %>" alt="postImage" class="img">
+                                            <% } else { %>
+                                                <img src="/path/to/default/image.jpg" alt="defaultImage" class="img">
+                                            <% } %>
+                                        <h2>
+                                            <%= post.title %>
+                                        </h2>
+                                </div>
+                            </a>
                         <% }) %>
                     <% } else { %>
                         <p>작성한 게시글이 아직 없습니다.</p>

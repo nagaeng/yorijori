@@ -54,15 +54,17 @@
                 <div class="mainbox">
                     <%if (Object.keys(posts).length>0) { %>
                         <% posts.forEach(post=> { %>
-                            <div class="mypost">
-                                <h2>
-                                    <%= post.title %>
-                                </h2>
-                                <p><%= post.date %></p>
-                            </div>
-                            <% })} else{ %>
-                                <p>저장한 게시글이 아직 없습니다.</p>
-                                <% }%>
+                            <a href="/write/getWritedPage?postId=<%= post.postId %>">
+                                <div class="mypost">
+                                    <h2>
+                                        <%= post.title %>
+                                    </h2>
+                                    <p><%= post.date %></p>
+                                </div>
+                                <% })} else{ %>
+                                    <p>저장한 게시글이 아직 없습니다.</p>
+                                    <% }%>
+                            </a>
                 </div>
 
             </div>
