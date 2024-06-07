@@ -494,7 +494,7 @@ exports.deletePost=async(req,res)=>{
     try{
         console.log( 'postId:',req.body.postId )
         await Post.destroy({
-            where: { id:req.body.postId  } // id가 postId와 일치하는 게시물을 삭제
+            where: {postId:req.body.postId  } // id가 postId와 일치하는 게시물을 삭제
         });
         res.render('home');
     }catch(err){
