@@ -9,30 +9,33 @@
 <% let distributionPosition = '성신여자대학교 수정캠퍼스 학생회관 1층'%>
 <% let dateOfDistribution = '4월 25일 (목) 오전 11:30'%>
 <% let complete = "펀딩 생성 완료!" %>
-<% let message = "참여 인원 도달 시 알림을 보내드려요! <br>펀딩 성공까지 필요한 인원 : n명 <br>배부 위치와 일자를 다시 한 번 확인해주세요. %>
+<% let message = "참여 인원 도달 시 알림을 보내드려요! <br>펀딩 성공까지 필요한 인원 : <%= people-1 %>명 <br>배부 위치와 일자를 다시 한 번 확인해주세요. %>
 
 <body>
-    <div class="information-box">
-        <div class="img-box">
-            <img src="/assets/image.png" class="img">
-        </div>
-        <div class="complete">
-                <%= complete %>
-        </div>
-        <div class="message">
-            <%- message %>
-        </div>
-        <div class="distribution">
-            <div>배부 위치: 
-                <span> <%= distributionPosition %> </span>
+    <div id="container">
+        <div class="information-box">
+            <div class="img-box">
+                <img src="/assets/image.png" class="img">
             </div>
-            <div>배부 일자 및 시간: 
-                <span> <%= dateOfDistribution %> </span>
+            <div class="complete">
+                    <%= complete %>
             </div>
+            <div class="message">
+                <%- message %>
+            </div>
+            <div class="distribution">
+                <div>배부 위치: 
+                    <span> <%= group.distributionPosition %> </span>
+                </div>
+                <div>배부 일자 및 시간: 
+                    <span> <%= group.dateOfDistribution %> </span>
+                </div>
+            </div>
+            <a href="/"> <!-- 마이페이지로 연결되게 할건지, 펀딩 초기 화면으로 가게 할건지? -->
+                <span class="button">확인</span>
+            </a>
         </div>
-        <a href="/"> <!-- 마이페이지로 연결되게 할건지, 펀딩 초기 화면으로 가게 할건지? -->
-            <span class="button">확인</span>
-        </a>
+
     </div>
 </body>
 </html>
