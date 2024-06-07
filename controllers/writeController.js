@@ -162,7 +162,7 @@ exports.postWrite = async (req, res) => {
         }
         //post된 ingredientId 찾아서 메뉴 db에 넣기
         let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
-        for(let i=0; i<req.body.ingredi.length; i++){
+        for(let i=0; i<ingredient.length; i++){
             let ingredientArr = await Ingredient.findAll({
                 where:{
                     ingredientName:{
