@@ -4,6 +4,7 @@ header {
 
 body {
     color: #12373A;
+    font-family: 'ABeeZee', sans-serif;
 }
 
 #container{
@@ -18,8 +19,8 @@ body {
     margin: auto;
     margin-top: 90px;
     display: flex;
-    justify-content: center; /* Center the information-box */
-    align-items: center; /* Center vertically */
+    justify-content: center; 
+    align-items: center;
 }
 
 #select {
@@ -63,11 +64,17 @@ body {
 }
 
 .img {
-    height: 260px;
-    width: 260px;
+    height: 400px;
+    width: 400px;
     background-color: transparent;
     display: block; 
-    margin-left: auto; 
+    margin: 0 auto 20px; 
+}
+
+.img img {
+    height: 100%; /* 이미지의 높이를 부모 요소의 높이에 맞게 조정 */
+    width: 100%; /* 이미지의 너비를 부모 요소의 너비에 맞게 조정 */
+    object-fit: cover; /* 부모 요소의 영역에 이미지가 꽉 차도록 크기를 조정 */
 }
 
 .funding-button-container {

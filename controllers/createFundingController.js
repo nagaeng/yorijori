@@ -159,10 +159,10 @@ module.exports = {
                 deliveryCost: 4000,
                 deliveryDate: req.body.deliveryDate,
                 fundingDate: new Date(), // 여기도 req.body.로 받아와야하는지 확인
-                city: req.body.distributionLocation,
-                district: " ",
-                town: " ",
-                detail: " ",
+                city: req.body.distributionLocationCity,
+                district: req.body.distributionLocationDistrict,
+                town: req.body.distributionLocationTown,
+                detail: req.body.distributionLocationDetail,
                 distributionDate: req.body.distributionDate,
                 people: req.body.people,
                 representativeUserId: req.user.userId,
@@ -175,8 +175,6 @@ module.exports = {
             let [product, a] = await sequelize.query(sql, {
             type: Sequelize.SELECT
             });
-            console.log("-------------");
-            console.log(product);
 
             let newComposition = await Composition.create({
                 fundingGroupId: newFundingGroup.fundingGroupId,
@@ -199,6 +197,9 @@ module.exports = {
             let fundingGroupId = req.params.fundingGroupId;
             let fundingGroup = await FundingGroup.findByPk(fundingGroupId);
 
+            if (fundingGroup) {
+                fundingGroup.distributionDateFormatted = formatDate(fundingGroup.distributionDate);
+            }
             res.render("funding/createFundingSuccess", { fundingGroup });
         } catch (error) {
             res.status(500).send({ message: error.message });

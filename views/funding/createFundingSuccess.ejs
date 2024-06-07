@@ -13,22 +13,23 @@
                 <img src="/assets/image.png" class="img">
             </div>
             <div class="complete">
-                <p>펀딩 생성 완료!</p>
+                펀딩 생성 완료!
             </div>
             <div class="message">
-                <p>참여 인원 도달 시 알림을 보내드려요! <br>
-                    펀딩 성공까지 필요한 인원 : n명 <br>
-                    배부 위치와 일자를 다시 한 번 확인해주세요. </p>           
+                참여 인원 도달 시 알림을 보내드려요! <br>
+                    펀딩 성공까지 필요한 인원 : <%= fundingGroup.people -1%>명 <br>
+                    배부 위치와 일자를 다시 한 번 확인해주세요.<br>
             </div>
             <div class="distribution">
+                <br>
                 <div>배부 위치: 
-                    <span><%= fundingGroup.distributionLocation %></span>
+                    <span><%= fundingGroup.city + ' ' + fundingGroup.district + ' ' + fundingGroup.town + ' ' + fundingGroup.detail %></span>
                 </div>
                 <div>배부 일자 및 시간: 
-                    <span><%= fundingGroup.distributionDate %></span>
+                    <span><%= fundingGroup.distributionDateFormatted %></span>
                 </div>
             </div>
-            <a href="/">
+            <a href="/joinfundingPage/fundingPage">
                 <span class="button">확인</span>
             </a>
         </div>
