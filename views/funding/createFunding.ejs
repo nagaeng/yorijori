@@ -10,7 +10,7 @@
     <div class="container">
         <h1><%= product.seller %>의 <%= product.productName %>을 펀딩하고 있어요!</h1>
         <div class="information-box">
-                <form action="/create_funding" method="POST">
+                <form action="<%= `/createfundingPage/create_funding/${productId}` %>" method="POST">
                     <div class="information">          
                         <label for="fundingDate">펀딩 일자:</label>
                         <span class="info"><%= new Date().toISOString().split('T')[0] %></span>
@@ -47,9 +47,8 @@
                         <label for="distributionDate">배부 일자 및 시간:</label>
                         <input class="info" type="datetime-local" id="distributionDate" name="distributionDate" required>
                     </div>
-                    <input type="hidden" name="productId" value="<%= product.fundingProductId %>">
                     <div class="funding-button-container">
-                        <button class="funding-button" onclick="location.href='/createfundingPage/create_funding_success/<%= product.fundindGroupId %>'">펀딩 생성</button>        
+                        <button class="funding-button" type="submit">펀딩 생성</button>        
                     </div>
                 </form>         
             </div>  

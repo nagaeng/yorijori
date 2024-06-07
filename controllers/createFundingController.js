@@ -1,6 +1,7 @@
 const db = require("../models/index"),
     FundingProduct = db.fundingProduct,
     FundingGroup = db.fundingGroup,
+    Composition = db.composition,
     User = db.user,
     sequelize = db.sequelize,
     Sequelize = db.Sequelize;
@@ -31,7 +32,6 @@ module.exports = {
     searchProducts: async (req, res) => {
         try {
             let query = req.query.query;
-            console.log(query);
             let sql = `SELECT 
                             fundingProductId, 
                             productName, 
@@ -70,7 +70,6 @@ module.exports = {
     productDetail: async (req, res) => {
         try {
             let productId = req.params.productId;
-            console.log(productId)
             let sql = `SELECT 
                             fundingProductId, 
                             productName, 
@@ -100,11 +99,8 @@ module.exports = {
 
     showCreateFundingPage: async (req, res) => {
         try {
-            console.log("showCreateFundingPage function called");
             let productId = req.params.productId;
-            console.log(`productId: ${productId}`);
-
-            let productQuery = `SELECT 
+            let productSql = `SELECT 
                                     fundingProductId, 
                                     productName, 
                                     seller, 
@@ -118,7 +114,7 @@ module.exports = {
                                     fundingProducts 
                                 WHERE 
                                     fundingProductId = ?`;
-            let userQuery = `SELECT 
+            let userSql = `SELECT 
                                 userId, 
                                 email, 
                                 name, 
@@ -133,12 +129,12 @@ module.exports = {
                             WHERE 
                                 userId = ?`;
 
-            let [product] = await sequelize.query(productQuery, {
+            let [product] = await sequelize.query(productSql, {
                 replacements: [productId],
                 type: Sequelize.SELECT
             });
             
-            let [representative] = await sequelize.query(userQuery, {
+            let [representative] = await sequelize.query(userSql, {
                 replacements: [req.user.userId],
                 type: Sequelize.SELECT
             });
@@ -147,7 +143,7 @@ module.exports = {
                 product[0].formattedExpirationDate = formatDate(product[0].expirationDate);
             }
 
-            res.render("funding/createFunding", { product: product[0], representative: representative[0] });
+            res.render("funding/createFunding", { product: product[0], representative: representative[0], productId: productId});
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
@@ -155,25 +151,43 @@ module.exports = {
     },
 
     createFunding: async (req, res) => {
+        let productId = req.params.productId;
         try {
-            let productId = req.params.productId;
-            let { deliveryDate, city, district, town, detail, people, distributionDate } = req.body;
-            let fundingDate = new Date();
-
             let newFundingGroup = await FundingGroup.create({
                 fundingProductId: productId,
-                deliveryDate,
-                fundingDate,
-                city,
-                district,
-                town,
-                detail,
-                distributionDate,
-                people,
-                representativeUserId: req.user.userId
+                deliveryStauts: true,
+                deliveryCost: 4000,
+                deliveryDate: req.body.deliveryDate,
+                fundingDate: new Date(), // 여기도 req.body.로 받아와야하는지 확인
+                city: req.body.distributionLocation,
+                district: " ",
+                town: " ",
+                detail: " ",
+                distributionDate: req.body.distributionDate,
+                people: req.body.people,
+                representativeUserId: req.user.userId,
+            });
+            let sql = `     select p.unit, p.unitPrice
+                            from fundingProducts p
+                            left join fundingGroups g on p.fundingProductId = g.fundingProductId
+                            where p.fundingProductId =  ${productId}`;
+
+            let [product, a] = await sequelize.query(sql, {
+            type: Sequelize.SELECT
+            });
+            console.log("-------------");
+            console.log(product);
+
+            let newComposition = await Composition.create({
+                fundingGroupId: newFundingGroup.fundingGroupId,
+                userId: req.user.userId,
+                quantity: product[0].unit,
+                amount: product[0].unitPrice
             });
 
-            res.redirect(`/create_funding_success/${newFundingGroup.fundingGroupId}`);
+            console.log(newFundingGroup.fundingGroupId);
+            res.redirect(`/createfundingPage/create_funding_success/${newFundingGroup.fundingGroupId}`);
+
         } catch (error) {
             res.status(500).send({ message: error.message });
             console.error(`Error: ${error.message}`);
