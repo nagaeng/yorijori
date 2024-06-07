@@ -175,8 +175,6 @@ module.exports = {
             let [product, a] = await sequelize.query(sql, {
             type: Sequelize.SELECT
             });
-            console.log("-------------");
-            console.log(product);
 
             let newComposition = await Composition.create({
                 fundingGroupId: newFundingGroup.fundingGroupId,
