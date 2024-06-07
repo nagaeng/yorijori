@@ -34,7 +34,7 @@
                                     id="btn-<%= post.postId %>" 
                                     onclick="saveBookmark('<%= post.postId %>');">
                                 </button>
-                            </div>
+                                </div>
                                 <p>주재료: <%= post.ingredients %></p>
                             </div>
                             </a>
@@ -75,5 +75,27 @@
             </div>
         </div>
     </div>
+
+    <div id="side-bar">    
+        <div class="goto-funding">
+            <% if (loggedIn) { %>
+            <!-- 로그인한 사용자는 펀딩 페이지로 이동-->
+            <a href="/joinFundingPage/fundingPage">
+            <% } else { %>
+            <!-- 로그인하지 않은 사용자는 로그인 페이지로 이동-->
+            <a href="/auth/login"  onclick="redirectToLogin();">
+            <% } %>
+            <img src="/assets/image.png" class="funding-icon">
+            <p class="funding-txt">펀딩하러 가기</p>
+            </a>
+        </div>
+    </div>
+
+    </div>
+
+    <input type="hidden" id="userId" value="<%= user ? user.userId : "" %>">
+
+    <script src="/js/recipe/bookmark.js"></script>
+    
 </body>
 </html>

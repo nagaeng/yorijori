@@ -13,7 +13,7 @@ module.exports = {
                 FROM posts p
                 LEFT JOIN users u ON u.userId = p.userId
                 LEFT JOIN images i ON p.postId = i.postId
-                WHERE u.userId = 1;
+                WHERE u.userId = ${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
             console.log("Query Results:", myposts);
@@ -57,7 +57,7 @@ module.exports = {
                 SELECT p.title, p.date, p.postId
                 FROM saves s
                 LEFT join posts p on s.postId = p.postId
-                where s.userId =1;   
+                where s.userId = ${userId};   
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
 
@@ -95,7 +95,7 @@ module.exports = {
                         SELECT p.title, c.content, c.createdAt, p.postId  
                         FROM comments c
                         left join posts p on p.postId= c.postId
-                        where c.userId = 1;
+                        where c.userId = ${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
 
@@ -132,7 +132,7 @@ module.exports = {
                         SELECT fg.representativeUserId, fg.fundingDate, fp.productName, fg.people, fp.imageUrl
                         FROM fundingGroups AS fg
                         INNER JOIN fundingProducts AS fp ON fg.fundingProductId = fp.fundingProductId
-                        where fg.representativeUserId = 1;
+                        where fg.representativeUserId = ${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
             
@@ -169,7 +169,7 @@ module.exports = {
                         FROM compositions AS cp
                         INNER JOIN fundingGroups AS fg ON cp.fundingGroupId = fg.fundingGroupId
                         INNER JOIN fundingProducts AS fp ON fg.fundingProductId = fp.fundingProductId
-                        where cp.userId = 6;
+                        where cp.userId = ${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
 

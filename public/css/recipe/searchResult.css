@@ -115,8 +115,10 @@ hr {
 }
 
 .recipe-card {
-    background: #000;
-    color: #fff;
+    position: relative;
+    color: #fff;    
+    background-color: rgba(185, 185, 185, 0.219);
+    box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.096);
     border-radius: 10px;
     padding: 15px;
     overflow: hidden;
@@ -179,47 +181,8 @@ hr {
     font-weight: bold;
 }
 
-.bookmark-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.bookmark-saved {
-    background-image: url('/assets/bookmark2.png'); /* 저장된 이미지 경로 */
-    width: 24px; /* 저장된 이미지 크기 조정 */
-    height: 24px;
-}
-
-.bookmark-not-saved {
-    background-image: url('/assets/bookmark1.png'); /* 초기 이미지 경로 */
-}
-/* 페이지 넘버 */
-.pagination{
-    margin: 50px;
-}
-
-.pagination a {
-    color: gray;
-    text-decoration: none;
-    padding: 5px;
-    border-radius: 5px;
-    transition: color 0.3s;
-}
-
-.pagination a.active {
-    color: black;
-    font-weight: bold;
-}
-
 /* 펀딩 아이콘 위치*/
+
 #side-bar {
     width: 200px;
     min-height: calc(100vh - 150px);

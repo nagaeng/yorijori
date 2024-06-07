@@ -9,7 +9,7 @@ layouts = require("express-ejs-layouts"),
     fs = require('fs'),
     FileStore = require('session-file-store')(session);
 
-    db.sequelize.sync({alter:true});
+    db.sequelize.sync({});
     const User = db.user;
 
 multer = require('multer'),
@@ -98,13 +98,13 @@ app.use((req, res, next) => {
     next();
 });
 
-
 // Router
 const homeRouter = require("./routers/homeRouter.js")
 const postRouter = require("./routers/postRouter.js")
 const joinFundingRouter = require("./routers/joinFundingRouter.js")
 const writeRouter = require("./routers/writeRouter.js")
-const searchRouter = require("./routers/searchRouter.js"); 
+const searchRouter = require("./routers/searchRouter.js")
+const createFundingRouter = require("./routers/createFundingRouter.js")
 const authRouter = require("./routers/authRouter");
 
 
@@ -118,6 +118,8 @@ app.use("/posts", postRouter);
 app.use("/write", writeRouter);
 // 로그인 및 사용자 관리 접근
 app.use("/auth", authRouter);
+// createFundingRouter 접근
+app.use("/createfundingPage", createFundingRouter);
 // joinFundingRouter 접근
 app.use("/joinfundingPage", joinFundingRouter);
 
