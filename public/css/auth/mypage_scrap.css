@@ -55,19 +55,13 @@ hr.custom-hr{
 }
 
 .profileimage img {
-    width: 100%; /* 이미지를 부모 요소의 너비에 맞게 조정 */
-    height: auto; 
-    border-radius: 100px; 
-}
-
-.profileimage{
     width: 138px;
     height: 138px;
     border-radius: 100px;
     margin-top: 20px;
     margin-left: 22px;
-    background-color: aquamarine;
 }
+
 
 .Nickname{
     margin-top: 14px;
@@ -103,14 +97,15 @@ hr.custom-hr{
 .mypost {
     width: 700px;
     height: 56px;
-    /* border-radius: 5%; */
-    background-color: aqua;
     display: flex;
-    justify-content: space-between; /* 제목과 날짜 사이의 간격을 최대화하여 왼쪽과 오른쪽에 정렬합니다. */
-    align-items: center; /* 제목과 날짜를 수직 중앙에 정렬합니다. */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
-    border-color: black;
+    border-width: 1px; /* Set the width of the border */
+    border-style: solid; /* Set the style of the border */
+    border-color: black; /* Set the color of the border */
 }
+
 
 .popup-bg {
     display: none;

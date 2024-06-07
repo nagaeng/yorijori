@@ -63,6 +63,12 @@
                                     <p>기간: <%=post.fundingDate %></p> 
                                     <p>참여인원: <%= post.people %>명</p>
                                 </h2>
+                                
+                                <div class="cancleFunding">
+                                    <a href="/joinFundingPage/cancleFunding/<%= post.fundingGroupId %>">
+                                        <button class="btn-block" id="btn1" type="button">펀딩 취소하기</button>
+                                    </a>
+                                </div>
                             </div>
                         <% })} else{ %>
                             <p>참여한 펀딩이 아직 없습니다.</p>

@@ -55,19 +55,12 @@ hr.custom-hr{
     margin-bottom: 183px;
 }
 
-.profileimage{
+.profileimage img {
     width: 138px;
     height: 138px;
     border-radius: 100px;
     margin-top: 20px;
     margin-left: 22px;
-    background-color: aquamarine;
-}
-
-.profileimage img {
-    width: 100%; /* 이미지를 부모 요소의 너비에 맞게 조정 */
-    height: auto; 
-    border-radius: 100px; 
 }
 
 .Nickname{
@@ -99,8 +92,7 @@ hr.custom-hr{
     height: 169px;
     border-radius: 10%;
     border: 1px solid black; /* 테두리 추가 */
-    background-color: aqua;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: normal;
     font-family: 'Acron';
     display: flex;
@@ -111,6 +103,11 @@ hr.custom-hr{
     text-align: center; /* 중앙 정렬 */
 }
 
+.img {
+    width: 130px;
+    height: 110px;
+    margin-top: 10px;
+}
 
 .popup-bg {
     display: none;
@@ -166,18 +163,6 @@ hr.custom-hr{
 
 .popup button {
     margin-right: 10px;
-}
-
-/* #popupButton{
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
-    width: 85px;
-    height: 35px;
-} */
-
-.sr-only{
-
 }
 
 .profileimage2{

@@ -20,14 +20,17 @@ const getUserParams = body => ({
 
 module.exports = {
 
+    //로그인 페이지 이동 
     login: (req, res) => {
         res.render("auth/login");
     },
 
+    //회원가입 페이지 이동 
     new:(req, res) => {
         res.render("auth/newuser");
     },
 
+    //로그인 진행 
     authenticate: passport.authenticate("local", {
         successRedirect: "/",
         successFlash: "Logged in!",
@@ -35,6 +38,7 @@ module.exports = {
         failureFlash: "Failed to login"
     }),
 
+    //로그아웃 진행 
     logout: (req, res, next) => {
         req.logout((err) => {
             req.flash("success", "You have been logged out!");
@@ -42,12 +46,14 @@ module.exports = {
         });
     },
 
+    //다시 할게 무엇인지 
     redirectView: (req, res, next) => {
         let redirectPath = res.locals.redirect;
         if (redirectPath !== undefined) res.redirect(redirectPath);
         else next();
     },
 
+    //회원가입 진행 
     create: (req, res, next) => {
         const { password, PwdCheck } = req.body;
 
@@ -71,15 +77,17 @@ module.exports = {
         });
     },
 
+    //비밀변경 페이지 이동 
     editpwd:(req, res) => {
         res.render("auth/editpwd");
     },
 
+    //비밀번호 변경 
     updatepwd: async (req, res, next) => {
         const { email, newPwd, newPwdCheck } = req.body;
     
         if (newPwd !== newPwdCheck) {
-            req.flash("error", "입력한 비밀번호가 다릅니다."); // Passwords do not match
+            req.flash("error", "Error different password"); // Passwords do not match
             return res.redirect("/auth/editpwd");
         }
     
@@ -108,6 +116,7 @@ module.exports = {
         }
     },    
 
+    //정보 수정 
     edit: async(req, res, next) => {
         let userId = req.params.id;
         try{
@@ -123,6 +132,7 @@ module.exports = {
         }
     },
 
+    //정보 수정 진행(닉네임, 상세주소, 프로필)
     update: async (req, res, next) => {
         let userId = req.params.id;
         let userParams = getUserParams(req.body);
