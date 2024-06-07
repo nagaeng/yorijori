@@ -125,7 +125,7 @@ app.use((req, res, next) => {
 // app.use('/auth', authRouter);
 
 // 서버 실행
-app.set("port", 80);
+app.set("port", 3000);
 app.listen(app.get("port"), "0.0.0.0", () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
 });
