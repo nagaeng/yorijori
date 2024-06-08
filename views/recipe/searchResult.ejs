@@ -33,13 +33,13 @@
 
             <div class="list-group">
                 <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
-                <% for (var i = 0; i< result_posts.length; i++){ %>
-                    <a href="/write/getWritedPage?postId=<%=result_posts[i].postId%>">
-                    
+                <% for (var i = 0; i< result_posts.length; i++){ %>                  
                     <div class="recipe-card">
                         <img src="<%= result_posts[i].images.length > 0 ? result_posts[i].images[0].imageUrl : '/assets/image.png' %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
                         <div class="btn-position">
+                        <a href="/write/getWritedPage?postId=<%=result_posts[i].postId%>"> 
                         <h2><%= result_posts[i].title %></h2>
+                        </a>
                         <% if (loggedIn) { %>
                             <button
                             class="bookmark-button <%= savedPostIds.includes(result_posts[i].postId) ? 'bookmark-saved' : 'bookmark-not-saved' %>" 
@@ -56,7 +56,6 @@
                         </div>
                         <p>주재료: <%= result_posts[i].ingredients %></p>
                     </div>
-                    </a>
                 <% } %>
             </div>
             <!--페이징 넘버-->

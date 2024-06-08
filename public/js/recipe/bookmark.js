@@ -3,7 +3,7 @@
 const userId = document.getElementById('userId').value;
 
 function saveBookmark(postId) {
-    if (!userId) {
+    if (userId == 16) {
         alert('로그인이 필요합니다.');
         window.location.href = '/auth/login'; // 로그인 페이지 URL로 변경
         return;

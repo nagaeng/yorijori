@@ -1,42 +1,20 @@
 const db = require("../models/index"),
 Post = db.post,
 Op = db.Sequelize.Op;
-// 전체 게시글
-// exports.getAllPosts = async (req, res) => {
-//     try {
-//         const posts = await db.post.findAll({
-//             include: [
-//               {
-//                 model: db.ingredient,
-//                 through: { attributes: [] } // 'Usage' 테이블의 필드는 가져오지 않음
-//               },
-//               {
-//                 model: db.image,
-//                 as: 'images'
-//               }
-//             ]
-//         });
 
-//         const postsWithIngredients = posts.map(post => ({
-//             ...post.get({ plain: true }),
-//             ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
-//         }));
-        
-//         res.render("recipe/posts", {
-//             posts: postsWithIngredients,
-//             showCategoryBar: true
-//         });
-//     } catch (err) {
-//         console.error("Error: ", err);
-//         res.status(500).send({
-//             message: err.message
-//         });
-//     }
-// };
+const { Sequelize, sequelize } = require('../models');
 
 // 많이 본 & 최신 게시글 (로그인 X)
 exports.getNoLoginRecommendPosts = async (req, res) => {
+    const userId = req.user?.userId || ""; // 사용자 id 받아오기
+
     try {
+        // 페이징 변수들
+        const postNum = await db.post.count(); // 포스트 전체 개수 가져오기
+        const pageSize = 6; // 한 페이지 당 보여줄 포스트 개수
+        const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
+        const offset = (currentPage - 1)*pageSize; //페이지 오프셋
+
         const posts = await db.post.findAll({
             include: [
               {
@@ -52,17 +30,46 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
                 attributes: ['views'] // Fetch the views attribute
               }
             ],
-            order: [[db.view, 'views', 'DESC'], ['date', 'DESC']] // 조회수, 작성일 기준 내림차순 정렬
+            order: [[db.view, 'views', 'DESC'], ['date', 'DESC']], // 조회수, 작성일 기준 내림차순 정렬
+            limit: pageSize,
+            offset: offset
         });
+
+        const pageNum = Math.ceil(postNum / pageSize); // 페이지 개수
+
+        const postIds = posts.map(post => post.postId);
+
+        const query = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:postIds)
+            GROUP BY p.postId;
+        `;
+
+        const ingredientResults = await sequelize.query(query, {
+            replacements: { postIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ingredientMap = ingredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
 
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ingredientMap[post.postId] || ''
         }));
-        
+
         res.render("recipe/noLoginRecommendPosts", {
             posts: postsWithIngredients,
-            showCategoryBar: true
+            showCategoryBar: true,
+            user: { userId },
+            pageNum: pageNum, // 전체 페이지 개수
+            currentPage: currentPage //현재 페이지
         });
     } catch (err) {
         console.error("Error: ", err);
@@ -72,6 +79,7 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
     }
 };
 
+// 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
 // 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
 exports.getLoginRecommendPosts = async (req, res) => {
     const userId = req.user.userId; // 사용자 id 받아오기
@@ -94,12 +102,33 @@ exports.getLoginRecommendPosts = async (req, res) => {
                 }
             ],
             order: [[db.view, 'views', 'DESC']]
-            //limit: 3
         });
+
+        const viewPostIds = viewPosts.map(post => post.postId);
+
+        const viewQuery = `
+            SELECT p.postId,
+                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+            FROM posts p
+            LEFT JOIN usages pi ON p.postId = pi.postId
+            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+            WHERE p.postId IN (:viewPostIds)
+            GROUP BY p.postId;
+        `;
+
+        const viewIngredientResults = await sequelize.query(viewQuery, {
+            replacements: { viewPostIds },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const viewIngredientMap = viewIngredientResults.reduce((map, item) => {
+            map[item.postId] = item.ingredients;
+            return map;
+        }, {});
 
         const viewPostsWithIngredients = viewPosts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: viewIngredientMap[post.postId] || ''
         }));
 
         // 2. 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
@@ -130,7 +159,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
             const relatedCategories = [...new Set(relatedPosts.map(post => post.menu.category))];
             const relatedTitles = [...new Set(relatedPosts.map(post => post.title.split(' ')).flat())];
 
-            const recommendedPosts = await db.post.findAll({
+            const recommendedPostResults = await db.post.findAll({
                 where: {
                     [Op.or]: [
                         {
@@ -164,12 +193,32 @@ exports.getLoginRecommendPosts = async (req, res) => {
                     }
                 ],
                 order: [[db.view, 'views', 'DESC'], ['date', 'DESC']]
-                //limit: 9
             });
 
-            recommendPostsWithIngredients = recommendedPosts.map(post => ({
+            const recommendedPostIds = recommendedPostResults.map(post => post.postId);
+
+            const recommendQuery = `
+                SELECT p.postId,
+                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:recommendedPostIds)
+                GROUP BY p.postId;
+            `;
+            const recommendIngredientResults = await sequelize.query(recommendQuery, {
+                replacements: { recommendedPostIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            const recommendIngredientMap = recommendIngredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+
+            recommendPostsWithIngredients = recommendedPostResults.map(post => ({
                 ...post.get({ plain: true }),
-                ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+                ingredients: recommendIngredientMap[post.postId] || ''
             }));
         }
 
@@ -191,7 +240,7 @@ exports.getLoginRecommendPosts = async (req, res) => {
 
 // 메인 카테고리별 게시글
 exports.getPostsByCategory = async (req, res) => {
-    const userId = req.user?.userId || ""; // 사용자 id 받아오기
+    const userId = req.user?.userId || 16; // 사용자 id 받아오기
     const category = req.params.category; // URL에서 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -208,6 +257,12 @@ exports.getPostsByCategory = async (req, res) => {
     }
 
     try {
+        // 페이징 변수들
+        const postNum = await db.post.count(); // 포스트 전체 개수 가져오기
+        const pageSize = 6; // 한 페이지 당 보여줄 포스트 개수
+        const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
+        const offset = (currentPage - 1) * pageSize; // 페이지 오프셋
+
         const posts = await Post.findAll({
             include: [
                 {
@@ -224,15 +279,44 @@ exports.getPostsByCategory = async (req, res) => {
                 },
                 {
                     model: db.view,
-                    attributes: ['views'] // Fetch the views attribute
+                    attributes: ['views'] // 조회수 속성 가져오기
                 }
             ],
-            order: order // 정렬 적용
+            order: order, // 정렬 적용
+            limit: pageSize,
+            offset: offset
         });
+
+        const pageNum = Math.ceil(postNum / pageSize); // 페이지 개수
+        const totalNum = posts.length;
+
+        const postIds = posts.map(post => post.postId);
+
+        let ingredientMap = {};
+        if (postIds.length > 0) {
+            const query = `
+                SELECT p.postId,
+                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:postIds)
+                GROUP BY p.postId;
+            `;
+            const ingredientResults = await sequelize.query(query, {
+                replacements: { postIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            ingredientMap = ingredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+        }
 
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ingredientMap[post.postId] || ''
         }));
 
         // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
@@ -249,7 +333,10 @@ exports.getPostsByCategory = async (req, res) => {
             showCategoryBar: true,
             savedPostIds,
             user: { userId },
-            sort: sort // 현재 정렬 방법 전달
+            sort: sort, // 현재 정렬 방법 전달
+            pageNum: pageNum, // 전체 페이지 개수
+            totalNum: totalNum,
+            currentPage: currentPage // 현재 페이지
         });
 
     } catch (error) {
@@ -260,72 +347,117 @@ exports.getPostsByCategory = async (req, res) => {
 
 // 세부 카테고리별 게시글
 exports.getPostsBySubcategory = async (req, res) => {
-    const userId = req.user?.userId || ""; // 사용자 id 받아오기
+    const userId = req.user?.userId || 16; // 사용자 id 받아오기
     const { category, subcategory } = req.params; // URL에서 메인 카테고리와 세부 카테고리 받기
     const sort = req.query.sort; // 정렬 방법 읽기
 
     // 디폴트 정렬 방법: 조회수 순 (popularity)
-    let order = [[db.view, 'views', 'DESC']];
+    let order = 'views DESC';
 
     // 정렬 방법 선택
     if (sort === 'latest') {
-        order = [['date', 'DESC']]; // 최신순
+        order = 'p.date DESC'; // 최신순
     } else if (sort === 'oldest') {
-        order = [['date', 'ASC']]; // 과거순
+        order = 'p.date ASC'; // 과거순
     } else if (sort === 'comments') {
-        order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId)'), 'DESC']; // 댓글 많은 순
+        order = '(SELECT COUNT(*) FROM comments WHERE comments.postId = p.postId) DESC'; // 댓글 많은 순
     }
 
     try {
-        const ingredientCategoryCondition = {};
+        // 페이징 변수들
+        const pageSize = 6; // 한 페이지 당 보여줄 포스트 개수
+        const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
+        const offset = (currentPage - 1) * pageSize; // 페이지 오프셋
+
+        let subcategoryCondition = '';
         if (subcategory !== 'all') {
-            ingredientCategoryCondition.category = subcategory; // 세부 카테고리로 필터링
+            subcategoryCondition = `AND i.category = :subcategory`;
         }
 
-        const filteredPosts = await db.post.findAll({
-            include: [
-                {
-                    model: db.menu,
-                    where: { category: category } // 메인 카테고리로 필터링
-                },
-                {
-                    model: db.ingredient,
-                    where: subcategory !== 'all' ? { category: subcategory } : {}, // 세부 카테고리로 필터링
-                    through: { attributes: [] } // usage 테이블을 통해 연결됨
-                },
-                {
-                    model: db.image,
-                    as: 'images'
-                }
-            ],
+        const subCategoryQuery = `
+            SELECT p.postId, p.title, p.date, p.content,
+                GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients,
+                COALESCE(v.views, 0) AS views
+            FROM posts p
+            JOIN usages u ON p.postId = u.postId
+            JOIN ingredients i ON u.ingredientId = i.ingredientId
+            JOIN menus m ON p.menuId = m.menuId
+            LEFT JOIN views v ON p.postId = v.postId
+            WHERE m.category = :category
+            ${subcategoryCondition}
+            GROUP BY p.postId, p.title, p.date, p.content
+            ORDER BY ${order}
+            LIMIT :pageSize OFFSET :offset;
+        `;
+
+        // 세부 카테고리로 필터링 된 게시글
+        const filteredPosts = await sequelize.query(subCategoryQuery, {
+            replacements: {
+                category,
+                subcategory,
+                pageSize,
+                offset
+            },
+            type: Sequelize.QueryTypes.SELECT,
+            model: Post
         });
 
-        // 필터링된 포스트의 모든 재료 가져오기
-        const postIds = filteredPosts.map(post => post.postId);
+        const postCountQuery = `
+            SELECT COUNT(*) as count
+            FROM posts p
+            JOIN usages u ON p.postId = u.postId
+            JOIN ingredients i ON u.ingredientId = i.ingredientId
+            JOIN menus m ON p.menuId = m.menuId
+            LEFT JOIN views v ON p.postId = v.postId
+            WHERE m.category = :category
+            ${subcategoryCondition}
+        `;
 
-        const posts = await db.post.findAll({
-            where: { postId: postIds },
-            include: [
-                {
-                    model: db.ingredient,
-                    through: { attributes: [] }
-                },
-                {
-                    model: db.image,
-                    as: 'images'
-                },
-                {
-                    model: db.view,
-                    attributes: ['views'] // Fetch the views attribute
-                }
-            ],
-            order: order // 정렬 적용
+        const postCountResult = await sequelize.query(postCountQuery, {
+            replacements: {
+                category,
+                subcategory
+            },
+            type: Sequelize.QueryTypes.SELECT
         });
 
-        const postsWithIngredients = posts.map(post => ({
+        const postNum = postCountResult[0].count;
+        const pageNum = Math.ceil(postNum / pageSize); // 전체 페이지 개수
+
+        const postIds = filteredPosts.map(post => post.postId); // 필터링된 포스트의 모든 재료 가져오기
+
+        let postsWithIngredients = filteredPosts.map(post => ({
             ...post.get({ plain: true }),
-            ingredients: post.ingredients.map(ingredient => ingredient.ingredientName).join(', ')
+            ingredients: ''
         }));
+
+        // 재료 나열
+        if (postIds.length > 0) {
+            const query = `
+                SELECT p.postId,
+                    GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:postIds)
+                GROUP BY p.postId;
+            `;
+
+            const ingredientResults = await sequelize.query(query, {
+                replacements: { postIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
+
+            const ingredientMap = ingredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+
+            postsWithIngredients = filteredPosts.map(post => ({
+                ...post.get({ plain: true }),
+                ingredients: ingredientMap[post.postId] || ''
+            }));
+        }
 
         // 사용자가 클릭한 게시글 및 저장한 게시글 ID 조회
         const savedPosts = await db.save.findAll({
@@ -343,7 +475,10 @@ exports.getPostsBySubcategory = async (req, res) => {
             showSubCategoryBar: true,
             savedPostIds,
             user: { userId },
-            sort: sort // 현재 정렬 방법 전달
+            sort: sort, // 현재 정렬 방법 전달
+            pageNum: pageNum, // 전체 페이지 개수
+            totalNum: postNum,
+            currentPage: currentPage //현재 페이지
         });
 
 
@@ -353,6 +488,7 @@ exports.getPostsBySubcategory = async (req, res) => {
     }
 };
 
+// 북마크 시 게시글 저장
 exports.postSave = async (req, res) => {
     const { userId, postId } = req.body;
 
@@ -365,11 +501,36 @@ exports.postSave = async (req, res) => {
     }
 };
 
+// 북마크 해제 시 게시글 삭제
 exports.postUnsave = async (req, res) => {
     const { userId, postId } = req.body;
 
     try {
         await db.save.destroy({ where: { userId, postId } });
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, error: error.message });
+    }
+};
+
+// 클릭 시 게시글 조회수 증가
+exports.incrementView = async (req, res) => {
+    const { userId, postId } = req.body;
+
+    try {
+        // Check if the view entry exists for the given postId
+        let view = await db.view.findOne({ where: { userId, postId } });
+
+        if (!view) {
+            // If it doesn't exist, create a new entry with an initial view count of 1
+            view = await db.view.create({ userId, postId, views: 1 });
+        } else {
+            // If it exists, increment the view count
+            view.views += 1;
+            await view.save();
+        }
+
         res.json({ success: true });
     } catch (error) {
         console.error(error);
