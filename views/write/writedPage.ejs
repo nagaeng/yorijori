@@ -35,17 +35,22 @@
           <article>
             <div class="write-header">
               <div class="nic">
+               <% if(profileImg != null){ %>
+                <img src="<%=profileImg%>" class="userImg">
+               <%}else{%>
                 <img src="/assets/Vector.png" class="userImg" />
+                <%}%>
                 <div class="ueerNic"><%=nicName%></div>
               </div>
-              <!-- 수정 삭제 바 -->
+              
               <%if (userId == LoginuserId) {%>
+              <!-- 수정 삭제 바 -->
               <div class="bt-bar">
                   <button class="dok" style="display:block;">
                       <img src="/assets/---.png" />
                   </button>
-              </div>  
               <%}%>
+              </div>  
               </div>
               </article>
             <!-- 게시글 수정버튼 -->
@@ -55,7 +60,7 @@
                   <div class="su suj">수정하기</div>
                 </a>
                 <hr />
-                <div class="su erase" onclick="eraseModal2()">삭제하기</div>
+                <div class="su erase" onclick="eraseModal2('<%= postId %>')">삭제하기</div>
               </div>
             </div>
             
@@ -76,7 +81,7 @@
             </div>
           </article>
           <div class="write">
-            <!-- 커멘트 작성 -->
+            <!-- update comment post -->
             <form action="../write/postCommentPage" method="POST" name="comment">
               <input type="hidden" name="postId" value="<%= postId %>">
               <div class="comment">
@@ -88,7 +93,7 @@
                       required
                       name="comment"
                     />
-                    <button class="comment-bt" onclick="checkLogin('<%= LoginuserId %>', event)" type="submit">답변등록</button>
+                    <button class="comment-bt" onclick="return checkLogin('<%= LoginuserId %>')" type="submit">답변등록</button>
                 </div>
               </div>
            </form>
@@ -104,7 +109,11 @@
                   <div class="comment-box">
                     <div class="nic-box">
                       <div id="img">
-                        <img src="/assets/Vector.png" class="userImg" />
+                        <% if (commentUserImg[i].length != 0) { %>
+                          <img src="<%= commentUserImg[i] %>" class="userImg"/>
+                      <% } else { %>
+                          <img src="/assets/Vector.png" class="userImg" />
+                      <% } %>
                       </div>
                       <div class="nic"><%=commentUser[i]%></div>
                     </div>
@@ -157,7 +166,6 @@
                   <button class="btn-no" onclick="cancellation('<%= commentId %>')">취소</button>
                 </div>
               </div>
-
               <div class="modal2" id="modal2-<%=postId%>">
                 <div class="modal_body2">
                   <p>정말 삭제하시겠습니까?</p>
@@ -165,10 +173,9 @@
                     <input type="hidden" name="postId" value="<%= postId %>">
                     <button class="btn-ok" type="submit">확인</button>
                   </form>
-                  <button class="btn-no" onclick="cancellation('<%= commentId %>')">취소</button>
+                  <button class="btn-no2" onclick="cancellation2()">취소</button>
                 </div>
               </div>
-              
               <%}%>
             </div>
           </div>

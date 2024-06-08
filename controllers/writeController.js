@@ -146,7 +146,7 @@ exports.postWrite = async (req, res) => {
                 where:
                 {
                     title:{
-                        [Op.like]: `%${req.body.content}%` } //title로 찾음. 중복불가 처리해놓음
+                        [Op.like]: `%${req.body.title}%` } //title로 찾음. 중복불가 처리해놓음
                 }
             });
 
@@ -295,7 +295,7 @@ exports.getWritedPage = async (req,res)=>{
                 commentUserImg[i]= commentUserJson[i][0].dataValues.imageUrl;
                console.log(commentUserImg[i]);
             };
-
+            console.log(commentUserImg);
             let profileImg =  nic[0].dataValues.imageUrl
             
             //writedPage 로 객체 전달

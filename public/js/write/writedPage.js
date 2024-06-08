@@ -1,6 +1,3 @@
-
-const modal = document.querySelector('.modal');
-const modal2 = document.querySelector('.modal2');
 const btnOk=document.querySelector('.btn-ok');
 const btnNo=document.querySelector('.btn-no');
 const erase = document.querySelector('.erase');
@@ -9,12 +6,10 @@ const inputElement = document.querySelector('.comment-place');
 const commentBt = document.querySelector('.comment-bt');
 const dok = document.querySelector('.dok');
 const correction = document.querySelector('.co');
-const suOrErase = document.querySelector('.alter-box');
 const modal_body2 = document.querySelector('.modal_body2')
 let i = 0; 
 
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
-btnNo.addEventListener("click" , ()=>{ modal.style.display="none";} );
 erase.addEventListener("click", ()=>{modal.style.display = 'flex';  });
 
 // 모달 표시 함수
@@ -28,10 +23,8 @@ function eraseModal(commentId) {
 //모달표시2 
 
 function eraseModal2() {
-    var modal = document.querySelector(`.modal_body2`);
     var modal2 = document.querySelector('.modal2');
-    modal2.style.display ='none';
-    modal.style.display = 'none';
+    modal2.style.display ='flex';
 }
 
 function cancellation(commentId) {
@@ -43,9 +36,7 @@ function cancellation(commentId) {
 
 //post삭제취소
 function cancellation2() {
-    var modal = document.querySelector(`.modal_body2`);
-    var modal2 = document.querySelector('.modal2');
-    modal2.style.display ='none';
+    var modal = document.querySelector(`.modal2`);
     modal.style.display = 'none';
 }
 
