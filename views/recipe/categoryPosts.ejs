@@ -34,7 +34,7 @@
         
         <div id="searchResult">
             <% if (posts.length > 0) { %>
-                <h1 class="title">총 '<span id="title"><%= posts.length %></span>'개의 레시피가 있습니다</h1>
+                <h1 class="title">총 '<span id="title"><%= totalNum %></span>'개의 레시피가 있습니다</h1>
             <hr id="hr-top"> <!-- 수평선 -->
             <!-- 정렬 순서 카테고리 -->
             <div class="sort-by">
@@ -75,6 +75,11 @@
                 <% } %>
             </div>
             <!--페이징 넘버-->
+            <div class="pagination">
+                <% for (let page = 1; page <= pageNum; page++) { %>
+                    <a href="?page=<%= page %>" class="<%= currentPage === page ? 'active' : '' %>"><%= page %></a>
+                <% } %>
+            </div>
             <% } else { %>
                 <div id="no-result"><h1> 카테고리 결과가 없습니다</h1></div>
             <% } %>

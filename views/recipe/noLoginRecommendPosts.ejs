@@ -37,6 +37,12 @@
                                     </div>
                         <% }); %>
                         </div>
+                        <!--페이징 넘버-->
+                        <div class="pagination">
+                            <% for (let page = 1; page <= pageNum; page++) { %>
+                                <a href="?page=<%= page %>" class="<%= currentPage === page ? 'active' : '' %>"><%= page %></a>
+                            <% } %>
+                        </div>
                     <% } else { %>
                         <p>No posts available for this category.</p>
                     <% } %>
