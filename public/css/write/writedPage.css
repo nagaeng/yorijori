@@ -272,7 +272,29 @@ h2{
     transform:translateY(-50%); 
 }
 
+.modal_body2{
+    position:absolute;
+    top:50%; 
+    width:100px;  
+    height:60px; 
+    padding:40px;  
+    text-align: center;
+    background-color: rgb(255,255,255); 
+    border-radius:10px; 
+    box-shadow:0 2px 3px 0 rgba(34,36,38,0.15); 
+    transform:translateY(-50%); 
+}
 .modal_body button{
+    padding: 6px 5px;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;  
+}
+.modal_body2 button{
     padding: 6px 5px;
     border: 1px solid #e1e1e1;
     box-sizing: border-box;

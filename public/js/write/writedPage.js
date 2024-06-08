@@ -10,6 +10,7 @@ const commentBt = document.querySelector('.comment-bt');
 const dok = document.querySelector('.dok');
 const correction = document.querySelector('.co');
 const suOrErase = document.querySelector('.alter-box');
+const modal_body2 = document.querySelector('.modal_body2')
 let i = 0; 
 
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
@@ -26,19 +27,29 @@ function eraseModal(commentId) {
 
 //모달표시2 
 
-function eraseModal2(postId) {
-    // 모달 요소 가져오기
-    var modal = document.querySelector(`#modal2-${postId}`);
-    // 모달 표시
-    modal.style.display = 'flex';
+function eraseModal2() {
+    var modal = document.querySelector(`.modal_body2`);
+    var modal2 = document.querySelector('.modal2');
+    modal2.style.display ='none';
+    modal.style.display = 'none';
 }
-//취소
+
 function cancellation(commentId) {
     var modal = document.querySelector(`#modal-${commentId}`);
-    // 모달을 숨기기 전에 commentId를 삭제합니다.
     delete modal.dataset.commentId;
     modal.style.display = 'none';
 }
+
+
+//post삭제취소
+function cancellation2() {
+    var modal = document.querySelector(`.modal_body2`);
+    var modal2 = document.querySelector('.modal2');
+    modal2.style.display ='none';
+    modal.style.display = 'none';
+}
+
+
 
 function checkInput() {
     if (inputElement.value == '') {
@@ -94,7 +105,7 @@ function checkHak(commentId){
 };
 
 dok.addEventListener("click",()=>{
-    if(j==0){
+    if(i==0){
     correction.style.display="block";
     i ++; 
     }
