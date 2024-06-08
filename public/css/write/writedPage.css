@@ -246,7 +246,8 @@ h2{
     min-height:100vh;
     background-color: rgba(0,0,0,0.4);
     overflow-y:auto; 
-    position: fixed
+    position: fixed;
+    z-index:1;
 }
 .modal2{
     display:none;
