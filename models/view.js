@@ -11,7 +11,7 @@ View.init({
   userId: { //사용자번호(FK)
     primaryKey: true,
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: User,
       key: 'userId'
