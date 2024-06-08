@@ -1,0 +1,71 @@
+body {
+    font-family: 'ABeeZee', sans-serif;
+}
+.createFundingSearchBar {
+    position: fixed;
+    top: 200px; /* 수직 위치 조정 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    text-align: center;
+    width: auto;
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+}
+
+.search-container {
+    display: inline-block; /* 가로로 나란히 표시하기 위해 인라인 블록으로 설정 */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+}
+
+.product-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.product {
+    width: 400px;
+    height: 320px;
+    background-color: #ccc;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.funding-search-txt{
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: #AFAFAF;
+    font-size: 16px;
+    line-height: 40px;
+    width: 200px;
+    padding-left: 40px;
+    font-weight: 600;
+}
+.funding-search-btn{
+    color: #AFAFAF;
+    float: right;
+    width: 50px;
+    height: 100%;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 50px;
+}
+.searchLabel {
+    font-weight: bold;
+    font-size: 16px;
+    color: #12373A;
+    padding: 10px;
+    display: inline-block;
+}
