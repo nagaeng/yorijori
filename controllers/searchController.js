@@ -7,7 +7,7 @@ const { Sequelize, sequelize } = require('../models');
 
 exports.searchResult = async (req, res) => {
     try {
-        const userId = req.user?.userId || ""; // 사용자 id 받아오기
+        const userId = req.user?.userId || 16; // 사용자 id 받아오기
         const material = req.query.material; // 검색어 읽기
         const sort = req.query.sort; // 정렬 방법 읽기
 
@@ -78,25 +78,28 @@ exports.searchResult = async (req, res) => {
             offset: offset
         });
 
-        const query = `
-            SELECT p.postId,
-                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
-            FROM posts p
-            LEFT JOIN usages pi ON p.postId = pi.postId
-            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
-            WHERE p.postId IN (:postIds)
-            GROUP BY p.postId;
-        `;
+        // 재료 나열
+        let ingredientMap = {};
+        if (postIds.length > 0) {
+            const query = `
+                SELECT p.postId,
+                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:postIds)
+                GROUP BY p.postId;
+            `;
+            const ingredientResults = await sequelize.query(query, {
+                replacements: { postIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
 
-        const ingredientResults = await sequelize.query(query, {
-            replacements: { postIds },
-            type: Sequelize.QueryTypes.SELECT
-        });
-
-        const ingredientMap = ingredientResults.reduce((map, item) => {
-            map[item.postId] = item.ingredients;
-            return map;
-        }, {});
+            ingredientMap = ingredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+        }
 
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),

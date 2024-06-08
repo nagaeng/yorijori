@@ -6,7 +6,7 @@ const { Sequelize, sequelize } = require('../models');
 
 // 많이 본 & 최신 게시글 (로그인 X)
 exports.getNoLoginRecommendPosts = async (req, res) => {
-    const userId = req.user?.userId || 16; // 사용자 id 받아오기
+    const userId = req.user?.userId || ""; // 사용자 id 받아오기
 
     try {
         // 페이징 변수들
@@ -261,7 +261,7 @@ exports.getPostsByCategory = async (req, res) => {
         const postNum = await db.post.count(); // 포스트 전체 개수 가져오기
         const pageSize = 6; // 한 페이지 당 보여줄 포스트 개수
         const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
-        const offset = (currentPage - 1)*pageSize; //페이지 오프셋
+        const offset = (currentPage - 1) * pageSize; // 페이지 오프셋
 
         const posts = await Post.findAll({
             include: [
@@ -279,7 +279,7 @@ exports.getPostsByCategory = async (req, res) => {
                 },
                 {
                     model: db.view,
-                    attributes: ['views'] // Fetch the views attribute
+                    attributes: ['views'] // 조회수 속성 가져오기
                 }
             ],
             order: order, // 정렬 적용
@@ -292,24 +292,27 @@ exports.getPostsByCategory = async (req, res) => {
 
         const postIds = posts.map(post => post.postId);
 
-        const query = `
-            SELECT p.postId,
-                   GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
-            FROM posts p
-            LEFT JOIN usages pi ON p.postId = pi.postId
-            LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
-            WHERE p.postId IN (:postIds)
-            GROUP BY p.postId;
-        `;
-        const ingredientResults = await sequelize.query(query, {
-            replacements: { postIds },
-            type: Sequelize.QueryTypes.SELECT
-        });
+        let ingredientMap = {};
+        if (postIds.length > 0) {
+            const query = `
+                SELECT p.postId,
+                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                FROM posts p
+                LEFT JOIN usages pi ON p.postId = pi.postId
+                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                WHERE p.postId IN (:postIds)
+                GROUP BY p.postId;
+            `;
+            const ingredientResults = await sequelize.query(query, {
+                replacements: { postIds },
+                type: Sequelize.QueryTypes.SELECT
+            });
 
-        const ingredientMap = ingredientResults.reduce((map, item) => {
-            map[item.postId] = item.ingredients;
-            return map;
-        }, {});
+            ingredientMap = ingredientResults.reduce((map, item) => {
+                map[item.postId] = item.ingredients;
+                return map;
+            }, {});
+        }
 
         const postsWithIngredients = posts.map(post => ({
             ...post.get({ plain: true }),
@@ -333,7 +336,7 @@ exports.getPostsByCategory = async (req, res) => {
             sort: sort, // 현재 정렬 방법 전달
             pageNum: pageNum, // 전체 페이지 개수
             totalNum: totalNum,
-            currentPage: currentPage //현재 페이지
+            currentPage: currentPage // 현재 페이지
         });
 
     } catch (error) {
@@ -362,10 +365,9 @@ exports.getPostsBySubcategory = async (req, res) => {
 
     try {
         // 페이징 변수들
-        const postNum = await db.post.count(); // 포스트 전체 개수 가져오기
         const pageSize = 6; // 한 페이지 당 보여줄 포스트 개수
         const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
-        const offset = (currentPage - 1)*pageSize; //페이지 오프셋
+        const offset = (currentPage - 1) * pageSize; // 페이지 오프셋
 
         let subcategoryCondition = '';
         if (subcategory !== 'all') {
@@ -388,6 +390,7 @@ exports.getPostsBySubcategory = async (req, res) => {
             LIMIT :pageSize OFFSET :offset;
         `;
 
+        // 세부 카테고리로 필터링 된 게시글
         const filteredPosts = await sequelize.query(subCategoryQuery, {
             replacements: {
                 category,
@@ -399,8 +402,27 @@ exports.getPostsBySubcategory = async (req, res) => {
             model: Post
         });
 
-        const pageNum = Math.ceil(postNum / pageSize); // 페이지 개수
-        const totalNum = filteredPosts.length;
+        const postCountQuery = `
+            SELECT COUNT(*) as count
+            FROM posts p
+            JOIN usages u ON p.postId = u.postId
+            JOIN ingredients i ON u.ingredientId = i.ingredientId
+            JOIN menus m ON p.menuId = m.menuId
+            LEFT JOIN views v ON p.postId = v.postId
+            WHERE m.category = :category
+            ${subcategoryCondition}
+        `;
+
+        const postCountResult = await sequelize.query(postCountQuery, {
+            replacements: {
+                category,
+                subcategory
+            },
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const postNum = postCountResult[0].count;
+        const pageNum = Math.ceil(postNum / pageSize); // 전체 페이지 개수
 
         const postIds = filteredPosts.map(post => post.postId); // 필터링된 포스트의 모든 재료 가져오기
 
@@ -409,6 +431,7 @@ exports.getPostsBySubcategory = async (req, res) => {
             ingredients: ''
         }));
 
+        // 재료 나열
         if (postIds.length > 0) {
             const query = `
                 SELECT p.postId,
@@ -419,7 +442,7 @@ exports.getPostsBySubcategory = async (req, res) => {
                 WHERE p.postId IN (:postIds)
                 GROUP BY p.postId;
             `;
-            
+
             const ingredientResults = await sequelize.query(query, {
                 replacements: { postIds },
                 type: Sequelize.QueryTypes.SELECT
@@ -454,7 +477,7 @@ exports.getPostsBySubcategory = async (req, res) => {
             user: { userId },
             sort: sort, // 현재 정렬 방법 전달
             pageNum: pageNum, // 전체 페이지 개수
-            totalNum: totalNum,
+            totalNum: postNum,
             currentPage: currentPage //현재 페이지
         });
 
