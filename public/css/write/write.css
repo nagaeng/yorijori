@@ -112,7 +112,6 @@ header,footer {
   display: flex !important;
   z-index: 1;
 }
-
 ::placeholder{
   font-size: 15px;
   text-align: center;
