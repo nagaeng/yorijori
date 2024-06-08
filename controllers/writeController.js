@@ -150,8 +150,6 @@ exports.postWrite = async (req, res) => {
                 }
             });
 
-        //post id 확인
-        console.log('postid :' ,searchPostId[0].dataValues.postId);
 
         // req.body.files가 배열인지 확인하고, 배열이 아닌 경우 배열로 변환
         let files = Array.isArray(req.body.files) ? req.body.files : [req.body.files];
@@ -171,6 +169,7 @@ exports.postWrite = async (req, res) => {
         }
         //post된 ingredientId 찾아서 메뉴 db에 넣기
         let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
+
         console.log(ingredient.length);
         for(let i=0; i<ingredient.length; i++){
             let ingredientArr = await Ingredient.findAll({
@@ -233,7 +232,6 @@ exports.getWritedPage = async (req,res)=>{
                 }
              });
 
-             
              //찾은 재료id로 재료이름 배열에 담기 
              let ingredientArr=[];
              for(let i=0; i<ingredient.length; i++){
@@ -263,7 +261,6 @@ exports.getWritedPage = async (req,res)=>{
                 }
             })
 
-            
             //postId로 해당게시물 commet 찾기
             let comment =[];
                 comment = await Comment.findAll({
@@ -273,7 +270,7 @@ exports.getWritedPage = async (req,res)=>{
                         }
                     }
                 });
-            console.log(comment);
+
             //comment쓴 유저 객체
             let commentUserJson=[];
             for(let i=0; i<comment.length; i++){
@@ -291,7 +288,15 @@ exports.getWritedPage = async (req,res)=>{
                commentUser[i]= commentUserJson[i][0].dataValues.nickname;
                console.log(commentUser[i]);
             };
-    
+            
+            //user 객체에서 프로필뽑기 
+            let commentUserImg = []
+            for(let i=0; i<commentUserJson.length; i++){
+                commentUserImg[i]= commentUserJson[i][0].dataValues.imageUrl;
+               console.log(commentUserImg[i]);
+            };
+            console.log(commentUserImg);
+            let profileImg =  nic[0].dataValues.imageUrl
             
             //writedPage 로 객체 전달
              res.render('write/writedPage',
@@ -302,12 +307,14 @@ exports.getWritedPage = async (req,res)=>{
                 menu:menu[0].dataValues.menuName,
                 category:menu[0].dataValues.category,
                 ingredientArr:ingredientArr,
-                userId:postvalue[0].dataValues.userId,
+                userId: postvalue[0].dataValues.userId,
                 LoginuserId : LoginuserId,
                 nicName: nic[0].dataValues.nickname,
                 postId : req.query.postId,
                 comment:comment,
-                commentUser :commentUser
+                commentUser:commentUser,
+                profileImg:profileImg,
+                commentUserImg:commentUserImg
               }
             );
 
@@ -488,13 +495,14 @@ exports.increaseViews=async(req,res)=>{
             console.error('게시글 조회수 증가에 실패했습니다:', error);
             res.status(500).send('게시글 조회수 증가에 실패했습니다.');
         });
+        
 }
 
 exports.deletePost=async(req,res)=>{
     try{
-        console.log( 'postId:',req.body.postId )
+        console.log('postId:',req.body.postId )
         await Post.destroy({
-            where: { id:req.body.postId  } // id가 postId와 일치하는 게시물을 삭제
+            where: {postId:req.body.postId} // id가 postId와 일치하는 게시물을 삭제
         });
         res.render('home');
     }catch(err){

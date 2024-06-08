@@ -1,6 +1,3 @@
-
-const modal = document.querySelector('.modal');
-const modal2 = document.querySelector('.modal2');
 const btnOk=document.querySelector('.btn-ok');
 const btnNo=document.querySelector('.btn-no');
 const erase = document.querySelector('.erase');
@@ -9,11 +6,10 @@ const inputElement = document.querySelector('.comment-place');
 const commentBt = document.querySelector('.comment-bt');
 const dok = document.querySelector('.dok');
 const correction = document.querySelector('.co');
-const suOrErase = document.querySelector('.alter-box');
+const modal_body2 = document.querySelector('.modal_body2')
 let i = 0; 
 
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
-btnNo.addEventListener("click" , ()=>{ modal.style.display="none";} );
 erase.addEventListener("click", ()=>{modal.style.display = 'flex';  });
 
 // 모달 표시 함수
@@ -26,19 +22,25 @@ function eraseModal(commentId) {
 
 //모달표시2 
 
-function eraseModal2(postId) {
-    // 모달 요소 가져오기
-    var modal = document.querySelector(`#modal2-${postId}`);
-    // 모달 표시
-    modal.style.display = 'flex';
+function eraseModal2() {
+    var modal2 = document.querySelector('.modal2');
+    modal2.style.display ='flex';
 }
-//취소
+
 function cancellation(commentId) {
     var modal = document.querySelector(`#modal-${commentId}`);
-    // 모달을 숨기기 전에 commentId를 삭제합니다.
     delete modal.dataset.commentId;
     modal.style.display = 'none';
 }
+
+
+//post삭제취소
+function cancellation2() {
+    var modal = document.querySelector(`.modal2`);
+    modal.style.display = 'none';
+}
+
+
 
 function checkInput() {
     if (inputElement.value == '') {
@@ -104,15 +106,12 @@ dok.addEventListener("click",()=>{
     }
 });
 
-
-document.querySelector(".comment-bt").addEventListener("click", function(event) {
+function checkLogin(LoginuserId, event) {
     // 로그인 여부 확인
-    if ( LoginuserId == -1) {
+    if (LoginuserId == -1) {
         // 로그인되지 않은 경우
         alert('로그인이 필요합니다!');
         event.preventDefault(); // 폼 제출 중지
     }
-});
+}
 
-
-  

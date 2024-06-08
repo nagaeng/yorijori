@@ -1,12 +1,10 @@
-// JavaScript (jQuery)
 $(document).ready(function() {
     $('.post-link').click(function(event) {
         event.preventDefault(); // 기본 이벤트 실행 방지
 
-        var postId = $(this).data('post-id'); // data-post-id 값을 가져옴
-
-        // postId를 사용하여 필요한 작업을 수행
+        var postId = $(this).attr('href').split('postId=')[1]; 
         console.log('게시물 ID:', postId);
+        
         // AJAX 요청
         $.ajax({
             type: 'POST', // 또는 'GET' 등 요청 방식 설정
