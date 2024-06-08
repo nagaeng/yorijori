@@ -211,6 +211,16 @@ module.exports = {
     },
     getJoinFundingComplete: async (req, res) => { //참여완료하고 알림?정보 보여주는 페이지
         res.render("funding/joinFundingComplete", { group: res.locals.group[0] });
+    },
+    cancleFunding: async (req, res) => { //마이페이지에서 참여한 펀딩 취소
+        let groupId = req.params.groupId;
+        let userId = res.locals.currentUser.getDataValue('userId');
+        let query = `
+                    DELETE FROM compositions
+                    WHERE userId = ${userId} and fundingGroupId = ${groupId};` 
+        let result = await sequelize.query(query, { type: Sequelize.DELETE });
+        res.redirect("/auth/mypageParticipatedFunding");
+
     }
 
 }

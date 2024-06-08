@@ -34,22 +34,6 @@ header{
     border-bottom: 1px solid #9D9D9D;
 }
 
-.simple_login{
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.login-type {
-    margin-top: 54px;
-    display: flex;
-    justify-content: center;
-    gap: 54px; /* 요소들 간의 간격을 54px로 설정 */
-}
-
 .lose_pwd{
     margin-top: 40px;
     text-align: center;
