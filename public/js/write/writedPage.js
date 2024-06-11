@@ -5,7 +5,7 @@ const er = document.querySelector('.er');
 const inputElement = document.querySelector('.comment-place');
 const commentBt = document.querySelector('.comment-bt');
 const dok = document.querySelector('.dok');
-const correction = document.querySelector('.co');
+const co = document.querySelector('.co');
 const modal_body2 = document.querySelector('.modal_body2')
 let i = 0; 
 
@@ -65,11 +65,12 @@ function openEditForm(commentId) {
     const editForm = document.querySelector(`#editForm-${commentId}`);
     const alt = document.querySelector(`#alt-${commentId}`);
     const h = document.querySelector(`#h-${commentId}`);
-    const correction = document.querySelector(`.correction`)
+    const correction = document.querySelector(`#correction-${commentId}`);
+    correction.style.display ="none";
     editForm.style.display = 'flex';
     h.style.display="none";
     alt.style.display="none";
-    correction.style.display ="none";
+  
 }
 
 document.querySelector(".hak").addEventListener("click", function() {
@@ -97,21 +98,24 @@ function checkHak(commentId){
 
 dok.addEventListener("click",()=>{
     if(i==0){
-    correction.style.display="block";
+    co.style.display="block";
     i ++; 
     }
     else{
-    correction.style.display="none";
+    co.style.display="none";
     i=0; 
     }
 });
 
-function checkLogin(LoginuserId, event) {
+function checkLogin(LoginuserId) {
     // 로그인 여부 확인
     if (LoginuserId == -1) {
-        // 로그인되지 않은 경우
-        alert('로그인이 필요합니다!');
-        event.preventDefault(); // 폼 제출 중지
+      // 로그인되지 않은 경우
+      alert('로그인이 필요합니다!');
+      return false; // 폼 제출 중지
+    } else {
+      // 로그인된 경우 폼 제출
+      document.getElementById('commentForm').submit();
     }
-}
-
+  }
+  
