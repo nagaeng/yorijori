@@ -469,8 +469,6 @@ exports.updatePost=async(req,res)=>{
             { where: {postId: req.body.postId,} }
         );
 
-
-
         res.render('home');
     }catch(err){
         console.error("Error loading the write page:", err);
