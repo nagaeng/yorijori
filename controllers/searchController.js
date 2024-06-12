@@ -1,4 +1,3 @@
-//const { Op, Sequelize } = require('sequelize');
 const db = require("../models/index"),
 Post = db.post,
 Op = db.Sequelize.Op;
@@ -11,15 +10,15 @@ exports.searchResult = async (req, res) => {
         const material = req.query.material; // 검색어 읽기
         const sort = req.query.sort; // 정렬 방법 읽기
 
-        let order =  [Sequelize.literal('(SELECT views FROM views WHERE views.postId = post.postId) DESC,date DESC')]; // 디폴트 정렬 방법 popularity 조회수 따라
+        let order = [Sequelize.literal('(SELECT views FROM views WHERE views.postId = post.postId LIMIT 1) DESC, date DESC')]; // 디폴트 정렬 방법 popularity 조회수 따라
 
         // 값에 따라 정렬 방법 선택
-         if (sort === 'latest') {
+        if (sort === 'latest') {
             order = [['date', 'DESC']]; // 최신순
         } else if (sort === 'oldest') {
             order = [['date', 'ASC']]; // 과거순
         } else if (sort === 'comments') {
-            order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId) DESC, date DESC')]; // 댓글 많은 순
+            order = [Sequelize.literal('(SELECT COUNT(*) FROM comments WHERE comments.postId = post.postId LIMIT 1) DESC, date DESC')]; // 댓글 많은 순
         }
 
         let filteredPosts = []; // 검색 결과 게시물을 담을 배열
@@ -42,16 +41,17 @@ exports.searchResult = async (req, res) => {
                 },
                 include: [{
                     model: db.ingredient,
-                    through: {attributes: [] }
+                    through: { attributes: [] }
                 }],
             });
         }
-         // 페이징 변수들
-         const postNum = filteredPosts.length; // 검색 결과 포스트 개수
-         const pageSize = 5; // 한 페이지 당 보여줄 포스트 개수
-         const pageNum = Math.ceil(postNum / pageSize); // 페이지 개수
-         const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
-         const offset = (currentPage - 1)*pageSize; //페이지 오프셋
+
+        // 페이징 변수들
+        const postNum = filteredPosts.length; // 검색 결과 포스트 개수
+        const pageSize = 5; // 한 페이지 당 보여줄 포스트 개수
+        const pageNum = Math.ceil(postNum / pageSize); // 페이지 개수
+        const currentPage = req.query.page ? parseInt(req.query.page) : 1; // page 존재하지 않으면 1로 설정
+        const offset = (currentPage - 1) * pageSize; //페이지 오프셋
 
         // 필터링된 포스트의 모든 재료 가져오기
         const postIds = filteredPosts.map(post => post.postId); // 'id' 대신 'postId' 사용
@@ -61,19 +61,19 @@ exports.searchResult = async (req, res) => {
             include: [
                 {
                     model: db.ingredient,
-                    through: { attributes: []}
+                    through: { attributes: [] }
                 },
-                 {
+                {
                     model: db.comment,
-                    attributes: [] 
+                    attributes: []
                 },
                 {
                     model: db.image,
                     as: 'images'
                 }
-            ],  
-            group: ['post.postId'],             
-            order: [order],            
+            ],
+            group: ['post.postId'],
+            order: order,
             limit: pageSize,
             offset: offset
         });
@@ -112,7 +112,7 @@ exports.searchResult = async (req, res) => {
             attributes: ['postId']
         });
         const savedPostIds = savedPosts.map(save => save.postId);
-      
+
         // 검색 결과 페이지 렌더링
         res.render('recipe/searchResult', {
             showCategoryBar: true,
