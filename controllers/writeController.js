@@ -439,9 +439,9 @@ exports.updatePost=async(req,res)=>{
                 );
             }
         }
-    //     //post된 ingredientId 찾아서 메뉴 db에 넣기
-        let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
-        console.log(ingredient.length);
+         //post된 ingredientId 찾기
+         let ingredient = Array.isArray(req.body.ingredi) ? req.body.ingredi : [req.body.ingredi];
+         //ingredientid 찾기
         let ingredientArr =[]
         for(let i=0; i<ingredient.length; i++){
             ingredientArr = await Ingredient.findAll({
@@ -451,8 +451,16 @@ exports.updatePost=async(req,res)=>{
                     }
                 }
             });
-            console.log("재료 :",ingredientArr[0].dataValues.ingredientId);
+            console.log("재료 :",ingredientArr);
+            console.log(ingredient[i]);
         }
+          //  menu usage 디비에 저장
+        await Usage.update({
+            ingredientId: ingredientArr[0].dataValues.ingredientId},
+            { where: {postId: req.body.postId,} }
+        );
+
+     
         //postupdate
         await Post.update( {
             title: req.body.title,
@@ -463,13 +471,63 @@ exports.updatePost=async(req,res)=>{
             // 여기에 다른 속성과 값 추가
           },
           { where: { postId: req.body.postId } })
-      //  menu usage 디비에 저장
-        await Usage.update({
-            ingredientId: ingredientArr[0].dataValues.ingredientId},
-            { where: {postId: req.body.postId,} }
-        );
 
-        res.render('home');
+          
+        
+        
+        postvalue =[];
+        postvalue = await User.findAll({
+            where:{
+                userId:{
+                    [Op.like]:`%${userId}%`
+                }
+            }
+        })
+        console.log(postvalue);
+
+       
+
+        //postId로 해당게시물 commet 찾기
+        let comment =[];
+            comment = await Comment.findAll({
+                where:{
+                    postId:{
+                        [Op.like]:`%${req.query.postId}%`
+                    }
+                }
+            });
+
+        //comment쓴 유저 객체
+        let commentUserJson=[];
+        for(let i=0; i<comment.length; i++){
+            commentUserJson[i] = await User.findAll({
+            where:{
+                userId:{
+                    [Op.like]:`%${comment[i].dataValues.userId}%`
+                }
+            }
+            });
+        }   
+        //찾은 user객체에서 닉네임 뽑기
+        let commentUser = []
+        for(let i=0; i<commentUserJson.length; i++){
+           commentUser[i]= commentUserJson[i][0].dataValues.nickname;
+           console.log(commentUser[i]);
+        };
+        
+        //user 객체에서 프로필뽑기 
+        let commentUserImg = []
+        for(let i=0; i<commentUserJson.length; i++){
+            commentUserImg[i]= commentUserJson[i][0].dataValues.imageUrl;
+           console.log(commentUserImg[i]);
+        };
+        console.log(commentUserImg);
+        let profileImg =  postvalue[0].dataValues.imageUrl
+        
+        
+        res.render('write/write');
+        
+
     }catch(err){
         console.error("Error loading the write page:", err);
         res.status(500).send({
@@ -502,7 +560,7 @@ exports.deletePost=async(req,res)=>{
         await Post.destroy({
             where: {postId:req.body.postId} // id가 postId와 일치하는 게시물을 삭제
         });
-        res.render('home');
+        res.redirect("/home");
     }catch(err){
 
     }

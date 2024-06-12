@@ -32,9 +32,18 @@
             <div class="ingredients">
                <div class="ingredi1">재료-</div>
                <div class="writted">
-               <%for(let i=0; i<ingredientArr.length; i++){%>
-                <%=ingredientArr[i][0].dataValues.ingredientName%>
-               <%}%>
+                <% for(let i=0; i<ingredientArr.length; i++){ %>
+                  <% if (Array.isArray(ingredientArr[i])) { %>
+                      <% if (ingredientArr[i].length > 1) { %>
+                          <%= ingredientArr[i][0].dataValues.ingredientName %>
+                      <% } else { %>
+                          <%= ingredientArr[i][0].dataValues.ingredientName %>
+                      <% } %>
+                  <% } else { %>
+                      <%= ingredientArr[i].dataValues.ingredientName %>
+                  <% } %>
+              <% } %>
+              
                </div>
             </div>
         </div>
@@ -127,11 +136,12 @@
                   <div class="comment-box">
                     <div class="nic-box">
                       <div id="img">
-                        <% if (commentUserImg[i].length != 0) { %>
+                        <% if (commentUserImg && commentUserImg[i] && commentUserImg[i].length != 0) { %>
                           <img src="<%= commentUserImg[i] %>" class="userImg"/>
                       <% } else { %>
                           <img src="/assets/Vector.png" class="userImg" />
                       <% } %>
+                      
                       </div>
                       <div class="nic"><%=commentUser[i]%></div>
                     </div>
