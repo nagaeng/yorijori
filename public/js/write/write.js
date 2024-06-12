@@ -65,7 +65,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
     )
     //썸머노트 설정
     $('#summernote').summernote({ 
-      placeholder: '내용을 입력하세요',               
+      placeholder: '내용',
       tabsize: 2,
       focus: true,
       height: 400,

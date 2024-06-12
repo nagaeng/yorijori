@@ -32,9 +32,18 @@
             <div class="ingredients">
                <div class="ingredi1">재료-</div>
                <div class="writted">
-               <%for(let i=0; i<ingredientArr.length; i++){%>
-                <%=ingredientArr[i][0].dataValues.ingredientName%>
-               <%}%>
+                <% for(let i=0; i<ingredientArr.length; i++){ %>
+                  <% if (Array.isArray(ingredientArr[i])) { %>
+                      <% if (ingredientArr[i].length > 1) { %>
+                          <%= ingredientArr[i][0].dataValues.ingredientName %>
+                      <% } else { %>
+                          <%= ingredientArr[i][0].dataValues.ingredientName %>
+                      <% } %>
+                  <% } else { %>
+                      <%= ingredientArr[i].dataValues.ingredientName %>
+                  <% } %>
+              <% } %>
+              
                </div>
             </div>
         </div>
@@ -44,15 +53,24 @@
           <article>
             <div class="write-header">
               <div class="nic">
+               <% if(profileImg != null){ %>
+                <img src="<%=profileImg%>" class="userImg">
+               <%}else{%>
                 <img src="/assets/Vector.png" class="userImg" />
-                <div class="userNic"><%=nicName%></div>
+                <%}%>
+                <div class="ueerNic"><%=nicName%></div>
+     
               </div>
+              
+              <%if (userId == LoginuserId) {%>
               <!-- 수정 삭제 바 -->
               <div class="bt-bar">
                   <button class="dok" style="display:block;">
                       <img src="/assets/---.png" />
                   </button>
-              </div>  
+            
+              </div> 
+              <%}%> 
             </div>
             <!-- 게시글 수정버튼 -->
             <div class="alter-box">
@@ -83,10 +101,9 @@
             <div class="all-writed">
                 <div>조회수</div>
                 <div class="writted-num"></div>
+              </div>
+              <div class="writted-time"><%= new Date(date).toLocaleDateString() %></div>
             </div>
-            <!-- 게시글 작성 날짜-->
-            <div class="writted-time"><%=date%></div>
-
           </article>
 
           <!-- 댓글 작성하기 -->
@@ -119,7 +136,12 @@
                   <div class="comment-box">
                     <div class="nic-box">
                       <div id="img">
-                        <img src="/assets/Vector.png" class="userImg" />
+                        <% if (commentUserImg && commentUserImg[i] && commentUserImg[i].length != 0) { %>
+                          <img src="<%= commentUserImg[i] %>" class="userImg"/>
+                      <% } else { %>
+                          <img src="/assets/Vector.png" class="userImg" />
+                      <% } %>
+                      
                       </div>
                       <div class="nic"><%=commentUser[i]%></div>
                     </div>
@@ -146,7 +168,7 @@
                     <div class="alt" id="alt-<%= commentId %>">
                       <div class="alter-box">
                         <% if(LoginuserId==comment[i].dataValues.userId){ %>
-                        <div class="correction">
+                        <div class="correction" id="correction-<%=commentId%>">
                           <div class="su bu2" onclick="openEditForm('<%= commentId %>')">수정</div>
                           <hr />
                           <!-- 삭제하기 버튼 -->
@@ -173,16 +195,15 @@
                 </div>
               </div>
               <div class="modal2" id="modal2-<%=postId%>">
-                <div class="modal_body">
+                <div class="modal_body2">
                   <p>정말 삭제하시겠습니까?</p>
                     <form action="../write/deletePost" method="POST" name="commentDelete">
                     <input type="hidden" name="postId" value="<%= postId %>">
                     <button class="btn-ok" type="submit">확인</button>
                   </form>
-                  <button class="btn-no" onclick="cancellation('<%= commentId %>')">취소</button>
+                  <button class="btn-no2" onclick="cancellation2()">취소</button>
                 </div>
               </div>
-              
               <%}%>
             </div>
           </div>

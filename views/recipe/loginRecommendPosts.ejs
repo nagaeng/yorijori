@@ -53,7 +53,8 @@
                 <% if (recommendPosts.length > 0) { %>
                     <div class="list-group">
                         <% recommendPosts.slice(0, 9).forEach(post => { %>
-                                <div class="recipe-card" data-post-id="<%=post.postId%>">
+                            <a href="/write/getWritedPage?postId=<%=post.postId%>" class="post-link" data-post-id="<%= post.postId %>">
+                                <div class="recipe-card">
                                 <% if (post.images && post.images.length > 0) { %>
                                     <img src="<%= post.images[0].imageUrl %>" alt="postImage" class="recipe-image">
                                 <% } %>
