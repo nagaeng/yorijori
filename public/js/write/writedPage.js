@@ -93,16 +93,7 @@ function checkHak(commentId){
     }
 };
 
-dok.addEventListener("click",()=>{
-    if(i==0){
-    correction.style.display="block";
-    i ++; 
-    }
-    else{
-    correction.style.display="none";
-    i=0; 
-    }
-});
+
 
 
 document.querySelector(".comment-bt").addEventListener("click", function(event) {

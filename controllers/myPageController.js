@@ -95,7 +95,7 @@ module.exports = {
                         SELECT p.title, c.content, c.createdAt, p.postId  
                         FROM comments c
                         left join posts p on p.postId= c.postId
-                        where c.userId = ${userId};
+                        where c.userId =${userId};
             `;
             let [myposts, metadata] = await sequelize.query(query, { type: Sequelize.SELECT });
 

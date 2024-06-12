@@ -311,7 +311,7 @@ exports.getWritedPage = async (req,res)=>{
                 commentUser :commentUser
               }
             );
-
+            
         }catch(err){
             console.error("Error loading the write page:", err);
             res.status(500).send({
