@@ -80,7 +80,6 @@ exports.getNoLoginRecommendPosts = async (req, res) => {
 };
 
 // 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
-// 많이 본 & 사용자 맞춤 추천 게시글 (로그인 O)
 exports.getLoginRecommendPosts = async (req, res) => {
     const userId = req.user.userId; // 사용자 id 받아오기
 
@@ -377,7 +376,8 @@ exports.getPostsBySubcategory = async (req, res) => {
         const subCategoryQuery = `
             SELECT p.postId, p.title, p.date, p.content,
                 GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients,
-                COALESCE(MAX(v.views), 0) AS views
+                COALESCE(MAX(v.views), 0) AS views,
+                (SELECT imageUrl FROM images img WHERE img.postId = p.postId LIMIT 1) AS firstImage
             FROM posts p
             JOIN usages u ON p.postId = u.postId
             JOIN ingredients i ON u.ingredientId = i.ingredientId
