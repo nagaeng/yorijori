@@ -377,7 +377,7 @@ exports.getPostsBySubcategory = async (req, res) => {
         const subCategoryQuery = `
             SELECT p.postId, p.title, p.date, p.content,
                 GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients,
-                COALESCE(v.views, 0) AS views
+                COALESCE(MAX(v.views), 0) AS views
             FROM posts p
             JOIN usages u ON p.postId = u.postId
             JOIN ingredients i ON u.ingredientId = i.ingredientId
