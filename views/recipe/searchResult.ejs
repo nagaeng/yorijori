@@ -34,7 +34,7 @@
             <div class="list-group">
                 <!-- 검색 결과 개수 만큼 post 보여줌(썸네일 사진, 제목, 주재료) -->
                 <% for (var i = 0; i< result_posts.length; i++){ %>                  
-                    <div class="recipe-card">
+                    <div class="recipe-card" data-post-id="<%=result_posts[i].postId%>">
                         <img src="<%= result_posts[i].images.length > 0 ? result_posts[i].images[0].imageUrl : '/assets/image.png' %>" alt="<%= result_posts[i].title %> image" class="recipe-image">
                         <div class="btn-position">
                         <a href="/write/getWritedPage?postId=<%=result_posts[i].postId%>"> 
@@ -105,6 +105,8 @@
         }
     </script>    
     <script src="/js/recipe/bookmark.js"></script>
+
+    <script src="/js/recipe/view.js"></script>
  
 </body>
 </html>

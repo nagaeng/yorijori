@@ -154,10 +154,10 @@ exports.getLoginRecommendPosts = async (req, res) => {
                 },
                 include: [{ model: db.menu }]
             });
-
+    
             const relatedCategories = [...new Set(relatedPosts.map(post => post.menu.category))];
             const relatedTitles = [...new Set(relatedPosts.map(post => post.title.split(' ')).flat())];
-
+    
             const recommendedPostResults = await db.post.findAll({
                 where: {
                     [Op.or]: [
@@ -193,32 +193,35 @@ exports.getLoginRecommendPosts = async (req, res) => {
                 ],
                 order: [[db.view, 'views', 'DESC'], ['date', 'DESC']]
             });
-
+    
             const recommendedPostIds = recommendedPostResults.map(post => post.postId);
-
-            const recommendQuery = `
-                SELECT p.postId,
-                       GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
-                FROM posts p
-                LEFT JOIN usages pi ON p.postId = pi.postId
-                LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
-                WHERE p.postId IN (:recommendedPostIds)
-                GROUP BY p.postId;
-            `;
-            const recommendIngredientResults = await sequelize.query(recommendQuery, {
-                replacements: { recommendedPostIds },
-                type: Sequelize.QueryTypes.SELECT
-            });
-
-            const recommendIngredientMap = recommendIngredientResults.reduce((map, item) => {
-                map[item.postId] = item.ingredients;
-                return map;
-            }, {});
-
-            recommendPostsWithIngredients = recommendedPostResults.map(post => ({
-                ...post.get({ plain: true }),
-                ingredients: recommendIngredientMap[post.postId] || ''
-            }));
+    
+            // recommendedPostIds가 비어 있는지 확인
+            if (recommendedPostIds.length > 0) {
+                const recommendQuery = `
+                    SELECT p.postId,
+                           GROUP_CONCAT(DISTINCT i.ingredientName ORDER BY i.ingredientName SEPARATOR ', ') AS ingredients
+                    FROM posts p
+                    LEFT JOIN usages pi ON p.postId = pi.postId
+                    LEFT JOIN ingredients i ON pi.ingredientId = i.ingredientId
+                    WHERE p.postId IN (:recommendedPostIds)
+                    GROUP BY p.postId;
+                `;
+                const recommendIngredientResults = await sequelize.query(recommendQuery, {
+                    replacements: { recommendedPostIds },
+                    type: Sequelize.QueryTypes.SELECT
+                });
+    
+                const recommendIngredientMap = recommendIngredientResults.reduce((map, item) => {
+                    map[item.postId] = item.ingredients;
+                    return map;
+                }, {});
+    
+                recommendPostsWithIngredients = recommendedPostResults.map(post => ({
+                    ...post.get({ plain: true }),
+                    ingredients: recommendIngredientMap[post.postId] || ''
+                }));
+            }
         }
 
         // 4. 결과 렌더링
