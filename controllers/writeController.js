@@ -8,8 +8,10 @@ const db = require("../models"),
     Image = db.image,
     Usage = db.usage,
     User = db.user,
+    View = db.view,
     Comment = db.comment,
     Sequelize = require('sequelize'),
+    sequelize = db.sequelize,
     Op = Sequelize.Op;
 
 //wirte 페이지 이동
@@ -297,6 +299,22 @@ exports.getWritedPage = async (req,res)=>{
             };
             console.log(commentUserImg);
             let profileImg =  nic[0].dataValues.imageUrl
+
+            // postId로 조회수 합산해서 찾기
+            let viewCount = 0;
+            const viewData = await View.findAll({
+                attributes: [
+                    [sequelize.fn('SUM', sequelize.col('views')), 'totalViews']
+                ],
+                where: {
+                    postId: req.query.postId
+                },
+                raw: true
+            });
+
+            if (viewData && viewData[0].totalViews) {
+                viewCount = viewData[0].totalViews;
+            }
             
             //writedPage 로 객체 전달
              res.render('write/writedPage',
@@ -314,7 +332,8 @@ exports.getWritedPage = async (req,res)=>{
                 comment:comment,
                 commentUser:commentUser,
                 profileImg:profileImg,
-                commentUserImg:commentUserImg
+                commentUserImg:commentUserImg,
+                viewCount: viewCount
               }
             );
 
