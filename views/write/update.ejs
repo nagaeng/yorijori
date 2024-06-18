@@ -26,7 +26,8 @@
 </head>
 <body>
   <div class="all">
-    <form class="form" action="write/postWrite" method="POST" name="write-form"> 
+    <form class="form-a" action="/write/updatePost" method="POST" name="write-form"> 
+      <input type="hidden" name=postId value="<%= postId %>">
       <!-- 메인 문구  -->
       <div class="write">
         <span id="write1">"당신만의"</span> <span id="write2">레시피</span><span id="write3">를 작성해주세요</span>
@@ -81,10 +82,10 @@
     </div>
       
       <!--제출 버튼-->
+      <a >
       <button type="submit" class="submit" value="등록">등록</button>
+      </a>
     </form>
 </div>
-</body>
 </html>
 
-<!-- 제출 -->
