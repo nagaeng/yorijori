@@ -67,14 +67,14 @@ app.use(session({
 }));
 
 //플래시 메시지 미들웨어 설정
-app.use(flash());
+// app.use(flash());
 
 // 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
-app.use((req, res, next) => {
-    res.locals.successMessages = req.flash('success');
-    res.locals.errorMessages = req.flash('error');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.locals.successMessages = req.flash('success');
+//     res.locals.errorMessages = req.flash('error');
+//     next();
+// });
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -126,14 +126,6 @@ app.use("/joinfundingPage", joinFundingRouter);
 
 //플래시 메시지 미들웨어 설정
 // app.use(flash());
-
-// 전역 변수 설정 (플래시 메시지를 모든 템플릿에서 사용할 수 있도록 설정)
-app.use((req, res, next) => {
-    res.locals.successMessages = req.flash('success');
-    res.locals.errorMessages = req.flash('error');
-    next();
-});
-
 
 // app.set('view engine', 'ejs');
 
