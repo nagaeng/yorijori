@@ -33,8 +33,9 @@ body {
     margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
 }
 
-.category-button:hover {
-    background-color: #76c276; /* 호버 시 보다 진한 연두색으로 변경 */
+.category-bar button:hover {
+    background-color: #FFFBE9;
+    font-weight: bold;
 }
 
 .subcategory-bar {
@@ -51,12 +52,14 @@ body {
 }
 
 .subcategory-bar button:hover {
-    background-color: #0056b3;
+    background-color: #FFFBE9;
+    font-weight: bold;
 }
 
 /* 버튼이 활성화된 상태(현재 선택된 카테고리)를 표시하는 스타일 */
 .subcategory-bar button.active {
-    background-color: #ffc107;
+    background-color: #E3CAA5 !important;
+    font-weight: bold !important;
     color: black;
 }
 

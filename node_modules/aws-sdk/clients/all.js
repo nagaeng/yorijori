@@ -97,7 +97,6 @@ module.exports = {
   WAFRegional: require('./wafregional'),
   WorkDocs: require('./workdocs'),
   WorkSpaces: require('./workspaces'),
-  CodeStar: require('./codestar'),
   LexModelBuildingService: require('./lexmodelbuildingservice'),
   MarketplaceEntitlementService: require('./marketplaceentitlementservice'),
   Athena: require('./athena'),
@@ -106,7 +105,6 @@ module.exports = {
   MigrationHub: require('./migrationhub'),
   CloudHSMV2: require('./cloudhsmv2'),
   Glue: require('./glue'),
-  Mobile: require('./mobile'),
   Pricing: require('./pricing'),
   CostExplorer: require('./costexplorer'),
   MediaConvert: require('./mediaconvert'),
@@ -308,7 +306,6 @@ module.exports = {
   RedshiftServerless: require('./redshiftserverless'),
   RolesAnywhere: require('./rolesanywhere'),
   LicenseManagerUserSubscriptions: require('./licensemanagerusersubscriptions'),
-  BackupStorage: require('./backupstorage'),
   PrivateNetworks: require('./privatenetworks'),
   SupportApp: require('./supportapp'),
   ControlTower: require('./controltower'),
@@ -380,5 +377,12 @@ module.exports = {
   Deadline: require('./deadline'),
   ControlCatalog: require('./controlcatalog'),
   Route53Profiles: require('./route53profiles'),
-  MailManager: require('./mailmanager')
+  MailManager: require('./mailmanager'),
+  TaxSettings: require('./taxsettings'),
+  ApplicationSignals: require('./applicationsignals'),
+  PcaConnectorScep: require('./pcaconnectorscep'),
+  AppTest: require('./apptest'),
+  QApps: require('./qapps'),
+  SSMQuickSetup: require('./ssmquicksetup'),
+  PCS: require('./pcs')
 };
