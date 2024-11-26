@@ -1,19 +1,24 @@
 .createFundingSearchBar {
-    position: fixed;
-    top: 200px; /* 수직 위치 조정 */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    text-align: center;
-    width: auto;
-    display: flex;
-    flex-direction: row; 
-    align-items: center; 
+    text-align: center; /* 텍스트 가운데 정렬 */
+    width: 1044px;
+    height: 108px;
+    background-color: #E3CAA5;
+    margin: 0 auto;
+    margin-top: 226px;
+
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 가로 방향 가운데 정렬 */
+    align-items: center; /* 세로 방향 가운데 정렬 */
 }
 
-.search-container {
-    display: inline-block; /* 가로로 나란히 표시하기 위해 인라인 블록으로 설정 */
-    text-align: left; /* 텍스트를 왼쪽 정렬 */
+.search_box {
+    display: flex; /* Flexbox로 내부 요소 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+}
+
+.searchBar{
+    border: 2px solid #E3CAA5;
 }
 
 .product-container {
@@ -44,6 +49,7 @@
     width: 200px;
     padding-left: 40px;
     font-weight: 600;
+    border-color: #E3CAA5;
 }
 .funding-search-btn{
     color: #AFAFAF;
@@ -62,15 +68,12 @@
 .searchLabel {
     font-weight: bold;
     font-size: 16px;
-    color: #12373A;
+    color: black;
     padding: 20px;
     display: inline-block;
 }
 
 .funding-button {
-    background-color: #ADBC9F;
-    color: #12373A;
-    border: 2px solid #12373A;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -90,3 +93,5 @@
     text-align: center;
     margin-top: 20px;
 }
+
+
