@@ -23,13 +23,21 @@
             '콩/견과류': 'beans_nuts'
         };
 
+        var currentCategory = category; 
+
         Object.keys(categories).forEach(function(displayName) {
             var categoryName = categories[displayName];
             %>
-            <button onclick="redirectToCategory('<%= categoryName %>')"><%= displayName %></button>
+            <button onclick="redirectToCategory('<%= categoryName %>')" class="<%= categoryName === currentCategory ? 'active' : '' %>"><%= displayName %></button>
         <% }); %>
     </div>
     <script>
+        document.querySelectorAll('.category-bar button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                this.classList.add('active');
+            });
+        });
+
         function redirectToCategory(categoryName) {
             var newUrl = '/posts/' + encodeURIComponent(categoryName);
             window.location.href = newUrl;

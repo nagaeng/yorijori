@@ -29,11 +29,11 @@
         %>
         
         <!-- "전체" 버튼을 항상 표시 -->
-        <button onclick="redirectToSubCategory('all')">전체</button>
+        <button onclick="redirectToSubCategory('all')" class="<%= currentCategory === 'all' ? 'active' : '' %>">전체</button>
     
         <!-- 동적으로 생성된 세부 카테고리 버튼 -->
         <% Object.keys(subcategories).forEach(function(subcategory) { %>
-            <button onclick="redirectToSubCategory('<%= subcategory %>')">
+            <button onclick="redirectToSubCategory('<%= subcategory %>')" class="<%= currentCategory === subcategory ? 'active' : '' %>">
                 <%= subcategories[subcategory] %>
             </button>
         <% }); %>

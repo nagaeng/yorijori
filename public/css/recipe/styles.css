@@ -38,6 +38,12 @@ body {
     font-weight: bold;
 }
 
+
+.category-bar button:active {
+    background-color: #E3CAA5;
+    font-weight: bold;
+}
+
 .subcategory-bar {
     text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
     display: grid; /* 그리드 컨테이너로 설정 */
@@ -57,7 +63,7 @@ body {
 }
 
 /* 버튼이 활성화된 상태(현재 선택된 카테고리)를 표시하는 스타일 */
-.subcategory-bar button.active {
+.subcategory-bar button:active {
     background-color: #E3CAA5 !important;
     font-weight: bold !important;
     color: black;

@@ -28,7 +28,7 @@
     flex-direction: column;
 }
 .img-box {
-    background-color: #ADBC9F;
+    background-color: #E3CAA5;
     height: 200px;
     width: 200px;
     border-radius: 100%;
@@ -55,7 +55,7 @@
 }
 
 #title {
-    color: #416558;
+    color: #CEAB93;
     font-size: 28px;
 }
 
