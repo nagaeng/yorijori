@@ -15,6 +15,9 @@
             <% results.forEach(product => { %>
                 <div class="funding-box" onclick="showProductDetail('<%= product.fundingProductId %>')">
                     <div class="information-box">
+                        <div class="img_box">
+                            <img class="img" src="<%= product.imageUrl %>" alt="Product Image"></img>
+                        </div>
                         <div class="information-list">
                             <div class="information">상품명: 
                                 <span class="info"> <%= product.productName %> </span>
@@ -28,9 +31,6 @@
                             <div class="information">가격:
                                 <span class="info"> <%= product.unitPrice %> </span>
                             </div>
-                        </div>
-                        <div class="img">
-                            <img src="<%= product.imageUrl %>" alt="Product Image"></img>
                         </div>
                     </div>
                 </div>
