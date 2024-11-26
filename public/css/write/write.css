@@ -2,58 +2,52 @@
   margin: 0;
   padding: 0;
 }
-.all{
-  display: flex;
-  position: relative;
-  width: 100%;
-  margin: 50px 0 50px 0;
-  justify-content: center;
+
+.write-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.form{
+.write-form{
+    width: 850px;
+}
+.write-form > div{
+    padding-top:60px;
+}
+.main-title{
+    padding: 5px 0;
+    display:flex;
+    justify-content: center;
+}
+.title, .top{
   display: flex;
+  border-width: 0 0 2px 0;
+  border-color: #6C6058;
+  border-style: solid; 
+  padding:5px 0;
+  align-items: center;
+  width: 850px;
+}
+.ingred{
   flex-direction: column;
-  width: 1090px;
-  margin-top:50px;
 }
-/*메인 문구*/
-.write{
-  width: 1090px;
-  margin-bottom: 70px;
-  justify-content: center;
-  text-align: center;
-}
-#write1 {
-  font-size: 40px;
-  font-weight: 600;
-}
-#write2 {
-  font-size: 28px;
-  font-weight: bold;
-  line-height: 30px;
-  margin-left: 5px;
-}
-#write3{
-  font-size: 28px;  
-  font-weight: bold;
-  line-height: 30px;
-}
-/* 게시물 작성 메인 */
-.title {
-  margin-top: 20px;
-  font-size: 23px;
-  font-weight: bold;
+.top, .bottom{
   display: flex;
 }
-.title>div{
-  width: 200px;
-  text-align: center;
-  margin-bottom: 20px;
+.title > h2, .top > h2{
+  width: 130px;
 }
+select{
+  margin-left:20px;
+}
+/* 
+게시물 작성 메인 */
 .title-box {
-  box-sizing: border-box;
-  height: 30px;
-  width: 650px;
-  border: 1px solid #416558
+  height: 40px;
+  width: 600px;
+  text-align: center;
+  border: 0;
+  outline: none;
 }
 .result-menu{
   display: none;
@@ -70,15 +64,33 @@
   margin-left: 200px;
   width: 650px;
   height: 50px;
-  border: 2px solid #416558;
+}
+button{
+  border:0;
+  border-radius: 5px;
+  background-color: #FFFBE9;
+  color: #6C6058;
 }
 .search-Menu-button, .search-button{
   margin:0;
   width:60px;
   height: 30px;
-  font-size: 18px;
-  border-radius: 5px;
+  font-size: 20px;
   margin-left: 30px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.submit{
+  display: flex;
+  position: relative;
+  left: 710px;
+  width: 135px;
+  height: 40px;
+  font-size: 25px;
+  margin: 100px 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 /* 글 작성 박스 */
 #empty-box{
@@ -90,24 +102,6 @@
   margin-bottom: 10px;
   border: 1px solid #416558;
 }
-/* 제출 버튼 */
-.submit {
-  margin: 20px 0 0 850px;
-  padding: 6px 5px;
-  border: 1px solid #ADBC9F;
-  box-sizing: border-box;
-  font-size: 20px;
-  color:white;
-  text-align: center;
-  line-height: 1;
-  cursor: pointer;
-  width: 80px;
-  height: 40px;
-  background-color: #ADBC9F;
-  border-radius: 5px;
-  box-shadow :  0px 1px 6px 1px lightgrey;
-}
-
 header,footer {
   display: flex !important;
   z-index: 1;
@@ -124,4 +118,8 @@ select{
 }
 option{
   font-size: 15px;
+}
+h2{
+  margin:0;
+  color: #B5AFAC;
 }

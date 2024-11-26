@@ -3,213 +3,163 @@
     padding: 0;
 }
 
-.all{
+.detail-container{
     display: flex;
     justify-content: center;
-    position: relative;
-    width: 100%;
-    margin: 50px 0 50px 0;
-}
-.writted-page{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 1090px;
-    margin-top:50px;
-}
-/* 제목 */
-.main-top{
-    display: flex;
-    flex-direction: row;
+    
 }
 .main{
-    width: 1000px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
-    font-size: 40px;
-    font-weight: 600;
-    margin-left:180px;
 }
-.category{
-    position: relative;
-    min-width: 180px;
-    top: 0px;
-    right: 230px;
-    background-color: #a2ccbd52;
-    border-radius: 20px;
+.title{margin: 100px 0 30px 0;}
+.editBar{
+    height: 120px;
+    width: 900px;
+    margin: 20px 0 60px 0;
 }
-.ingredients{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: bold;
-    margin:10px;
-}
-.ingredi1{
-}
-.writted{
-}
-.write-header{
+.top{
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    height: 30px;
-}
-
-/*유저 프로필*/
-.nic{
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    font-size: 13px;
-    font-weight: bold;
-    color: rgb(4, 5, 5);
+}
+.left, .right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile{
+    margin-right:15px;
 }
 .userImg{
-    border-radius: 100%;
-    width:40px;
-    height: 40px;
-    margin-right: 5px;
+    width: 50px;
+    height: auto;
 }
-.userNic{
-    margin-left: 10px;
-    font-size: 20px;
+.ellipsis{
+    margin-left:20px;
 }
-
-.dok{
-    background-color:transparent;
-    border: none;
-    width: 1.5vw;
-    height: 1.5vw;
-    cursor: pointer;
+.edit{
+    display: none; 
 }
-
-.dok img{
-    width: 1.0vw;
-    height: 1.0vw;
+.edit > div{
+    display:flex;
+    justify-content: right;
 }
-
-.alter-box{
-    display: flex;
-    justify-content: flex-end;
+button{
+    border-width: 1px;;
+    border-radius: 2px;    
+    border-color: #6C6058;
+    background-color: #EFEFEF;
+    width: 90px;
+    height: 35px;
+    margin-top:1px;
 }
-.correction{
-    width: 60px;
-    height: 36px;
-    border: solid 1px grey;
-    border-radius: 6px;
-    padding: 6px 4px;
-    font-weight: bold;
-    font-size: small;
+.ed{color:#6C6058;}
+.del{color: #F56262;}
+.sub{
+    color:#B5AFAC;
+    margin-right: 18px;
+    width: 100px;
+}
+h2, p{margin:0;}
+.bookMark{color: #AD8B73;}
+.menu, .ingred{
+    display:flex;
+    width: 660px;
+    justify-content: left;
+    margin-bottom: 20px;
+}
+.text{
+    width: 650px;
+    margin-top: 60px;
+    min-height: 120px;
     text-align: center;
+    height: auto;
 }
-
-
-h2{
-    margin: 10px;
-    padding-top: 20px;
+.comment-container{    
+    margin:50px;
 }
-
-.data{
-    margin: 10px;
-    min-height: 500px; /* 최소 높이 설정 */
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 20px;
-    overflow: auto; 
+.comment-box{
+    width: 800px;
+    min-height: 120px;
+    height: auto;
+    margin-top:10px;
+    border: solid;
+    border-width: 1px;
+    border-color: #6C6058;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:20px;
 }
-
-.writted-bottom{
+.comment-container > div{
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    align-items: center;
+    padding: 0 10px;
 }
-
-.all-writed{
+.comment{
+    width: 710px;
+    height: 40px;
+    padding: 5px;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
-
-.all-writed div{
-    margin-right: 10px;
+.comment > i{
+    padding-right: 20px;
 }
-
-.writted-num{
-    color: grey;
-    font-weight: bold;
-}
-
-.written{
-    margin-top: 20px;
-    border: solid 1px lightgrey;
-    padding: 30px;
-    width: 850px;
-}
-
-
-.writted-time{
-    font-size: 13px;
-
-}
-
-.comment div{
-    width: 100%;
-    position: relative;
+.comment{
+    width: 730px;
+    height: 41px;
+    border:solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: #6C6058;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position:relative;
+    margin: 20px 0;
 }
-.comment-place{
-    border: 1px solid rgb(225, 228, 230);
-    width: 100%;
-    padding: 10px 16px;
-    box-sizing: border-box;
-    height: 70px;
+.input-box{
+    width:630px;
+    border: 0;
+    border-radius: 10px;
+    height: 37px;
+    padding-left: 10px;
 }
-
-.comment-bt{
-    position: absolute;
-    right: 10px;
-    top: 14px;
-    padding: 10px;
-    cursor: pointer;
+.input-btn{
+    width:70px;
+    height: 41px;
+    margin: 0 0 0 9px;
+    border: none;             
+    border-left: 1px solid #6C6058;
+    background-color: white;
+    border-radius: 0 10px 10px 0;
 }
-
-.comment-main{
-    margin-top: 30px;
-    width: 100%;
-    border: 1px solid rgb(225, 228, 230);
-    display: flex;
-    height: 100%;
-}
-
-
-.alter-box{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.correction div{
-    color: black;
-}
-hr{
-    margin: 2px;
-}
-
 /*댓글*/
-.comment-box{
-    width: 100%;
-    height: 50px;
+.allComment{
     display: flex;
-    flex-direction: row;
-    justify-content:space-between;
-    position: relative;
+    flex-direction: column;
 }
-
+.inner-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 40px;
+    width: 710px;
+    margin:5px;
+}
+.inner-comment{
+    width: 600px;
+}
+.allComment >div{
+    display: flex;
+}
 .nic-box{
     display: flex;
     flex-direction: row;
@@ -224,12 +174,11 @@ hr{
     align-items: center;
 }
 
-#img{
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
 
+userimg{
+    width:15px;
+    height: auto;
+}
 .comm-content1{
     display: flex;
     align-items: center;
@@ -364,8 +313,4 @@ p img{
     width: 300px;
   height: 150px;
   object-fit: cover;
-}
-
-article{
-    height:auto;
 }
