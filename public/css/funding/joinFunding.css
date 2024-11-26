@@ -3,7 +3,7 @@ header {
 }
 
 a {
-    color: #12373A;
+    color: #000000;
     text-decoration: none; /* 링크 밑줄 없애기 */
 }
 
@@ -14,7 +14,7 @@ a {
 }
 
 body {
-    color: #12373A;
+    color: #000000;
 }
 
 .funding-box {
@@ -29,18 +29,24 @@ body {
 
 #select {
     height: 50px;
-    /* width: 700px; */
+    width: 350px;
     font-size: 25px;
     margin-top: 10px;
     margin-left: 90px;
-    /* background-color: aquamarine; */
+    /* background-color: #E3CAA5; */
     /* text-align: center; */
     position: absolute;
+    border-radius: 50px;
+    border: 4px solid #E3CAA5;
+}
+
+.h4{
+    margin-top: 8px;
+    margin-left: 25px;
 }
 
 .information-box {
     position: absolute;
-    /* background-color: bisque; */
     display: flex;
     margin-left: 90px;
     margin-top: 100px;
@@ -51,7 +57,8 @@ body {
     height: 270px;
     width: 270px;
     /* background-color: aqua; */
-    border: 4px solid #12372A;
+    border: 4px solid #AD8B73;
+    border-radius: 20px;
     margin-left: 10px;
     display: grid;
     place-items: center;
@@ -61,6 +68,7 @@ body {
     height: 270px;
     width: 270px;
     background-color: transparent;
+    border-radius: 15px;
 }
 
 .information {
@@ -75,7 +83,7 @@ body {
 }
 
 .info {
-    background-color: #CED7C5;
+    background-color: #E3CAA5;
     font-weight: lighter;
     padding-left: 10px;
     padding-right: 10px;
@@ -88,7 +96,7 @@ body {
     margin: auto;
     /* margin-top: 20px; */
     display: flex;
-    border: 4px solid black;
+    border: 4px solid #AD8B73;
 }
 
 .join {
@@ -106,32 +114,29 @@ body {
     font-size: 25px;
     margin-left: 20px;
     margin-top: 32px;
-    background-color: #CED7C5;
+    background-color: #FFFBE9;
     border-radius: 50px;
+    border: 3px solid #AD8B73;
     text-align: center;
     padding-top: 5px;
     font-weight: bold;
 }
 
 .num {
-    background-color: #CED7C5
+    background-color: #E3CAA5
 }
 
-.count {
-    background-color: #CED7C5;
-}
 #place{
     font-size: 15px;
-    background-color: #CED7C5;
+    background-color: #FFFBE9;
     border-radius: 50px;
     text-align: center;
-    border: 2px solid black;
+    border: 2px solid #AD8B73;
     margin-left: 10px;
     padding-left: 5px;
     padding-right: 5px;
     cursor: pointer
 }
-
 .popup-bg {
     display: none;
     position: fixed;
