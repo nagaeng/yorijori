@@ -3,12 +3,12 @@ header {
 }
 
 a {
-    color: #12373A;
+    color: #000000;
     text-decoration: none; /* 링크 밑줄 없애기 */
 }
 
 body {
-    color: #12373A;
+    color: #000000;
 }
 #container{
     display: flex;
@@ -19,7 +19,8 @@ body {
 .information-box {
     height: 550px;
     width: 800px;
-    background-color: #CED7C5;
+    background-color: #FFFBE9;
+    border: 3px solid #AD8B73;
     margin: auto;
     margin-top: 90px;
     border-radius: 70px;
@@ -28,8 +29,8 @@ body {
 
 .img-box {
     position: absolute;
-    margin-top: 50px;
-    background-color: #ADBC9F;
+    margin-top: 150px;
+    /* background-color: #E3CAA5; */
     height: 200px;
     width: 200px;
     margin-left: 300px;
@@ -47,8 +48,8 @@ body {
     height: 50px;
     width: 450px;
     position: absolute;
-    margin-top: 270px;
-    background-color: #ADBC9F;
+    margin-top: 50px;
+    background-color: #E3CAA5;
     margin-left: 180px;
     font-size: 33px;
     font-weight: bold;
@@ -84,7 +85,8 @@ body {
     font-weight: bold;
     position: absolute;
     margin-top: 500px;
-    background-color: #ADBC9F;
+    border: 3px solid #AD8B73;
+    background-color: #FFFBE9;
     margin-left: 650px;
     border-radius: 50px;
     text-align: center;
