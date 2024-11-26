@@ -11,6 +11,9 @@
 <body>
     <div class="content">
         <div class="information-box">
+            <div class="img_box">
+                <img class="img" src="<%= product.imageUrl %>" alt="Product Image"></img>
+            </div>
             <div class="information-list">
                 <div class="information">상품번호:
                     <span class="info"><%= product.fundingProductId %></span>
@@ -31,9 +34,7 @@
                     <span class="info"><%= product.formattedExpirationDate %></span>
                 </div>
             </div> 
-            <div class="img">
-                <img src="<%= product.imageUrl %>" alt="Product Image"></img>
-            </div>
+            
         </div>
         <div class="funding-button-container">
             <button class="funding-button" onclick="location.href='/createfundingPage/create_funding/<%= product.fundingProductId %>'">이 제품으로 펀딩 생성</button>        
