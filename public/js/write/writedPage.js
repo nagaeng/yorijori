@@ -8,7 +8,34 @@ const dok = document.querySelector('.dok');
 const co = document.querySelector('.co');
 const modal_body2 = document.querySelector('.modal_body2')
 let i = 0; 
+document.addEventListener("DOMContentLoaded", () => {
+    // Bookmark 기능
+    const bookmarkDiv = document.getElementById("bookmark");
+    bookmarkDiv.addEventListener("click", () => {
+        const icon = bookmarkDiv.querySelector("i");
+        if (icon.classList.contains("fa-regular")) {
+            icon.classList.remove("fa-regular");
+            icon.classList.add("fa-solid");
+        } else if (icon.classList.contains("fa-solid")) {
+            icon.classList.remove("fa-solid");
+            icon.classList.add("fa-regular");
+        }
+    });
 
+    // Ellipsis 기능
+    const ellipsisIcon = document.getElementById("ellipsis");
+    const buttons = document.getElementById("buttons");
+
+    ellipsisIcon.addEventListener("click", () => {
+        if (buttons.style.display === "none" || buttons.style.display === "") {
+            buttons.style.display = "block"; // 버튼 보이기
+        } else {
+            buttons.style.display = "none"; // 버튼 숨기기
+        }
+    });
+
+
+});
 btnOk.addEventListener("click" , ()=>{window.location.href = "../html/communitypage.html";});
 erase.addEventListener("click", ()=>{modal.style.display = 'flex';  });
 
