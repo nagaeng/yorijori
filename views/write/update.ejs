@@ -25,74 +25,67 @@
   
 </head>
 <body>
-    <div>
-    <div class="form">
-      <form class="form-a" action="/write/updatePost" method="POST" name="write-form"> 
-        <input type="hidden" name=postId value="<%= postId %>">
-          <!-- 메인 form  -->
-          <div class="write">
-            <span class="start-write">"당신만의"</span>
-            <div> 레시피 를</div>
-            <div> 작성해 주세요</div>
-          </div>
-
-          <!-- 제목 -->
-          <div class="title">Title</div>
-          <input
-            class="title-bax"
-            type="text"
-            placeholder=" 제목을 입력하세요"
-            name="title"
-            class="t"
-            required
-          />
-          <!-- 카테고리 -->
-          <div class="title">카테고리</div>
-          <select name="category">
-            <option value="선택">선택</option>
-            <option value="meat">고기</option>
-            <option value="fruit">과일</option>
-            <option value="fish">생선</option>
-            <option value="vegetable">채소</option>
-            <option value="sauce">소스</option>
-          </select>
-          <!-- 메뉴 -->
-          <div class="title">메뉴</div>
-          <input
-            class="title-bax"
-            type="text"
-            placeholder=" 메뉴를 입력하세요"
-            name="menu"
-            class="t"
-            required
-            id="search-menu"
-          />
-          <div class="result-menu"></div>
-          <button type="button" class="search-Menu-button">검색</button>
-          
-          <!-- 재료검색 -->
-          <div class="title">재료검색</div>
-          <div class="menu">
-            <input
-              class="title-bax"
-              type="text"
-              name="searchIngredient"
-              required
-              id="search-input"
-            />
-            <button type="button" class="search-button">검색</button>
-            <div class="menubox" id="results"></div>
-            <div class="resultIngredi"></div>
-          </div>
-
-          <!--  게시글 -->
-          <div class="title">게시글</div>
-          <textarea id="summernote" name="editordata" class="data"></textarea>
-          <button type="submit" class="submit" value="등록">등록</button>
-        </form>
+  <div class="all">
+    <form class="form-a" action="/write/updatePost" method="POST" name="write-form"> 
+      <input type="hidden" name=postId value="<%= postId %>">
+      <!-- 메인 문구  -->
+      <div class="write">
+        <span id="write1">"당신만의"</span> <span id="write2">레시피</span><span id="write3">를 작성해주세요</span>
       </div>
+
+      <!-- 제목 -->
+      <div class="title">
+        <div>Title</div>
+        <input
+           class="title-box"
+           type="text"
+           placeholder=" 제목을 입력하세요"
+           name="title"
+           class="t"
+           required
+         />
+      </div> 
+      <!-- 카테고리 -->
+      <div class="title">
+        <div>카테고리</div>
+        <select name="category">
+        <option value="선택">선택</option>
+        <option value="meat">고기</option>
+        <option value="fruit">과일</option>
+        <option value="fish">생선</option>
+        <option value="vegetable">채소</option>
+        <option value="sauce">소스</option>
+        </select>
+      </div>
+      <!-- 메뉴 -->
+      <div class="title">
+        <div>메뉴</div>
+        <input class="title-box" type="text" placeholder=" 메뉴를 입력하세요" name="menu" class="t" required id="search-menu" />
+        <div class="result-menu"></div>
+        <button type="button" class="search-Menu-button">검색</button>
+      </div>
+      
+      <!-- 재료검색 -->
+      <div class="title">
+        <div>재료검색</div>
+        <input class="title-box" type="text" placeholder=" 재료를 입력하세요" name="searchIngredient" required id="search-input"/>
+        <button type="button" class="search-button">검색</button>
+        
+      </div>
+      
+         <div class="ingredi-box" id="results"></div>
+         <div class="resultIngredi"></div>
+
+      <!--  게시글 -->
+      <div class="title"><div>게시글</div>
+      <textarea id="summernote" name="editordata" class="data"></textarea>
     </div>
-</body>
+      
+      <!--제출 버튼-->
+      <a >
+      <button type="submit" class="submit" value="등록">등록</button>
+      </a>
+    </form>
+</div>
 </html>
 
-<!-- 제출 -->
