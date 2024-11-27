@@ -22,25 +22,39 @@ body {
 }
 /* 파일 경로: public/styles.css */
 .category-bar {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
 }
 
 .category-bar button {
-    padding: 10px 20px;
+    padding: 15px 20px;
     cursor: pointer;
     display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
     margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
+    border-radius: 5px;
 }
 
-.category-button:hover {
-    background-color: #76c276; /* 호버 시 보다 진한 연두색으로 변경 */
+.category-bar button:hover {
+    background-color: #FFFBE9;
+    font-weight: bold;
+}
+
+
+.category-bar button:active {
+    background-color: #E3CAA5;
+    font-weight: bold;
 }
 
 .subcategory-bar {
-    text-align: center; /* 부모 요소에서 자식 요소들을 가운데 정렬 */
-    display: grid; /* 그리드 컨테이너로 설정 */
-    grid-template-columns: repeat(8, 1fr); /* 8개의 동일한 너비의 컬럼을 생성 */
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto; 
+    gap: 13px;
+    padding-bottom: 10px; /* 스크롤바가 덮이지 않도록 패딩 추가 */
+    scroll-behavior: smooth; /* 스크롤 시 부드럽게 이동 */
 }
 
 .subcategory-bar button {
@@ -48,15 +62,18 @@ body {
     cursor: pointer;
     display: inline-block; /* inline-block으로 변경해서 내용에 따라 너비가 조정되도록 함 */
     margin: 5px; /* 버튼 간격을 유지하기 위해 여백 추가 */
+    border-radius: 5px;
 }
 
 .subcategory-bar button:hover {
-    background-color: #0056b3;
+    background-color: #FFFBE9;
+    font-weight: bold;
 }
 
 /* 버튼이 활성화된 상태(현재 선택된 카테고리)를 표시하는 스타일 */
-.subcategory-bar button.active {
-    background-color: #ffc107;
+.subcategory-bar button:active {
+    background-color: #E3CAA5 !important;
+    font-weight: bold !important;
     color: black;
 }
 

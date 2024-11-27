@@ -39,7 +39,7 @@ header > div {
     width: 600px;
     background-color: white;
     border-radius: 30px;
-    border: 2px solid #416558;
+    border: 2px solid #6C6058;
 }
 .search-txt{
     border: none;
@@ -91,13 +91,13 @@ header > div {
     width: 150px;
 }
 #after-login a{
-    color: #416558;
+    color: #CEAB93;
 }
 #mypage{
     font-size: 45px;
 }
 #write-post{
-    background-color: #416558;
+    background-color: #CEAB93;
     border-radius: 10px;
     width: 80px;
     height: 40px;
@@ -117,7 +117,7 @@ footer{
     width: 100%;
     bottom: 0;
     position:relative;
-    background-color: #416558;
+    background-color: #E3CAA5;
     
     display: flex; /* 요소 수평 정렬 */
     justify-content: center; /* 요소 가운데 정렬 */
