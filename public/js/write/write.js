@@ -69,7 +69,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
       tabsize: 2,
       focus: true,
       height: 400,
-      width: 650,
+      width: 850,
       callbacks:
         {
             onImageUpload: function(files){

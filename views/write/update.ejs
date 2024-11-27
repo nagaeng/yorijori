@@ -25,17 +25,16 @@
   
 </head>
 <body>
-  <div class="all">
-    <form class="form-a" action="/write/updatePost" method="POST" name="write-form"> 
-      <input type="hidden" name=postId value="<%= postId %>">
+  <div class="write-container">
+    <form class="write-form" action="write/postWrite" method="POST" name="write-form"> 
       <!-- 메인 문구  -->
-      <div class="write">
-        <span id="write1">"당신만의"</span> <span id="write2">레시피</span><span id="write3">를 작성해주세요</span>
+      <div class="main-title">
+        <h1>당신만의 레시피를 작성해주세요</h1>
       </div>
 
       <!-- 제목 -->
       <div class="title">
-        <div>Title</div>
+        <h2>제목</h2>
         <input
            class="title-box"
            type="text"
@@ -47,45 +46,54 @@
       </div> 
       <!-- 카테고리 -->
       <div class="title">
-        <div>카테고리</div>
+        <h2>카테고리</h2>
         <select name="category">
         <option value="선택">선택</option>
-        <option value="meat">고기</option>
-        <option value="fruit">과일</option>
-        <option value="fish">생선</option>
-        <option value="vegetable">채소</option>
-        <option value="sauce">소스</option>
+        <option value="source">소스</option>
+        <option value="seafood">해물류</option>
+        <option value="korean">한식</option>
+        <option value="chinese">중식</option>
+        <option value="japanese">일식</option>
+        <option value="western">양식</option>
+        <option value="dessert">디저트</option>
+        <option value="mushroom">버섯류</option>
+        <option value="eggs_dairy">달걀/유제품</option>
         </select>
       </div>
+      
       <!-- 메뉴 -->
       <div class="title">
-        <div>메뉴</div>
+        <h2>메뉴</h2>
         <input class="title-box" type="text" placeholder=" 메뉴를 입력하세요" name="menu" class="t" required id="search-menu" />
         <div class="result-menu"></div>
         <button type="button" class="search-Menu-button">검색</button>
       </div>
       
       <!-- 재료검색 -->
-      <div class="title">
-        <div>재료검색</div>
-        <input class="title-box" type="text" placeholder=" 재료를 입력하세요" name="searchIngredient" required id="search-input"/>
-        <button type="button" class="search-button">검색</button>
-        
+      <div class="ingred">
+        <div class="top">
+          <h2>재료검색</h2>            
+          <input class="title-box" type="text" placeholder=" 재료를 입력하세요" name="searchIngredient" required id="search-input"/>
+          <button type="button" class="search-button">검색</button>
+        </div>
+        <div class="bottom">
+          <div class="ingredi-box" id="results"></div>
+          <div class="resultIngredi"></div>
+        </div>            
       </div>
       
-         <div class="ingredi-box" id="results"></div>
-         <div class="resultIngredi"></div>
+         
 
       <!--  게시글 -->
-      <div class="title"><div>게시글</div>
-      <textarea id="summernote" name="editordata" class="data"></textarea>
+      <div class="write-text">
+        <h2>본문</h2>
+        <textarea id="summernote" name="editordata" class="data"></textarea>
     </div>
       
       <!--제출 버튼-->
-      <a >
-      <button type="submit" class="submit" value="등록">등록</button>
-      </a>
+      <button type="submit" class="submit" value="작성 완료">작성 완료</button>
     </form>
 </div>
+</body>
 </html>
 
