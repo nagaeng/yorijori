@@ -16,11 +16,11 @@ Post.init({
     title: { //제목
       type: Sequelize.STRING, 
       allowNull: false,
-      unique : true //추가 
     },
     content: {//본문
       type: Sequelize.TEXT, 
-      allowNull: false
+      allowNull: false,
+      unique : true //추가 
     },
     date: {//작성일자
       type: Sequelize.DATE, 

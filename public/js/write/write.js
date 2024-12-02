@@ -43,7 +43,8 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
                 if(data.selectMenu[0].menuName == searchMenu){
                     $('#search-menu').css("display","none");
                    let resultMenu = $('.result-menu');
-                   resultMenu.css("display","block");
+                   resultMenu.css({"display": "block",
+                        "width": "650px"});
                    resultMenu.append(data.selectMenu[0].menuName);
                 }
                 else{
@@ -68,6 +69,7 @@ $(document).ready(function() {  //브라우저 파싱, dom트리 생성전 시�
       tabsize: 2,
       focus: true,
       height: 400,
+      width: 850,
       callbacks:
         {
             onImageUpload: function(files){

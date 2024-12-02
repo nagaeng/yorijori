@@ -33,15 +33,15 @@ module.exports = {
     //로그인 진행 
     authenticate: passport.authenticate("local", {
         successRedirect: "/",
-        successFlash: "Logged in!",
+        successFlash: "로그인 성공",
         failureRedirect: "/auth/login",
-        failureFlash: "Failed to login"
+        failureFlash: "로그인 실패"
     }),
 
     //로그아웃 진행 
     logout: (req, res, next) => {
         req.logout((err) => {
-            req.flash("success", "You have been logged out!");
+            req.flash("success", "로그아웃 되었습니다.");
             res.redirect("/");
         });
     },
@@ -58,7 +58,7 @@ module.exports = {
         const { password, PwdCheck } = req.body;
 
         if (password !== PwdCheck) {
-            req.flash("error", "입력한 비밀번호가 다릅니다."); // Passwords do not match
+            req.flash("error", "비밀번호가 일치하지 않습니다."); // Passwords do not match
             return res.redirect("/auth/newuser");
         }
 
@@ -67,11 +67,11 @@ module.exports = {
         
         User.register(new User(userParams), req.body.password, (error, user) => {
             if (user) {
-                req.flash("success", `${user.name} account created successfully`);
+                req.flash("success", `${user.name}님 회원가입 되었습니다.`);
                 res.redirect("/auth/login");
             } else {
                 console.log(`Error saving user: ${error.message}`);
-                req.flash("error", `Failed to create user account because: ${error.message}`);
+                req.flash("error", `회원가입 실패: ${error.message}`);
                 res.redirect("/auth/newuser");
             }
         });
@@ -87,7 +87,7 @@ module.exports = {
         const { email, newPwd, newPwdCheck } = req.body;
     
         if (newPwd !== newPwdCheck) {
-            req.flash("error", "Error different password"); // Passwords do not match
+            req.flash("error", "비밀번호가 일치하지 않습니다."); // Passwords do not match
             return res.redirect("/auth/editpwd");
         }
     
@@ -97,21 +97,21 @@ module.exports = {
                 user.setPassword(newPwd, async (err) => {
                     if (err) {
                         console.log(`Error updating password: ${err.message}`);
-                        req.flash("error", "Error updating password.");
+                        req.flash("error", "비밀번호 변경 실패하였습니다.");
                         res.redirect("/auth/editpwd");
                     } else {
                         await user.save();
-                        req.flash("success", "Password updated successfully!");
+                        req.flash("success", "비밀번호가 변경되었습니다.");
                         res.redirect("/auth/login");
                     }
                 });
             } else {
-                req.flash("error", "User not found.");
+                req.flash("error", "유저를 찾을 수 없습니다.");
                 res.redirect("/auth/editpwd");
             }
         } catch (error) {
             console.log(`Error updating password: ${error.message}`);
-            req.flash("error", "Error updating password.");
+            req.flash("error", "비밀번호 변경 실패하였습니다.");
             res.redirect("/auth/editpwd");
         }
     },    
@@ -127,7 +127,7 @@ module.exports = {
         }
         catch(error){
             console.log(`Error fetching user by ID: ${error.message}`);
-            req.flash("error", "Error fetching user.");
+            req.flash("error", "정보수정에 실패하였습니다.");
             res.redirect("/");
         }
     },
@@ -146,7 +146,7 @@ module.exports = {
 
             if (user) {
                 await user.update(userParams);
-                req.flash("success", "User updated successfully!");
+                req.flash("success", "정보가 수정되었습니다.");
                 res.redirect(`/auth/mypage`);
             } else {
                 req.flash("error", "User not found.");
@@ -154,7 +154,7 @@ module.exports = {
             }
         } catch (error) {
             console.log(`Error updating user by ID: ${error.message}`);
-            req.flash("error", "Error updating user.");
+            req.flash("error", "정보수정에 실패하였습니다..");
             res.redirect("/");
         }
     }

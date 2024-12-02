@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const homeController = require('../controllers/homeController');
 
-//router.get('/', homeController.getHomePage);
 
+router.get('/home', homeController.getHomePage);
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/posts/loginRecommend');

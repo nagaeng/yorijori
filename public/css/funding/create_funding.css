@@ -1,3 +1,6 @@
+body {
+    font-family: 'ABeeZee', sans-serif;
+}
 .createFundingSearchBar {
     text-align: center; /* 텍스트 가운데 정렬 */
     width: 1044px;
@@ -93,5 +96,3 @@
     text-align: center;
     margin-top: 20px;
 }
-
-

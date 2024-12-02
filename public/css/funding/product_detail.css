@@ -4,6 +4,7 @@ header {
 
 body {
     color: #12373A;
+    font-family: 'ABeeZee', sans-serif;
 }
 
 #container{
@@ -18,8 +19,8 @@ body {
     margin: auto;
     margin-top: 90px;
     display: flex;
-    justify-content: center; /* Center the information-box */
-    align-items: center; /* Center vertically */
+    justify-content: center; 
+    align-items: center;
 }
 
 #select {

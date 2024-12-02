@@ -15,7 +15,7 @@
             'fruit': {'apple': '사과', 'pear': '배', 'banana': '바나나', 'strawberry': '딸기', 'blueberry': '블루베리', 'orange': '오렌지', 'lemon': '레몬', 'grape': '포도', 'peach': '복숭아', 'grapefruit': '자몽', 'kiwi': '키위', 'mango': '망고', 'pineapple': '파인애플', 'pomegranate': '석류', 'watermelon': '수박'},
             'eggs_dairy': {'egg': '달걀', 'milk': '우유', 'cheese': '치즈', 'butter': '버터', 'yogurt': '요구르트', 'cream': '크림', 'icecream': '아이스크림'},
             'source': {'soy_sauce': '간장', 'doenjang': '된장', 'gochujang': '고추장', 'salt': '소금', 'sugar': '설탕', 'vinegar': '식초', 'sesame_oil': '참기름', 'ketchup': '케첩', 'mayonnaise': '마요네즈', 'tartar_sauce': '타르타르 소스', 'honey': '꿀', 'mustard': '머스타드', 'chili_sauce': '칠리 소스', 'soybean_paste': '된장', 'fish_sauce': '액젓'},
-            'korean': {'kimchi_stew': '김치찌개', 'doenjang_stew': '된장찌개', 'bibimbap': '비빔밥', 'bulgogi': '불고기', 'japchae': '잡채', 'tteokbokki': '떡볶이', 'galbitang': '갈비탕', 'samgyetang': '삼계탕', 'naengmyeon': '냉면', 'gimbap': '김밥', 'sundubu_jjigae': '순두부찌개', 'bossam': '보쌈'},
+            'korean': {'kimchi_stew': '김치찌개', 'doenjang_stew': '된장찌개', 'kimchi': '김치', 'bibimbap': '비빔밥', 'bulgogi': '불고기', 'japchae': '잡채', 'tteokbokki': '떡볶이', 'galbitang': '갈비탕', 'samgyetang': '삼계탕', 'naengmyeon': '냉면', 'gimbap': '김밥', 'sundubu_jjigae': '순두부찌개', 'bossam': '보쌈'},
             'chinese': {'jjajangmyeon': '짜장면', 'jjamppong': '짬뽕', 'tangsuyuk': '탕수육', 'ganponggi': '깐풍기', 'mapo_tofu': '마파두부', 'guobaorou': '꿔바로우', 'hotpot': '마라탕'},
             'japanese': {'sushi': '스시', 'gyudon': '규동', 'ramen': '라멘', 'tonkatsu': '돈카츠', 'udon': '우동', 'donburi': '돈부리', 'katsudon': '가츠동'},
             'western': {'steak': '스테이크', 'pasta': '파스타', 'pizza': '피자', 'risotto': '리조또', 'salad': '샐러드', 'sandwich': '샌드위치', 'soup': '스프'},
@@ -29,11 +29,11 @@
         %>
         
         <!-- "전체" 버튼을 항상 표시 -->
-        <button onclick="redirectToSubCategory('all')">전체</button>
+        <button onclick="redirectToSubCategory('all')" class="<%= currentCategory === 'all' ? 'active' : '' %>">전체</button>
     
         <!-- 동적으로 생성된 세부 카테고리 버튼 -->
         <% Object.keys(subcategories).forEach(function(subcategory) { %>
-            <button onclick="redirectToSubCategory('<%= subcategory %>')">
+            <button onclick="redirectToSubCategory('<%= subcategory %>')" class="<%= currentCategory === subcategory ? 'active' : '' %>">
                 <%= subcategories[subcategory] %>
             </button>
         <% }); %>
