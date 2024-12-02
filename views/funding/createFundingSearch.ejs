@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="createFundingSearchBar" class="createFundingSearchBar">
+        <div class="search_box">
         <label for="searchInput" class="searchLabel">품명 검색:</label>
         <form class="searchBar" action="/createfundingPage/search_results" method="get">
             <input id="searchInput" class="funding-search-txt" type="text" name="query" placeholder="EX) 사과">
@@ -16,6 +17,8 @@
             </button>
         </form>
     </div>
+    </div>
+ 
 
     <script>
         function redirectToCreateClicked() {

@@ -8,13 +8,15 @@
 </head>
 <body>
     <div class="container">
-        <h1><%= product.seller %>의 <%= product.productName %>을 펀딩하고 있어요!</h1>
+        <div class="title_info_box">
+            <h1><%= product.seller %>의 <%= product.productName %>을 펀딩하고 있어요!</h1>
+        </div>
         <div class="information-box">
+            <div class="img_box">
+                <img class="img" src="<%= product.imageUrl %>" alt="Product Image"></img>
+            </div>
             <form action="<%= `/createfundingPage/create_funding/${productId}` %>" method="POST">
-                <div class="img">
-                    <img src="<%= product.imageUrl %>" alt="Product Image">
-                </div>
-                <div class="information">
+                <div class="information">          
                     <label for="fundingDate">펀딩 일자:</label>
                     <span class="info"><%= new Date().toISOString().split('T')[0] %></span>
                 </div>
@@ -44,21 +46,17 @@
                 </div>
                 <div class="information">
                     <label for="distributionLocation">배부 위치:</label>
-                    <input class="info" type="text" id="distributionLocationCity" name="distributionLocationCity" placeholder="시" required>
-                    <input class="info" type="text" id="distributionLocationDistrict" name="distributionLocationDistrict" placeholder="구/군" required>
-                    <br>
-                    <input class="info" type="text" id="distributionLocationTown" name="distributionLocationTown" placeholder="동/읍/면" required>
-                    <input class="info" type="text" id="distributionLocationDetail" name="distributionLocationDetail" placeholder="상세 주소" required>
+                    <input class="info" type="text" id="distributionLocation" name="distributionLocation" required>
                 </div>
                 <div class="information">
                     <label for="distributionDate">배부 일자 및 시간:</label>
                     <input class="info" type="datetime-local" id="distributionDate" name="distributionDate" required>
                 </div>
                 <div class="funding-button-container">
-                    <button class="funding-button" type="submit">펀딩 생성</button>
+                    <button class="funding-button" type="submit">펀딩 생성</button>        
                 </div>
-            </form>
-        </div>
+            </form>         
+        </div>  
     </div>
 </body>
 </html>
