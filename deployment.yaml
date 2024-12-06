@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: yorijori
-        image: limyeeun/yorijori:latest
+        image: nagaeng/yorijori:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
